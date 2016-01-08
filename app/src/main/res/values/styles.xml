@@ -1,0 +1,33 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="popupwindow_anim_right_style">
+        <item name="android:windowEnterAnimation">@anim/popup_right_show</item>
+        <item name="android:windowExitAnimation">@anim/popup_right_hide</item>
+    </style>
+
+    <style name="popupwindow_anim_left_style">
+        <item name="android:windowEnterAnimation">@anim/popup_left_show</item>
+        <item name="android:windowExitAnimation">@anim/popup_left_hide</item>
+    </style>
+
+    <style name="popupwindow_anim_middle_style">
+        <item name="android:windowEnterAnimation">@anim/xpt_slide_down_in</item>
+        <item name="android:windowExitAnimation">@anim/slide_up_out</item>
+    </style>
+</resources>

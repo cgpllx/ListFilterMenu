@@ -1,0 +1,5 @@
+<resources>
+    <declare-styleable name="EasyListFilterMenu">
+        <attr name="menuTitle" format="reference|string" />
+    </declare-styleable>
+</resources>
