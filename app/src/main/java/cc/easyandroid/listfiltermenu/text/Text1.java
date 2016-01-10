@@ -1,5 +1,6 @@
 package cc.easyandroid.listfiltermenu.text;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cc.easyandroid.listfiltermenu.pojo.IEasyItem;
@@ -54,7 +55,12 @@ public class Text1 {
         return result;
     }
 
-    public static class ResultEntity implements IEasyItem{
+    public static class ResultEntity implements IEasyItem {
+        @Override
+        public String getEasyId() {
+            return id;
+        }
+
         private String fullPinyin;
         private String id;
         private double latitude;
@@ -128,7 +134,12 @@ public class Text1 {
             return subregions;
         }
 
-        public static class SubregionsEntity implements  IEasyItem{
+        public static class SubregionsEntity implements IEasyItem {
+            @Override
+            public String getEasyId() {
+                return id;
+            }
+
             private String fullPinyin;
             private String id;
             private double latitude;
@@ -179,10 +190,18 @@ public class Text1 {
             public String getDisplayName() {
                 return name;
             }
+            List<Text1.ResultEntity.SubregionsEntity> lists_sub_sub;
+            public void setSub( List<Text1.ResultEntity.SubregionsEntity> lists_sub_sub){
+                this.lists_sub_sub=lists_sub_sub;
+            }
 
             @Override
             public List<? extends IEasyItem> getChildItems() {
-                return null;
+//                List<Text1.ResultEntity.SubregionsEntity> lists_sub_sub=new ArrayList<>();
+//                Text1.ResultEntity.SubregionsEntity resultEntity_sub_sub = new Text1.ResultEntity.SubregionsEntity();
+//                resultEntity_sub_sub.setName("不限");
+//                lists_sub_sub.add(resultEntity_sub_sub);
+                return lists_sub_sub;
             }
         }
     }

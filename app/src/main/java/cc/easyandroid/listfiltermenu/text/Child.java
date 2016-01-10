@@ -17,4 +17,9 @@ public class Child implements IEasyItem {
     public List<? extends IEasyItem> getChildItems() {
         return null;
     }
+
+    @Override
+    public String getEasyId() {
+        return null;
+    }
 }

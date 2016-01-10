@@ -36,4 +36,9 @@ public class Parent implements IEasyItem {
     public List<? extends IEasyItem> getChildItems() {
         return subregions;
     }
+
+    @Override
+    public String getEasyId() {
+        return null;
+    }
 }

@@ -10,25 +10,43 @@
     tools:showIn="@layout/activity_main">
 
     <cc.easyandroid.listfiltermenu.widget.EasyListFilterMenu
-        android:layout_width="0dp"
         android:id="@+id/easyListFilterMenu"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        app:menuTitle="区域" />
+        app:menuNormalBackground="#FF0000"
+        app:menuList1ItemNormalBackground="#FFFFF0"
+        app:menuPressedBackground="#FFFF00"
+        app:menuList1ItemPressedBackground="#FFFAAA"
+        app:menuText="区域" />
 
     <cc.easyandroid.listfiltermenu.widget.EasyListFilterMenu
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        app:menuTitle="售价" />
+        app:menuNormalBackground="#FF0000"
+        app:menuList1ItemNormalBackground="#FFFFF0"
+        app:menuPressedBackground="#FFFF00"
+        app:menuList1ItemPressedBackground="#FFFAAA"
+        app:menuText="售价" />
+
     <cc.easyandroid.listfiltermenu.widget.EasyListFilterMenu
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        app:menuTitle="房型" />
+        app:menuNormalBackground="#FF0000"
+        app:menuList1ItemNormalBackground="#FFFFF0"
+        app:menuPressedBackground="#FFFF00"
+        app:menuList1ItemPressedBackground="#FFFAAA"
+        app:menuText="房型" />
+
     <cc.easyandroid.listfiltermenu.widget.EasyListFilterMenu
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        app:menuTitle="更多" />
+        app:menuNormalBackground="#FF0000"
+        app:menuList1ItemNormalBackground="#FFFFF0"
+        app:menuPressedBackground="#FFFF00"
+        app:menuList1ItemPressedBackground="#FFFAAA"
+        app:menuText="@string/app_name" />
 </LinearLayout>

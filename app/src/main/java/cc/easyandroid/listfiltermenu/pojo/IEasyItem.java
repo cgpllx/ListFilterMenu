@@ -5,8 +5,10 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/1/7.
  */
-public interface IEasyItem {
+public interface IEasyItem  {
     String getDisplayName();
 
     List<? extends IEasyItem> getChildItems();
+
+    String getEasyId();
 }
