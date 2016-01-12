@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="QfamgEasyListFilterMenuStyle">
+      <item name="menuBetweenListDivider">@drawable/dividerdrawableline</item>
+      <item name="menuNormalBackground">#FF0000</item>
+      <item name="menuListItemTextColor">#FF0000</item>
+      <item name="menuList1ItemNormalBackground">#FFFFF0</item>
+      <item name="menuPressedBackground">#FFFF00</item>
+      <item name="menuList1ItemPressedBackground">#FFFAAA</item>
+    </style>
+
+</resources>
