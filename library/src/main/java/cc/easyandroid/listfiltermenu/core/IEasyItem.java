@@ -1,4 +1,4 @@
-package cc.easyandroid.listfiltermenu.pojo;
+package cc.easyandroid.listfiltermenu.core;
 
 import java.util.List;
 

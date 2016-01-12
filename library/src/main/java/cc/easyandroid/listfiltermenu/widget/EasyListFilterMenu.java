@@ -21,8 +21,10 @@ import android.widget.TextView;
 import java.util.List;
 
 import cc.easyandroid.listfiltermenu.R;
-import cc.easyandroid.listfiltermenu.adapter.ListFilterAdapter;
-import cc.easyandroid.listfiltermenu.pojo.IEasyItem;
+import cc.easyandroid.listfiltermenu.core.IEasyItem;
+import cc.easyandroid.listfiltermenu.core.ListFilterAdapter;
+import cc.easyandroid.listfiltermenu.core.SeletorUtils;
+import cc.easyandroid.listfiltermenu.core.ShowBottomPopup;
 
 
 public class EasyListFilterMenu extends LinearLayout {

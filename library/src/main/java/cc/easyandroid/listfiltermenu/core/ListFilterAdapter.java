@@ -1,4 +1,4 @@
-package cc.easyandroid.listfiltermenu.adapter;
+package cc.easyandroid.listfiltermenu.core;
 
 
 import android.content.Context;
@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import cc.easyandroid.listfiltermenu.R;
-import cc.easyandroid.listfiltermenu.pojo.IEasyItem;
 
 
 public class ListFilterAdapter<T extends IEasyItem> extends EasyListFilterBaseAdaptre<T> {

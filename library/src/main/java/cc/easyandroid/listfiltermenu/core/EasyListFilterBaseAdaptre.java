@@ -1,4 +1,4 @@
-package cc.easyandroid.listfiltermenu.adapter;
+package cc.easyandroid.listfiltermenu.core;
 
 import android.widget.BaseAdapter;
 

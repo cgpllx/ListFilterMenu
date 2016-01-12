@@ -1,4 +1,4 @@
-package cc.easyandroid.listfiltermenu.widget;
+package cc.easyandroid.listfiltermenu.core;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;

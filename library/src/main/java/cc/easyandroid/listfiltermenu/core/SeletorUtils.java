@@ -1,4 +1,4 @@
-package cc.easyandroid.listfiltermenu.widget;
+package cc.easyandroid.listfiltermenu.core;
 
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
