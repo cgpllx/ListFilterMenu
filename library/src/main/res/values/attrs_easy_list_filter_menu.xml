@@ -1,0 +1,30 @@
+<resources>
+    <declare-styleable name="EasyListFilterMenu">
+        <attr name="menuText" format="reference|string" />
+        <attr name="menuTextSize" format="reference|dimension" />
+        <attr name="menuTextColor" format="reference|color" />
+        <attr name="menuPressedBackground" format="reference|color" />
+        <attr name="menuNormalBackground" format="reference|color" />
+        <attr name="menuBetweenListDivider" format="reference|color" />
+        <attr name="menuDrawableRight" format="reference" />
+
+        <attr name="menuListItemView" format="reference" />
+        <attr name="menuTitleView" format="reference" />
+
+        <attr name="menuListItemTextSize" format="reference|dimension" />
+        <attr name="menuListItemTextColor" format="reference|color" />
+        <attr name="menuList1ItemNormalBackground" format="reference|color" />
+        <attr name="menuList1ItemPressedBackground" format="reference|color" />
+        <attr name="menuList2ItemNormalBackground" format="reference|color" />
+        <attr name="menuList2ItemPressedBackground" format="reference|color" />
+        <attr name="menuList3ItemNormalBackground" format="reference|color" />
+        <attr name="menuList3ItemPressedBackground" format="reference|color" />
+        <attr name="menuListItemDrawableRight" format="reference" />
+    </declare-styleable>
+    <!--引用系统样式 -->
+    <declare-styleable name="EasyListFilterMenus">
+        <attr name="EasyListFilterMenuStyle" format="reference" />
+    </declare-styleable>
+
+
+</resources>
