@@ -5,7 +5,6 @@
     android:layout_height="fill_parent"
     android:background="#77000000"
     android:baselineAligned="false"
-    android:dividerPadding="10dp"
     android:orientation="horizontal"
     android:paddingBottom="150dp">
 
