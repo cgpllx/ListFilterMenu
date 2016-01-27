@@ -2,8 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@id/easylistfilter_menuparent"
     android:layout_width="match_parent"
     android:layout_height="48dp"
+    android:background="#000000"
     android:orientation="horizontal"
     tools:showIn="@layout/activity_main">
 
@@ -12,6 +14,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        android:paddingBottom="10dp"
         app:menuText="区域" />
     <!--app:menuBetweenListDivider="@drawable/dividerdrawableline"-->
     <!--app:menuNormalBackground="#000000"-->
@@ -20,32 +23,33 @@
     <!--app:menuPressedBackground="#FFFF00"-->
     <!--app:menuList1ItemPressedBackground="#000000"-->
     <cc.easyandroid.listfiltermenu.widget.EasyListFilterMenu
+        android:id="@+id/easyListFilterMenu2"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        app:menuNormalBackground="#FF0000"
         app:menuList1ItemNormalBackground="#FFFFF0"
-        app:menuPressedBackground="#FFFF00"
         app:menuList1ItemPressedBackground="#FFFAAA"
+        app:menuNormalBackground="#FF0000"
+        app:menuPressedBackground="#FFFF00"
         app:menuText="售价" />
 
     <cc.easyandroid.listfiltermenu.widget.EasyListFilterMenu
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        app:menuNormalBackground="#FF0000"
         app:menuList1ItemNormalBackground="#FFFFF0"
-        app:menuPressedBackground="#FFFF00"
         app:menuList1ItemPressedBackground="#FFFAAA"
+        app:menuNormalBackground="#FF0000"
+        app:menuPressedBackground="#FFFF00"
         app:menuText="房型" />
 
     <cc.easyandroid.listfiltermenu.widget.EasyListFilterMenu
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        app:menuNormalBackground="#FF0000"
         app:menuList1ItemNormalBackground="#FFFFF0"
-        app:menuPressedBackground="#FFFF00"
         app:menuList1ItemPressedBackground="#FFFAAA"
+        app:menuNormalBackground="#FF0000"
+        app:menuPressedBackground="#FFFF00"
         app:menuText="@string/app_name" />
 </LinearLayout>

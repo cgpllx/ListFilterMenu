@@ -2,7 +2,8 @@ package cc.easyandroid.listfiltermenu.simple;
 
 import java.util.List;
 
-import cc.easyandroid.listfiltermenu.pojo.IEasyItem;
+import cc.easyandroid.listfiltermenu.core.IEasyItem;
+
 
 /**
  * Created by Administrator on 2016/1/8.

@@ -4,12 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="48dp"
     android:layout_centerVertical="true"
-    android:drawableRight="@mipmap/easy_arrow_right"
+
     android:focusable="false"
     android:gravity="center_vertical"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
     android:singleLine="true"
     android:textSize="14sp" />
-
+    <!--android:drawableRight="@mipmap/easy_arrow_right"-->
     <!--android:background="@drawable/xpt_area_choose"-->

@@ -11,6 +11,7 @@ import android.graphics.drawable.StateListDrawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
@@ -31,6 +32,9 @@ public class EasyListFilterMenu extends LinearLayout {
     public static final String EASYID_NOFILTER = "Easy_noFilter";
     private CharSequence defultMenuText = "defultMenuText";
     protected PopupWindow pupupWindow;
+    private int xoff = 0;
+    private int yoff = 0;
+
 
     ListFilterAdapter<IEasyItem> filterAdapter_List1;
     ListFilterAdapter<IEasyItem> filterAdapter_List2;
@@ -114,6 +118,10 @@ public class EasyListFilterMenu extends LinearLayout {
                 listItemViewResourceId = a.getResourceId(attr, R.layout.listfiltermenu_listitem);
             } else if (attr == R.styleable.EasyListFilterMenu_menuTitleView) {
                 menuTitleViewResourceId = a.getResourceId(attr, R.layout.listfiltermenu_titlelayout);
+            } else if (attr == R.styleable.EasyListFilterMenu_menuListPupupXoff) {
+                xoff = a.getDimensionPixelSize(attr, 0);
+            } else if (attr == R.styleable.EasyListFilterMenu_menuListPupupYoff) {
+                yoff = a.getDimensionPixelSize(attr, 0);
             }
         }
         a.recycle();
@@ -214,8 +222,8 @@ public class EasyListFilterMenu extends LinearLayout {
                             listview_3.setVisibility(View.GONE);
                         }
                     } else {
-                        if (listener != null) {
-                            listener.onClick(iEasyItem);
+                        if (menuListItemClickListener != null) {
+                            menuListItemClickListener.onClick(iEasyItem);
                         }
                         changMenuText(iEasyItem);
                     }
@@ -251,8 +259,8 @@ public class EasyListFilterMenu extends LinearLayout {
                         }
                         listview_2.setTag(position);
                     } else {
-                        if (listener != null) {
-                            listener.onClick(iEasyItem);
+                        if (menuListItemClickListener != null) {
+                            menuListItemClickListener.onClick(iEasyItem);
                         }
                         changMenuText(iEasyItem);
                     }
@@ -263,8 +271,8 @@ public class EasyListFilterMenu extends LinearLayout {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 IEasyItem iEasyItem = filterAdapter_List3.getItem(position);
-                if (listener != null) {
-                    listener.onClick(iEasyItem);
+                if (menuListItemClickListener != null) {
+                    menuListItemClickListener.onClick(iEasyItem);
                 }
                 changMenuText(iEasyItem);
             }
@@ -295,7 +303,6 @@ public class EasyListFilterMenu extends LinearLayout {
      * init menuTitle
      *
      * @param context
-     * @param name    titleName
      */
     private void initView(Context context, int menuTitleViewResourceId) {
         View view = View.inflate(context, menuTitleViewResourceId, this);
@@ -357,10 +364,18 @@ public class EasyListFilterMenu extends LinearLayout {
 
     private void showListFilter() {
         if (filterAdapter_List1.isEmpty()) {
+            if (menuClickLinstener != null) {
+                menuClickLinstener.withoutData(this);
+            }
             return;
         }
         if (pupupWindow != null && !pupupWindow.isShowing()) {
-            pupupWindow.showAsDropDown(mScreeningText);
+            ViewGroup parent = (ViewGroup) this.getParent();
+            if (parent != null && parent.getId() == R.id.easylistfilter_menuparent) {
+                pupupWindow.showAsDropDown(parent, xoff, yoff);
+            } else {
+                pupupWindow.showAsDropDown(this, xoff, yoff);
+            }
             mScreeningText.setSelected(true);
         }
     }
@@ -371,13 +386,23 @@ public class EasyListFilterMenu extends LinearLayout {
         }
     }
 
-    OnMenuItemClickListener listener;
+    OnMenuListItemClickListener menuListItemClickListener;
+    OnMenuClickLinstener menuClickLinstener;
 
-    public void setOnMenuItemClickListener(OnMenuItemClickListener listener) {
-        this.listener = listener;
+
+    public void setOnMenuListItemClickListener(OnMenuListItemClickListener menuListItemClickListener) {
+        this.menuListItemClickListener = menuListItemClickListener;
     }
 
-    public interface OnMenuItemClickListener<T extends IEasyItem> {
+    public void setOnMenuClickLinstener(OnMenuClickLinstener menuClickLinstener) {
+        this.menuClickLinstener = menuClickLinstener;
+    }
+
+    public interface OnMenuListItemClickListener<T extends IEasyItem> {
         void onClick(T t);
+    }
+
+    public interface OnMenuClickLinstener {
+        void withoutData(EasyListFilterMenu menu);
     }
 }

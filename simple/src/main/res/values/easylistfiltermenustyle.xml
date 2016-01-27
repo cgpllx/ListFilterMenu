@@ -8,6 +8,9 @@
       <item name="menuList1ItemNormalBackground">#FFFFF0</item>
       <item name="menuPressedBackground">#FFFF00</item>
       <item name="menuList1ItemPressedBackground">#FFFAAA</item>
+      <item name="menuListPupupYoff">1px</item>
+      <item name="menuDrawableRight">@drawable/qf_arrow_select</item>
+      <item name="menuListItemDrawableRight">@drawable/qf_arrow_select</item>
     </style>
 
 </resources>

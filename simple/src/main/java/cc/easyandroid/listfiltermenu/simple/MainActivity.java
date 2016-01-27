@@ -10,11 +10,12 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
-import cc.easyandroid.listfiltermenu.pojo.IEasyItem;
+import cc.easyandroid.listfiltermenu.core.IEasyItem;
 import cc.easyandroid.listfiltermenu.widget.EasyListFilterMenu;
 
 public class MainActivity extends AppCompatActivity {
     EasyListFilterMenu easyListFilterMenu;
+    EasyListFilterMenu easyListFilterMenu2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +25,9 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         easyListFilterMenu = (EasyListFilterMenu) findViewById(R.id.easyListFilterMenu);
+        easyListFilterMenu2 = (EasyListFilterMenu) findViewById(R.id.easyListFilterMenu2);
         Text1 text1 = new Gson().fromJson(Text.text, Text1.class);
-        List<Text1.ResultEntity> lists = text1.getResult();
+        final List<Text1.ResultEntity> lists = text1.getResult();
         Text1.ResultEntity resultEntity = new Text1.ResultEntity();
         resultEntity.setName("不限");
 
@@ -45,10 +47,17 @@ public class MainActivity extends AppCompatActivity {
         lists.add(0, resultEntity);
         easyListFilterMenu.addItems(false, lists);
 
-        easyListFilterMenu.setOnMenuItemClickListener(new EasyListFilterMenu.OnMenuItemClickListener() {
+        easyListFilterMenu.setOnMenuListItemClickListener(new EasyListFilterMenu.OnMenuListItemClickListener() {
             @Override
             public void onClick(IEasyItem iEasyItem) {
-                Toast.makeText(getApplicationContext(),iEasyItem.getEasyId(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), iEasyItem.getEasyId(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        easyListFilterMenu2.setOnMenuClickLinstener(new EasyListFilterMenu.OnMenuClickLinstener() {
+            @Override
+            public void withoutData(EasyListFilterMenu menu) {
+                Toast.makeText(getApplicationContext(),"没有数据", Toast.LENGTH_SHORT).show();
+                menu.addItems(true,lists);
             }
         });
     }

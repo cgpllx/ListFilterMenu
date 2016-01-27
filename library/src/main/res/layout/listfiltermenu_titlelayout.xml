@@ -4,10 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:drawableRight="@mipmap/right_bottom_unselect"
+
     android:paddingTop="1dp"
     android:paddingRight="5dp"
     android:paddingLeft="5dp"
     android:singleLine="true"
     android:text="加载.."
     android:textSize="13sp" />
+    <!--android:drawableRight="@mipmap/right_bottom_unselect"-->

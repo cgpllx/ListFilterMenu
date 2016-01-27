@@ -16,11 +16,11 @@ public class ShowBottomPopup extends PopupWindow {
         super(contentView, width, height, focusable);
     }
 
-    public void showAsDropDown(View anchor ) {
-        super.showAsDropDown(anchor);
+    public void showAsDropDown(View anchor, int xoff, int yoff) {
+        super.showAsDropDown(anchor, xoff, yoff);
         int height = anchor.getMeasuredHeight();
         int[] location = new int[2];
-        int screenHeight=getContentView().getResources().getDisplayMetrics().heightPixels;
+        int screenHeight = getContentView().getResources().getDisplayMetrics().heightPixels;
         int rootViewHeight = screenHeight - location[1] - height;
         final View rootView = getContentView();
         rootView.setOnClickListener(new View.OnClickListener() {
@@ -29,7 +29,7 @@ public class ShowBottomPopup extends PopupWindow {
                 dismiss();
             }
         });
-        animShow = ObjectAnimator.ofFloat(rootView, View.TRANSLATION_Y, height - rootViewHeight, 0, 0, 0).setDuration(500);
+        animShow = ObjectAnimator.ofFloat(rootView, View.TRANSLATION_Y, height - rootViewHeight, 0,0,0).setDuration(500);
         animShow.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {

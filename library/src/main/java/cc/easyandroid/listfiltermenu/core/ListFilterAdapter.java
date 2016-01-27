@@ -49,12 +49,17 @@ public class ListFilterAdapter<T extends IEasyItem> extends EasyListFilterBaseAd
         if (convertView == null) {
             convertView = inflater.inflate(listItemViewResourceId, parent, false);
             viewHolder = new ViewHolder(convertView);
-            convertView.setBackgroundDrawable(backgroundDrawable.getConstantState().newDrawable());
+            if(backgroundDrawable!=null){
+                convertView.setBackgroundDrawable(backgroundDrawable.getConstantState().newDrawable());
+            }
             if (listItemTextColor != null) {
                 viewHolder.name.setTextColor(listItemTextColor);
             }
             viewHolder.name.setTextSize(listItemTextSize);
-            convertView.setTag(viewHolder);
+            if(listItemDrawableRight!=null){
+                viewHolder.name.setCompoundDrawablesWithIntrinsicBounds(null, null, listItemDrawableRight.getConstantState().newDrawable(), null);
+                convertView.setTag(viewHolder);
+            }
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }

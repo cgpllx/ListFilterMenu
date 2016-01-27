@@ -2,4 +2,5 @@
 <resources>
     <item name="easylistfilter_itemdisplayname" type="id" />
     <item name="easylistfilter_titledisplayname" type="id" />
+    <item name="easylistfilter_menuparent" type="id" />
 </resources>

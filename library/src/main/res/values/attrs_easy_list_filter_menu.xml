@@ -20,6 +20,10 @@
         <attr name="menuList3ItemNormalBackground" format="reference|color" />
         <attr name="menuList3ItemPressedBackground" format="reference|color" />
         <attr name="menuListItemDrawableRight" format="reference" />
+
+        <attr name="menuListPupupXoff" format="reference|dimension" />
+        <attr name="menuListPupupYoff" format="reference|dimension" />
+
     </declare-styleable>
     <!--引用系统样式 -->
     <declare-styleable name="EasyListFilterMenus">
