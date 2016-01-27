@@ -58,8 +58,8 @@ public class ListFilterAdapter<T extends IEasyItem> extends EasyListFilterBaseAd
             viewHolder.name.setTextSize(listItemTextSize);
             if(listItemDrawableRight!=null){
                 viewHolder.name.setCompoundDrawablesWithIntrinsicBounds(null, null, listItemDrawableRight.getConstantState().newDrawable(), null);
-                convertView.setTag(viewHolder);
             }
+            convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
