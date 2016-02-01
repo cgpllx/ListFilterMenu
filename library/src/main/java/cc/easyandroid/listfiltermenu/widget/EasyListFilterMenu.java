@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
+import android.widget.ListPopupWindow;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -42,6 +43,7 @@ public class EasyListFilterMenu extends LinearLayout {
 
     public EasyListFilterMenu(Context context) {
         super(context);
+        ListPopupWindow listPopupWindow;
         init(context, null, 0);
     }
 

@@ -29,7 +29,7 @@ public class ShowBottomPopup extends PopupWindow {
                 dismiss();
             }
         });
-        animShow = ObjectAnimator.ofFloat(rootView, View.TRANSLATION_Y, height - rootViewHeight, 0,0,0).setDuration(500);
+        animShow = ObjectAnimator.ofFloat(rootView, View.TRANSLATION_Y, height - rootViewHeight, 0, 0, 0).setDuration(500);
         animShow.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
