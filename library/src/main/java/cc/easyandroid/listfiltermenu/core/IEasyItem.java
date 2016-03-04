@@ -3,10 +3,6 @@ package cc.easyandroid.listfiltermenu.core;
 import java.util.List;
 
 
-public interface IEasyItem  {
-    String getDisplayName();
-
+public interface IEasyItem extends IEasySuperItem {
     List<? extends IEasyItem> getChildItems();
-
-    String getEasyId();
 }

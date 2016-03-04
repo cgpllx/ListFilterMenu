@@ -1,0 +1,5 @@
+<resources>
+    <declare-styleable name="EasyPopMenu">
+        <attr name="text" format="reference" />
+    </declare-styleable>
+</resources>

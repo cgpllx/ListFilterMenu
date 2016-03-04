@@ -8,6 +8,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
@@ -15,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
-import android.widget.ListPopupWindow;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -24,6 +24,7 @@ import java.util.List;
 
 import cc.easyandroid.listfiltermenu.R;
 import cc.easyandroid.listfiltermenu.core.IEasyItem;
+import cc.easyandroid.listfiltermenu.core.IEasySuperItem;
 import cc.easyandroid.listfiltermenu.core.ListFilterAdapter;
 import cc.easyandroid.listfiltermenu.core.SeletorUtils;
 import cc.easyandroid.listfiltermenu.core.ShowBottomPopup;
@@ -35,30 +36,28 @@ public class EasyListFilterMenu extends LinearLayout {
     protected PopupWindow pupupWindow;
     private int xoff = 0;
     private int yoff = 0;
-
-
+    private final Handler mHandler;
+    ShowListPopRunnable mShowListPopRunnable = new ShowListPopRunnable();
     ListFilterAdapter<IEasyItem> filterAdapter_List1;
     ListFilterAdapter<IEasyItem> filterAdapter_List2;
     ListFilterAdapter<IEasyItem> filterAdapter_List3;
 
     public EasyListFilterMenu(Context context) {
-        super(context);
-        ListPopupWindow listPopupWindow;
-        init(context, null, 0);
+        this(context, null);
     }
 
     public EasyListFilterMenu(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(context, attrs, R.attr.EasyListFilterMenuStyle);
+        this(context, attrs, R.attr.EasyListFilterMenuStyle);
     }
 
     public EasyListFilterMenu(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        mHandler = new Handler(context.getMainLooper());
         init(context, attrs, defStyle);
     }
 
-    //    ListView mChildListView;
     private void init(Context context, AttributeSet attrs, int defStyle) {
+
         ColorStateList textColor = null;
         ColorStateList listItemTextColor = null;
         Drawable pressedBackground = null;
@@ -82,7 +81,6 @@ public class EasyListFilterMenu extends LinearLayout {
         int n = a.getIndexCount();
         for (int i = 0; i < n; i++) {
             int attr = a.getIndex(i);
-
 
             if (attr == R.styleable.EasyListFilterMenu_menuText) {
                 defultMenuText = a.getText(attr);
@@ -312,7 +310,7 @@ public class EasyListFilterMenu extends LinearLayout {
         view.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                showListFilter();
+                show();
             }
         });
 //        mScreeningText.setText(name);
@@ -331,6 +329,18 @@ public class EasyListFilterMenu extends LinearLayout {
     }
 
     /**
+     * set items
+     *
+     * @param iEasyItems 数据
+     */
+    public void setItems(List<? extends IEasyItem> iEasyItems) {
+        addList1Items(iEasyItems);
+        if (iEasyItems != null && iEasyItems.size() > 0) {
+            show();
+        }
+    }
+
+    /**
      * add item
      *
      * @param show       是否马上显示窗口
@@ -339,7 +349,7 @@ public class EasyListFilterMenu extends LinearLayout {
     public void addItems(boolean show, List<? extends IEasyItem> iEasyItems) {
         addList1Items(iEasyItems);
         if (show && iEasyItems != null && iEasyItems.size() > 0) {
-            showListFilter();
+            show();
         }
     }
 
@@ -362,6 +372,10 @@ public class EasyListFilterMenu extends LinearLayout {
             }
 
         }
+    }
+
+    public void show() {
+        mHandler.post(mShowListPopRunnable);
     }
 
     private void showListFilter() {
@@ -388,6 +402,13 @@ public class EasyListFilterMenu extends LinearLayout {
         }
     }
 
+    private class ShowListPopRunnable implements Runnable {
+        public void run() {
+            showListFilter();
+        }
+    }
+
+
     OnMenuListItemClickListener menuListItemClickListener;
     OnMenuClickLinstener menuClickLinstener;
 
@@ -400,7 +421,7 @@ public class EasyListFilterMenu extends LinearLayout {
         this.menuClickLinstener = menuClickLinstener;
     }
 
-    public interface OnMenuListItemClickListener<T extends IEasyItem> {
+    public interface OnMenuListItemClickListener<T extends IEasySuperItem> {
         void onClick(T t);
     }
 
