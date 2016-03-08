@@ -2,15 +2,18 @@
 <resources>
 
     <style name="QfamgEasyListFilterMenuStyle">
-      <item name="menuBetweenListDivider">@drawable/dividerdrawableline</item>
-      <item name="menuNormalBackground">#FF0000</item>
-      <item name="menuListItemTextColor">#FF0000</item>
-      <item name="menuList1ItemNormalBackground">#FFFFF0</item>
-      <item name="menuPressedBackground">#FFFF00</item>
-      <item name="menuList1ItemPressedBackground">#FFFAAA</item>
-      <item name="menuListPupupYoff">1px</item>
-      <item name="menuDrawableRight">@drawable/qf_arrow_select</item>
-      <item name="menuListItemDrawableRight">@drawable/qf_arrow_select</item>
+        <item name="menuBetweenListDivider">@drawable/dividerdrawableline</item>
+        <item name="menuTitleView">@layout/listfilter</item>
+        <item name="menuList1ItemView">@layout/listfilter_item</item>
+        <item name="menuList2ItemView">@layout/listfilter_item</item>
+        <!--<item name="menuNormalBackground">#FF0000</item>-->
+        <!--<item name="menuListItemTextColor">#FF0000</item>-->
+        <!--<item name="menuList1ItemNormalBackground">#FFFFF0</item>-->
+        <!--<item name="menuPressedBackground">#FFFF00</item>-->
+        <!--<item name="menuList1ItemPressedBackground">#FFFAAA</item>-->
+        <item name="menuListPupupYoff">1px</item>
+        <!--<item name="menuDrawableRight">@drawable/qf_arrow_select</item>-->
+        <!--<item name="menuListItemDrawableRight">@drawable/qf_arrow_select</item>-->
     </style>
 
 </resources>

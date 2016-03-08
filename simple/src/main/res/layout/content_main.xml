@@ -13,7 +13,9 @@
         android:id="@+id/easyListFilterMenu"
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        app:menuMode="multi"
         android:layout_weight="1"
+        android:background="@color/q_ffffff"
         app:menuText="区域" />
     <!--app:menuBetweenListDivider="@drawable/dividerdrawableline"-->
     <!--app:menuNormalBackground="#000000"-->
@@ -26,28 +28,38 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        app:menuList1ItemNormalBackground="#FFFFF0"
-        app:menuList1ItemPressedBackground="#FFFAAA"
-        app:menuNormalBackground="#FF0000"
-        app:menuPressedBackground="#FFFF00"
+        android:background="@color/q_ffffff"
         app:menuText="售价" />
+    <cc.easyandroid.listfiltermenu.widget.EasyListFilterMenu
+        android:id="@+id/easyListFilterMenu3"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/q_ffffff"
+        app:menuText="间隔" />
+    <cc.easyandroid.listfiltermenu.widget.EasyListFilterMenu
+        android:id="@+id/easyListFilterMenu4"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/q_ffffff"
+        app:menuText="更多" />
 
     <!--<cc.easyandroid.listfiltermenu.widget.EasyListFilterMenu-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_weight="1"-->
+    <!--app:menuList1ItemNormalBackground="#FFFFF0"-->
+    <!--app:menuList1ItemPressedBackground="#FFFAAA"-->
+    <!--app:menuNormalBackground="#FF0000"-->
+    <!--app:menuPressedBackground="#FFFF00"-->
+    <!--app:menuText="房型" />-->
+
+    <!--<cc.easyandroid.listfiltermenu.widget.EasyPopMenu-->
+        <!--android:id="@+id/easyPopMenuid"-->
         <!--android:layout_width="0dp"-->
         <!--android:layout_height="match_parent"-->
         <!--android:layout_weight="1"-->
-        <!--app:menuList1ItemNormalBackground="#FFFFF0"-->
-        <!--app:menuList1ItemPressedBackground="#FFFAAA"-->
-        <!--app:menuNormalBackground="#FF0000"-->
-        <!--app:menuPressedBackground="#FFFF00"-->
-        <!--app:menuText="房型" />-->
-
-    <cc.easyandroid.listfiltermenu.widget.EasyPopMenu
-        android:id="@+id/easyPopMenuid"
-        android:layout_width="0dp"
-        android:text="pop"
-        android:background="#FFFFFF"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-     />
+        <!--android:background="#FFFFFF"-->
+        <!--android:text="pop" />-->
 </LinearLayout>

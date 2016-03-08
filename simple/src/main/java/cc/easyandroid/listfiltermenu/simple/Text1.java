@@ -134,6 +134,23 @@ public class Text1 {
             return subregions;
         }
 
+        int childSelectPosion;
+
+        @Override
+        public int getChildSelectPosion() {
+            return childSelectPosion;
+        }
+
+        @Override
+        public void setChildSelectPosion(int posion) {
+            childSelectPosion = posion;
+        }
+
+//        @Override
+//        public int getSelectPosion() {
+//            return 2;
+//        }
+
         public static class SubregionsEntity implements IEasyItem {
             @Override
             public String getEasyId() {
@@ -190,9 +207,11 @@ public class Text1 {
             public String getDisplayName() {
                 return name;
             }
+
             List<SubregionsEntity> lists_sub_sub;
-            public void setSub( List<SubregionsEntity> lists_sub_sub){
-                this.lists_sub_sub=lists_sub_sub;
+
+            public void setSub(List<SubregionsEntity> lists_sub_sub) {
+                this.lists_sub_sub = lists_sub_sub;
             }
 
             @Override
@@ -203,6 +222,23 @@ public class Text1 {
 //                lists_sub_sub.add(resultEntity_sub_sub);
                 return lists_sub_sub;
             }
+
+            int childSelectPosion;
+
+            @Override
+            public int getChildSelectPosion() {
+                return childSelectPosion;
+            }
+
+            @Override
+            public void setChildSelectPosion(int posion) {
+                childSelectPosion = posion;
+            }
+
+//            @Override
+//            public int getSelectPosion() {
+//                return 0;
+//            }
         }
     }
 }

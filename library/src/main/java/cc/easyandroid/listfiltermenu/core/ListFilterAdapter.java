@@ -2,13 +2,13 @@ package cc.easyandroid.listfiltermenu.core;
 
 
 import android.content.Context;
-import android.content.res.ColorStateList;
-import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import java.util.List;
 
 import cc.easyandroid.listfiltermenu.R;
 
@@ -16,49 +16,47 @@ import cc.easyandroid.listfiltermenu.R;
 public class ListFilterAdapter<T extends IEasyItem> extends EasyListFilterBaseAdaptre<T> {
 
     LayoutInflater inflater;
-    Drawable backgroundDrawable;
-    Drawable listItemDrawableRight = null;
-    ColorStateList listItemTextColor;
-    int listItemTextSize = 15;
     int listItemViewResourceId = 0;
+    private IEasyItem parentIEasyItem;
 
-    public void setListItemViewResourceId(int listItemViewResourceId) {
+    public ListFilterAdapter(Context context, int listItemViewResourceId) {
+        inflater = LayoutInflater.from(context);
         this.listItemViewResourceId = listItemViewResourceId;
     }
 
-    public void setListItemTextSize(int listItemTextSize) {
-        this.listItemTextSize = listItemTextSize;
+    @Override
+    public int getCount() {
+        if (parentIEasyItem != null) {
+            List<? extends IEasyItem> childItems = parentIEasyItem.getChildItems();
+            if (childItems != null) {
+                return childItems.size();
+            }
+        }
+        return 0;
     }
 
-    public void setListItemTextColor(ColorStateList listItemTextColor) {
-        this.listItemTextColor = listItemTextColor;
+    @Override
+    public IEasyItem getItem(int position) {
+        if (parentIEasyItem != null) {
+            List<? extends IEasyItem> childItems = parentIEasyItem.getChildItems();
+            if (childItems != null) {
+                return childItems.get(position);
+            }
+        }
+        return null;
     }
 
-    public void setListItemDrawableRight(Drawable listItemDrawableRight) {
-        this.listItemDrawableRight = listItemDrawableRight;
-    }
-
-    public ListFilterAdapter(Context context, Drawable backgroundDrawable) {
-        inflater = LayoutInflater.from(context);
-        this.backgroundDrawable = backgroundDrawable;
+    public void setParentIEasyItem(IEasyItem parentIEasyItem) {
+        this.parentIEasyItem = parentIEasyItem;
+        notifyDataSetChanged();
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
-        if (convertView == null) {
+        if (convertView == null || convertView.getTag() == null) {
             convertView = inflater.inflate(listItemViewResourceId, parent, false);
             viewHolder = new ViewHolder(convertView);
-            if(backgroundDrawable!=null){
-                convertView.setBackgroundDrawable(backgroundDrawable.getConstantState().newDrawable());
-            }
-            if (listItemTextColor != null) {
-                viewHolder.name.setTextColor(listItemTextColor);
-            }
-            viewHolder.name.setTextSize(listItemTextSize);
-            if(listItemDrawableRight!=null){
-                viewHolder.name.setCompoundDrawablesWithIntrinsicBounds(null, null, listItemDrawableRight.getConstantState().newDrawable(), null);
-            }
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -67,11 +65,21 @@ public class ListFilterAdapter<T extends IEasyItem> extends EasyListFilterBaseAd
         IEasyItem iEasyItem = getItem(position);
         if (iEasyItem != null) {
             String displayName = iEasyItem.getDisplayName();
+            int posion = iEasyItem.getChildSelectPosion();
             if (!TextUtils.isEmpty(displayName)) {
                 viewHolder.name.setText(displayName);
             }
+            if (posion > 0) {
+                viewHolder.name.setSelected(true);
+            }else{
+                viewHolder.name.setSelected(false);
+            }
         }
         return convertView;
+    }
+
+    public IEasyItem getParentIEasyItem() {
+        return parentIEasyItem;
     }
 
     final class ViewHolder {

@@ -3,7 +3,6 @@
     android:id="@id/easylistfilter_titledisplayname"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-
     android:drawableRight="@drawable/qf_arrow_select"
     android:textColor="@drawable/menutitle_textcolor_selector"
     android:gravity="center"
@@ -12,6 +11,4 @@
     android:paddingTop="15dp"
     android:singleLine="true"
     android:text="加载.."
-
     android:textSize="13sp" />
-    <!--android:background="@drawable/xpt_area_choose"-->
