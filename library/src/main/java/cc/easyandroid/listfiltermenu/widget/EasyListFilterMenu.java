@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.SparseArray;
+import android.util.SparseBooleanArray;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -22,12 +23,10 @@ import android.widget.TextView;
 import java.util.List;
 
 import cc.easyandroid.listfiltermenu.R;
+import cc.easyandroid.listfiltermenu.core.AnimatorPopup;
 import cc.easyandroid.listfiltermenu.core.IEasyItem;
 import cc.easyandroid.listfiltermenu.core.IEasyItemFactory;
 import cc.easyandroid.listfiltermenu.core.ListFilterAdapter;
-import cc.easyandroid.listfiltermenu.core.OnMenuListItemClickListener;
-import cc.easyandroid.listfiltermenu.core.OnMenuWithoutDataClickLinstener;
-import cc.easyandroid.listfiltermenu.core.ShowBottomPopup;
 
 
 public class EasyListFilterMenu extends LinearLayout implements Runnable {
@@ -44,16 +43,28 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
     private OnMenuListItemClickListener menuListItemClickListener;
     private OnMenuWithoutDataClickLinstener menuWithoutDataClickLinstener;
 
-    private static final int LISTFILTERMENU_LISTITEM_LAYOUT = R.layout.listfiltermenu_listitem;//list item 的layout
-    private static final int LISTFILTERMENU_TITLE_LAYOUT = R.layout.listfiltermenu_titlelayout;// menu title 的layout
-    private static final int POP_FILTER_LAYOUT = R.layout.pop_filter;// 3个listview 的layout
+    private static final int LISTFILTERMENU_LISTITEM_LAYOUT = R.layout.menu_listitem_layout;//list item 的layout
+    private static final int LISTFILTERMENU_TITLE_LAYOUT = R.layout.menu_title_layout;// menu title 的layout
+    private static final int MENUCONTENT_LAYOUT = R.layout.menu_content_layout;// 3个listview 的layout
 
     private TextView mScreeningText;
     private View menuTitleView;
+    private int selectMode;//选择模式，单选还是多选
+    SparseBooleanArray hasAddUnlimitedContainer = new SparseBooleanArray();
+    SparseArray<CharSequence> multiTitles = new SparseArray<>();//多选择时候，记住标题的容器
+    private CharSequence unlimitedTermDisplayName;//不限制，默认名称
 
-    private int selectMode;
+    //不限的显示位置 SHOW_LIST_1 第一个list
+    public static final int SHOW_LIST_NONE = 0;
 
-    SparseArray<String> stringSparseArray = new SparseArray<>();
+    public static final int SHOW_LIST_1 = 1;
+
+    public static final int SHOW_LIST_2 = 1 << 1;
+
+    public static final int SHOW_LIST_3 = 1 << 2;
+
+    private int mShowUnlimiteds;//哪几个list 显示
+
 
     public interface SelectMode {
         int SINGLE = 0;
@@ -76,11 +87,16 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
 
     private void init(Context context, AttributeSet attrs, int defStyle) {
         Drawable betweenListDivider = null;//list之间的分割线
+        Drawable list1Divider = null;//list之间的分割线
+        Drawable list2Divider = null;//list之间的分割线
+        Drawable list3Divider = null;//list之间的分割线
         int list1ItemViewResourceId = LISTFILTERMENU_LISTITEM_LAYOUT;
         int list2ItemViewResourceId = LISTFILTERMENU_LISTITEM_LAYOUT;
         int list3ItemViewResourceId = LISTFILTERMENU_LISTITEM_LAYOUT;
 
         int menuTitleViewResourceId = LISTFILTERMENU_TITLE_LAYOUT;
+
+        int menuContentLayoutResourceId = MENUCONTENT_LAYOUT;
 
         final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.EasyListFilterMenu, defStyle, 0);
 
@@ -91,11 +107,11 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
                 defultMenuText = a.getText(attr);
             } else if (attr == R.styleable.EasyListFilterMenu_menuBetweenListDivider) {//listview 之间的分割线
                 betweenListDivider = a.getDrawable(attr);
-            } else if (attr == R.styleable.EasyListFilterMenu_menuList1ItemView) {//第1个列表item  的资源id
+            } else if (attr == R.styleable.EasyListFilterMenu_menuList1ItemLayout) {//第1个列表item  的资源id
                 list1ItemViewResourceId = a.getResourceId(attr, LISTFILTERMENU_LISTITEM_LAYOUT);
-            } else if (attr == R.styleable.EasyListFilterMenu_menuList2ItemView) {//第2个列表item  的资源id
+            } else if (attr == R.styleable.EasyListFilterMenu_menuList2ItemLayout) {//第2个列表item  的资源id
                 list2ItemViewResourceId = a.getResourceId(attr, LISTFILTERMENU_LISTITEM_LAYOUT);
-            } else if (attr == R.styleable.EasyListFilterMenu_menuList3ItemView) {//第3个列表item  的资源id
+            } else if (attr == R.styleable.EasyListFilterMenu_menuList3ItemLayout) {//第3个列表item  的资源id
                 list3ItemViewResourceId = a.getResourceId(attr, LISTFILTERMENU_LISTITEM_LAYOUT);
             } else if (attr == R.styleable.EasyListFilterMenu_menuTitleView) {// menu title 的资源id
                 menuTitleViewResourceId = a.getResourceId(attr, LISTFILTERMENU_TITLE_LAYOUT);
@@ -105,11 +121,23 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
                 yoff = a.getDimensionPixelSize(attr, 0);
             } else if (attr == R.styleable.EasyListFilterMenu_menuMode) {
                 selectMode = a.getInt(attr, SelectMode.SINGLE);
+            } else if (attr == R.styleable.EasyListFilterMenu_unlimitedText) {
+                unlimitedTermDisplayName = a.getText(attr);
+            } else if (attr == R.styleable.EasyListFilterMenu_showUnlimiteds) {
+                mShowUnlimiteds = a.getInt(R.styleable.EasyListFilterMenu_showUnlimiteds, SHOW_LIST_NONE);
+            } else if (attr == R.styleable.EasyListFilterMenu_menuContentLayout) {
+                menuContentLayoutResourceId = a.getResourceId(attr, MENUCONTENT_LAYOUT);
+            } else if (attr == R.styleable.EasyListFilterMenu_list1Divider) {
+                list1Divider = a.getDrawable(attr);
+            } else if (attr == R.styleable.EasyListFilterMenu_list2Divider) {
+                list2Divider = a.getDrawable(attr);
+            } else if (attr == R.styleable.EasyListFilterMenu_list3Divider) {
+                list3Divider = a.getDrawable(attr);
             }
         }
         a.recycle();
-        final LinearLayout filter = (LinearLayout) View.inflate(context, POP_FILTER_LAYOUT, null);
-        final LinearLayout childLayout = (LinearLayout) filter.findViewById(R.id.childlayout);
+        final LinearLayout filter = (LinearLayout) View.inflate(context, menuContentLayoutResourceId, null);
+        final LinearLayout childLayout = (LinearLayout) filter.findViewById(R.id.easyListFilter_MenuContent_ChildLayout);
         childLayout.setVisibility(View.GONE);
         if (betweenListDivider != null) {//设置list之间的分割线
             filter.setDividerDrawable(betweenListDivider);
@@ -117,24 +145,27 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
             filter.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
             childLayout.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
         }
-        pupupWindow = new ShowBottomPopup(filter, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, true);
+        pupupWindow = new AnimatorPopup(filter, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, true);
         initPupupWindow(pupupWindow);
         filterAdapter_List1 = new ListFilterAdapter(context, list1ItemViewResourceId);
         filterAdapter_List2 = new ListFilterAdapter(context, list2ItemViewResourceId);
         filterAdapter_List3 = new ListFilterAdapter(context, list3ItemViewResourceId);
         //listview--1
-        final ListView listview_1 = (ListView) filter.findViewById(R.id.list_1);
+        final ListView listview_1 = (ListView) filter.findViewById(R.id.easyListFilter_MenuContent_List_1);
         initListView(listview_1, filterAdapter_List1);
         listview_1.setVisibility(View.VISIBLE);
         listview_1.setItemChecked(0, true);
+        listview_1.setDivider(list1Divider);
         //listview--2
-        final ListView listview_2 = (ListView) filter.findViewById(R.id.list_2);
+        final ListView listview_2 = (ListView) filter.findViewById(R.id.easyListFilter_MenuContent_List_2);
         initListView(listview_2, filterAdapter_List2);
         listview_2.setVisibility(View.GONE);
+        listview_2.setDivider(list2Divider);
         //listview--3
-        final ListView listview_3 = (ListView) filter.findViewById(R.id.list_3);
+        final ListView listview_3 = (ListView) filter.findViewById(R.id.easyListFilter_MenuContent_List_3);
         initListView(listview_3, filterAdapter_List3);
         listview_3.setVisibility(View.GONE);
+        listview_3.setDivider(list3Divider);
 
         listview_1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -152,14 +183,18 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
                         showView(listview_2);
                         listview_2.setItemChecked(iEasyItem.getChildSelectPosion(), true);
                         listview_2.setTag(null);//清空标识
-
-                        listview_1.setTag(position);
                         hideView(listview_3);
-
                     } else {
-                        changMenuText(iEasyItem);
+                        hideView(childLayout);
+                        hideView(listview_2);
+                        if (selectMode == SelectMode.MULTI) {
+                            changMultiMenuText(iEasyItem, filterAdapter_List2);
+                        } else {
+                            changMenuText(iEasyItem);
+                        }
                         onMenuListItemClick(iEasyItem);
                     }
+                    listview_1.setTag(position);
                 }
             }
         });
@@ -172,7 +207,6 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
                 }
                 IEasyItem iEasyItem = filterAdapter_List2.getItem(position);
                 rememberPosion(filterAdapter_List2, position);
-//                filterAdapter_List2.getParentIEasyItem().setChildSelectPosion(position);
                 if (iEasyItem != null) {
                     List<? extends IEasyItem> rightItems = iEasyItem.getChildItems();
                     if (rightItems != null && rightItems.size() > 0) {
@@ -180,9 +214,8 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
                         showView(listview_3);
                         listview_3.setItemChecked(iEasyItem.getChildSelectPosion(), true);
 
-                        listview_2.setTag(position);
                         if (selectMode == SelectMode.MULTI && TextUtils.isEmpty(iEasyItem.getEasyId())) {
-                            stringSparseArray.clear();
+                            multiTitles.clear();
                         }
                     } else {
                         hideView(listview_3);
@@ -193,6 +226,7 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
                         }
                         onMenuListItemClick(iEasyItem);
                     }
+                    listview_2.setTag(position);
                 }
             }
         });
@@ -233,7 +267,30 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
         if (listView.getVisibility() != View.VISIBLE) {
             listView.setVisibility(View.VISIBLE);
         }
+    }
 
+    public CharSequence getUnlimitedTermDisplayName() {
+        return unlimitedTermDisplayName;
+    }
+
+    public int getmShowUnlimiteds() {
+        return mShowUnlimiteds;
+    }
+
+    public void setmShowUnlimiteds(int mShowUnlimiteds) {
+        this.mShowUnlimiteds = mShowUnlimiteds;
+    }
+
+    public SparseArray<CharSequence> getMultiTitles() {
+        return multiTitles;
+    }
+
+    public void setMultiTitles(SparseArray<CharSequence> multiTitles) {
+        this.multiTitles = multiTitles;
+    }
+
+    public void setUnlimitedTermDisplayName(CharSequence unlimitedTermDisplayName) {
+        this.unlimitedTermDisplayName = unlimitedTermDisplayName;
     }
 
     private void hideView(View listView) {
@@ -291,7 +348,7 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
      */
     private void initMenuTitleView(Context context, int menuTitleViewResourceId) {
         menuTitleView = View.inflate(context, menuTitleViewResourceId, this);
-        mScreeningText = (TextView) menuTitleView.findViewById(R.id.easylistfilter_titledisplayname);
+        mScreeningText = (TextView) menuTitleView.findViewById(R.id.easyListFilter_MenuTitleDisplayName);
         menuTitleView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -301,14 +358,33 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
     }
 
     private void addList1Items(IEasyItem parentIEasyItem) {
+        if ((mShowUnlimiteds & SHOW_LIST_1) != 0) {
+            addUnlimitedToContaier(parentIEasyItem);
+        }
         filterAdapter_List1.setParentIEasyItem(parentIEasyItem);
     }
 
+
     private void addList2Items(IEasyItem parentIEasyItem) {
+        if ((mShowUnlimiteds & SHOW_LIST_2) != 0) {
+            addUnlimitedToContaier(parentIEasyItem);
+        }
         filterAdapter_List2.setParentIEasyItem(parentIEasyItem);
     }
 
+    public void addUnlimitedToContaier(IEasyItem parentIEasyItem) {
+        if (!TextUtils.isEmpty(unlimitedTermDisplayName) && !hasAddUnlimitedContainer.get(parentIEasyItem.hashCode(), false)) {
+            hasAddUnlimitedContainer.put(parentIEasyItem.hashCode(), true);
+            List list = parentIEasyItem.getChildItems();
+            IEasyItem iEasyItem = IEasyItemFactory.buildOneIEasyItem(unlimitedTermDisplayName);
+            list.add(0, iEasyItem);
+        }
+    }
+
     private void addList3Items(IEasyItem parentIEasyItem) {
+        if ((mShowUnlimiteds & SHOW_LIST_3) != 0) {
+            addUnlimitedToContaier(parentIEasyItem);
+        }
         filterAdapter_List3.setParentIEasyItem(parentIEasyItem);
     }
 
@@ -343,8 +419,8 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
     private void changMenuText(IEasyItem iEasyItem) {
         dismiss();
         if (iEasyItem != null) {
-            String displayName = iEasyItem.getDisplayName();
-            String easyId = iEasyItem.getEasyId();
+            CharSequence displayName = iEasyItem.getDisplayName();
+            CharSequence easyId = iEasyItem.getEasyId();
             if (TextUtils.isEmpty(easyId) || EASYID_NOFILTER.equals(easyId)) {
                 mScreeningText.setText(defultMenuText);
             } else {
@@ -358,13 +434,22 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
     private void changMultiMenuText(IEasyItem iEasyItem, ListFilterAdapter<IEasyItem> adapter) {
         dismiss();
         if (!TextUtils.isEmpty(iEasyItem.getEasyId())) {
-            stringSparseArray.put(adapter.getParentIEasyItem().hashCode(), iEasyItem.getDisplayName());
+            multiTitles.put(adapter.getParentIEasyItem().hashCode(), iEasyItem.getDisplayName());
         } else {
-            stringSparseArray.delete(adapter.getParentIEasyItem().hashCode());
+            multiTitles.delete(adapter.getParentIEasyItem().hashCode());
         }
+        onMenuTitleChanged(multiTitles);
+    }
+
+    /**
+     * 多选情况下title的样式
+     *
+     * @param multiTitles 装有所有被选择的title集合
+     */
+    protected void onMenuTitleChanged(SparseArray<CharSequence> multiTitles) {
         StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < stringSparseArray.size(); i++) {
-            stringBuilder.append(stringSparseArray.valueAt(i));
+        for (int i = 0; i < multiTitles.size(); i++) {
+            stringBuilder.append(multiTitles.valueAt(i));
             stringBuilder.append("|");
         }
         if (stringBuilder.length() > 0) {
@@ -372,6 +457,7 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
         }
         setMenuTitle(stringBuilder.toString());
     }
+
 
     public void setMenuTitle(CharSequence menuTitle) {
         if (!TextUtils.isEmpty(menuTitle)) {
@@ -394,7 +480,7 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
         }
         if (pupupWindow != null && !pupupWindow.isShowing()) {
             ViewGroup parent = (ViewGroup) this.getParent();
-            if (parent != null && parent.getId() == R.id.easylistfilter_menuparent) {
+            if (parent != null && parent.getId() == R.id.easyListFilter_MenuParent) {
                 pupupWindow.showAsDropDown(parent, xoff, yoff);
             } else {
                 pupupWindow.showAsDropDown(this, xoff, yoff);
@@ -421,5 +507,13 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
 
     public void setOnMenuClickLinstener(OnMenuWithoutDataClickLinstener menuWithoutDataClickLinstener) {
         this.menuWithoutDataClickLinstener = menuWithoutDataClickLinstener;
+    }
+
+    public interface OnMenuListItemClickListener<T extends IEasyItem> {
+        void onClick(T t);
+    }
+
+    public interface OnMenuWithoutDataClickLinstener {
+        void withoutData(EasyListFilterMenu menu);
     }
 }

@@ -14,7 +14,9 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         app:menuMode="multi"
-        android:layout_weight="1"
+        app:menuContentLayout="@layout/pop_filter"
+        android:layout_weight="1" app:unlimitedText="@string/app_name"
+        app:showUnlimiteds="list1"
         android:background="@color/q_ffffff"
         app:menuText="区域" />
     <!--app:menuBetweenListDivider="@drawable/dividerdrawableline"-->
@@ -28,6 +30,8 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        app:unlimitedText="@string/app_name"
+        app:showUnlimiteds="list2"
         android:background="@color/q_ffffff"
         app:menuText="售价" />
     <cc.easyandroid.listfiltermenu.widget.EasyListFilterMenu

@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.List;
@@ -13,15 +14,20 @@ import java.util.List;
 import cc.easyandroid.listfiltermenu.R;
 
 
-public class ListFilterAdapter<T extends IEasyItem> extends EasyListFilterBaseAdaptre<T> {
+public class ListFilterAdapter<T extends IEasyItem> extends BaseAdapter {
 
-    LayoutInflater inflater;
-    int listItemViewResourceId = 0;
+    private LayoutInflater inflater;
+    private int listItemViewResourceId = 0;
     private IEasyItem parentIEasyItem;
 
     public ListFilterAdapter(Context context, int listItemViewResourceId) {
         inflater = LayoutInflater.from(context);
         this.listItemViewResourceId = listItemViewResourceId;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
     }
 
     @Override
@@ -64,14 +70,14 @@ public class ListFilterAdapter<T extends IEasyItem> extends EasyListFilterBaseAd
 
         IEasyItem iEasyItem = getItem(position);
         if (iEasyItem != null) {
-            String displayName = iEasyItem.getDisplayName();
+            CharSequence displayName = iEasyItem.getDisplayName();
             int posion = iEasyItem.getChildSelectPosion();
             if (!TextUtils.isEmpty(displayName)) {
                 viewHolder.name.setText(displayName);
             }
             if (posion > 0) {
                 viewHolder.name.setSelected(true);
-            }else{
+            } else {
                 viewHolder.name.setSelected(false);
             }
         }
@@ -84,7 +90,11 @@ public class ListFilterAdapter<T extends IEasyItem> extends EasyListFilterBaseAd
 
     final class ViewHolder {
         public ViewHolder(View convertView) {
-            name = (TextView) convertView.findViewById(R.id.easylistfilter_itemdisplayname);
+            if (convertView instanceof TextView) {
+                name = (TextView) convertView;
+            } else {
+                name = (TextView) convertView.findViewById(R.id.easyListFilter_ItemDisplayName);
+            }
         }
         TextView name;
     }

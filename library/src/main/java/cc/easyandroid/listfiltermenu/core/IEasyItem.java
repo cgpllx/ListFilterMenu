@@ -3,8 +3,15 @@ package cc.easyandroid.listfiltermenu.core;
 import java.util.List;
 
 
-public interface IEasyItem extends IEasySuperItem {
+public interface IEasyItem {
     List<? extends IEasyItem> getChildItems();
+
     int getChildSelectPosion();
+
     void setChildSelectPosion(int posion);
+
+    CharSequence getDisplayName();
+
+    CharSequence getEasyId();
+
 }

@@ -1,11 +1,26 @@
 <resources>
     <declare-styleable name="EasyListFilterMenu">
         <attr name="menuText" format="reference|string" />
-        <attr name="menuBetweenListDivider" format="reference|color" />
 
-        <attr name="menuList1ItemView" format="reference" />
-        <attr name="menuList2ItemView" format="reference" />
-        <attr name="menuList3ItemView" format="reference" />
+        <attr name="menuBetweenListDivider" format="reference|color" />
+        <!--//listview item的布局-->
+        <attr name="menuList1ItemLayout" format="reference" />
+        <attr name="menuList2ItemLayout" format="reference" />
+        <attr name="menuList3ItemLayout" format="reference" />
+
+        <attr name="list1Divider" format="reference" />
+        <attr name="list2Divider" format="reference" />
+        <attr name="list3Divider" format="reference" />
+
+        <attr name="menuContentLayout" format="reference" />
+        <!--//显示不限制的名称-->
+        <attr name="unlimitedText" format="reference|string" />
+        <!--//显示不限制的位置-->
+        <attr name="showUnlimiteds">
+            <flag name="list1" value="1" />
+            <flag name="list2" value="2" />
+            <flag name="list3" value="4" />
+        </attr>
         <attr name="menuTitleView" format="reference" />
         <attr name="menuMode">
             <enum name="single" value="0" />

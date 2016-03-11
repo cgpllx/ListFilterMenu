@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="easylistfilter_itemdisplayname" type="id" />
-    <item name="easylistfilter_titledisplayname" type="id" />
-    <item name="easylistfilter_menuparent" type="id" />
+    <item name="easyListFilter_ItemDisplayName" type="id" />
+    <item name="easyListFilter_MenuTitleDisplayName" type="id" />
+    <item name="easyListFilter_MenuParent" type="id" />
+
+    <item name="easyListFilter_MenuContent_List_1" type="id" />
+    <item name="easyListFilter_MenuContent_List_2" type="id" />
+    <item name="easyListFilter_MenuContent_List_3" type="id" />
+
+    <item name="easyListFilter_MenuContent_ChildLayout" type="id" />
 </resources>
