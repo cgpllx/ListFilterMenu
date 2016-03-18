@@ -42,6 +42,7 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
 
     private OnMenuListItemClickListener menuListItemClickListener;
     private OnMenuWithoutDataClickLinstener menuWithoutDataClickLinstener;
+    private OnMultiMenuTitleFormat onMultiMenuTitleFormat;
 
     private static final int LISTFILTERMENU_LISTITEM_LAYOUT = R.layout.menu_listitem_layout;//list item 的layout
     private static final int LISTFILTERMENU_TITLE_LAYOUT = R.layout.menu_title_layout;// menu title 的layout
@@ -241,6 +242,7 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
         });
         initMenuTitleView(context, menuTitleViewResourceId);
         setMenuTitle(defultMenuText);
+        buildDefaultMultiMenuTitleFormat();
     }
 
     public int getSelectMode() {
@@ -343,7 +345,6 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
 
     /**
      * init menuTitle
-     *
      * @param context
      */
     private void initMenuTitleView(Context context, int menuTitleViewResourceId) {
@@ -438,7 +439,19 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
         } else {
             multiTitles.delete(adapter.getParentIEasyItem().hashCode());
         }
-        onMenuTitleChanged(multiTitles);
+        if (onMultiMenuTitleFormat != null) {
+            onMultiMenuTitleFormat.format(this, multiTitles);
+        }
+//        onMenuTitleChanged(multiTitles);
+    }
+
+    private void buildDefaultMultiMenuTitleFormat() {
+        onMultiMenuTitleFormat = new OnMultiMenuTitleFormat() {
+            @Override
+            public void format(EasyListFilterMenu easyListFilterMenu, SparseArray<CharSequence> multiTitles) {
+                onMenuTitleChanged(easyListFilterMenu, multiTitles);
+            }
+        };
     }
 
     /**
@@ -446,7 +459,7 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
      *
      * @param multiTitles 装有所有被选择的title集合
      */
-    protected void onMenuTitleChanged(SparseArray<CharSequence> multiTitles) {
+    protected void onMenuTitleChanged(EasyListFilterMenu easyListFilterMenu, SparseArray<CharSequence> multiTitles) {
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < multiTitles.size(); i++) {
             stringBuilder.append(multiTitles.valueAt(i));
@@ -455,9 +468,8 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
         if (stringBuilder.length() > 0) {
             stringBuilder.delete(stringBuilder.length() - 1, stringBuilder.length());
         }
-        setMenuTitle(stringBuilder.toString());
+        easyListFilterMenu.setMenuTitle(stringBuilder.toString());
     }
-
 
     public void setMenuTitle(CharSequence menuTitle) {
         if (!TextUtils.isEmpty(menuTitle)) {
@@ -503,10 +515,19 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
 
     public void setOnMenuListItemClickListener(OnMenuListItemClickListener menuListItemClickListener) {
         this.menuListItemClickListener = menuListItemClickListener;
+
+    }
+
+    public void setOnMultiMenuTitleFormat(OnMultiMenuTitleFormat onMultiMenuTitleFormat) {
+        this.onMultiMenuTitleFormat = onMultiMenuTitleFormat;
     }
 
     public void setOnMenuClickLinstener(OnMenuWithoutDataClickLinstener menuWithoutDataClickLinstener) {
         this.menuWithoutDataClickLinstener = menuWithoutDataClickLinstener;
+    }
+
+    public interface OnMultiMenuTitleFormat {
+        void format(EasyListFilterMenu easyListFilterMenu, SparseArray<CharSequence> multiTitles);
     }
 
     public interface OnMenuListItemClickListener<T extends IEasyItem> {
