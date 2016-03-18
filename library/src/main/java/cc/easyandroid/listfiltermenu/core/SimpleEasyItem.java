@@ -29,7 +29,12 @@ public class SimpleEasyItem implements IEasyItem {
     }
 
     @Override
-    public CharSequence getEasyId() {
+    public String getEasyKey() {
+        return null;
+    }
+
+    @Override
+    public String getEasyValue() {
         return null;
     }
 }

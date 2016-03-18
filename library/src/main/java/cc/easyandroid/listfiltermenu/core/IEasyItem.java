@@ -12,6 +12,9 @@ public interface IEasyItem {
 
     CharSequence getDisplayName();
 
-    CharSequence getEasyId();
+    String getEasyKey();
+
+    String getEasyValue();
+
 
 }

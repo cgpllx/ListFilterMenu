@@ -18,6 +18,13 @@ public class IEasyItemFactory {
         return iEasyItem;
     }
 
+    public static IEasyItem buildOneIEasyItem(CharSequence displayName, String easyKey, String easyValue) {
+        BaseIEasyItem iEasyItem = new BaseIEasyItem(displayName);
+        iEasyItem.setEasyKey(easyKey);
+        iEasyItem.setEasyValue(easyValue);
+        return iEasyItem;
+    }
+
     public static IEasyItem buildTwoLevelIEasyItem(CharSequence displayName) {
         BaseIEasyItem iEasyItem = new BaseIEasyItem(displayName);
         IEasyItem childIEasyItem = new BaseIEasyItem(displayName);
@@ -29,7 +36,17 @@ public class IEasyItemFactory {
 
     public static class BaseIEasyItem implements IEasyItem {
         private CharSequence displayName;
-        List<? extends IEasyItem> childItems;
+        private List<? extends IEasyItem> childItems;
+        private String easyKey;
+        private String easyValue;
+
+        public void setEasyKey(String easyKey) {
+            this.easyKey = easyKey;
+        }
+
+        public void setEasyValue(String easyValue) {
+            this.easyValue = easyValue;
+        }
 
         public void setChildItems(List<? extends IEasyItem> childItems) {
             this.childItems = childItems;
@@ -60,8 +77,13 @@ public class IEasyItemFactory {
         }
 
         @Override
-        public String getEasyId() {
-            return null;
+        public String getEasyKey() {
+            return easyKey;
+        }
+
+        @Override
+        public String getEasyValue() {
+            return easyValue;
         }
     }
 }

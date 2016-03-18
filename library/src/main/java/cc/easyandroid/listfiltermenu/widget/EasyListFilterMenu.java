@@ -215,7 +215,7 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
                         showView(listview_3);
                         listview_3.setItemChecked(iEasyItem.getChildSelectPosion(), true);
 
-                        if (selectMode == SelectMode.MULTI && TextUtils.isEmpty(iEasyItem.getEasyId())) {
+                        if (selectMode == SelectMode.MULTI && TextUtils.isEmpty(iEasyItem.getEasyValue())) {
                             multiTitles.clear();
                         }
                     } else {
@@ -421,7 +421,7 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
         dismiss();
         if (iEasyItem != null) {
             CharSequence displayName = iEasyItem.getDisplayName();
-            CharSequence easyId = iEasyItem.getEasyId();
+            CharSequence easyId = iEasyItem.getEasyValue();
             if (TextUtils.isEmpty(easyId) || EASYID_NOFILTER.equals(easyId)) {
                 mScreeningText.setText(defultMenuText);
             } else {
@@ -434,7 +434,7 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
 
     private void changMultiMenuText(IEasyItem iEasyItem, ListFilterAdapter<IEasyItem> adapter) {
         dismiss();
-        if (!TextUtils.isEmpty(iEasyItem.getEasyId())) {
+        if (!TextUtils.isEmpty(iEasyItem.getEasyValue())) {
             multiTitles.put(adapter.getParentIEasyItem().hashCode(), iEasyItem.getDisplayName());
         } else {
             multiTitles.delete(adapter.getParentIEasyItem().hashCode());
