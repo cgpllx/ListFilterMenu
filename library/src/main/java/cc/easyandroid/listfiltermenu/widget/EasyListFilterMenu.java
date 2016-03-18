@@ -345,6 +345,7 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
 
     /**
      * init menuTitle
+     *
      * @param context
      */
     private void initMenuTitleView(Context context, int menuTitleViewResourceId) {
@@ -377,8 +378,11 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
         if (!TextUtils.isEmpty(unlimitedTermDisplayName) && !hasAddUnlimitedContainer.get(parentIEasyItem.hashCode(), false)) {
             hasAddUnlimitedContainer.put(parentIEasyItem.hashCode(), true);
             List list = parentIEasyItem.getChildItems();
-            IEasyItem iEasyItem = IEasyItemFactory.buildOneIEasyItem(unlimitedTermDisplayName);
-            list.add(0, iEasyItem);
+            if (list != null && list.size() > 0) {
+                IEasyItem iEasyItem = (IEasyItem) list.get(0);
+                IEasyItem unlimitediEasyItem = IEasyItemFactory.buildOneIEasyItem(unlimitedTermDisplayName, iEasyItem.getEasyKey(), null);
+                list.add(0, unlimitediEasyItem);
+            }
         }
     }
 

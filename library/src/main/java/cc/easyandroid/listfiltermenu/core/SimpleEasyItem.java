@@ -9,7 +9,7 @@ public class SimpleEasyItem implements IEasyItem {
     private int childSelectPosion;
 
     @Override
-    public List<? extends IEasyItem> getChildItems() {
+    public List< IEasyItem> getChildItems() {
         return null;
     }
 
