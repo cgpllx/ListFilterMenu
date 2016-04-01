@@ -56,8 +56,14 @@ public class Text1 {
     }
 
     public static class ResultEntity implements IEasyItem {
+
         @Override
-        public String getEasyId() {
+        public String getEasyKey() {
+            return null;
+        }
+
+        @Override
+        public String getEasyValue() {
             return id;
         }
 
@@ -152,8 +158,13 @@ public class Text1 {
 //        }
 
         public static class SubregionsEntity implements IEasyItem {
+
             @Override
-            public String getEasyId() {
+            public String getEasyKey() {
+                return null;
+            }
+            @Override
+            public String getEasyValue() {
                 return id;
             }
 

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="easyListFilter_ItemDisplayName" type="id" />
+    <item name="easyListFilter_ItemDisplayImage" type="id" />
     <item name="easyListFilter_MenuTitleDisplayName" type="id" />
     <item name="easyListFilter_MenuParent" type="id" />
 
@@ -9,4 +10,7 @@
     <item name="easyListFilter_MenuContent_List_3" type="id" />
 
     <item name="easyListFilter_MenuContent_ChildLayout" type="id" />
+
+    <item name="easyList1MultipleConfirm" type="id" />
+
 </resources>

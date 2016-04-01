@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -80,6 +81,13 @@ public class ListFilterAdapter<T extends IEasyItem> extends BaseAdapter {
             } else {
                 viewHolder.name.setSelected(false);
             }
+            if (viewHolder.arrowImage != null) {
+                if (position == 0 && TextUtils.isEmpty(iEasyItem.getEasyValue())) {
+                    viewHolder.arrowImage.setVisibility(View.GONE);
+                } else {
+                    viewHolder.arrowImage.setVisibility(View.VISIBLE);
+                }
+            }
         }
         return convertView;
     }
@@ -94,8 +102,11 @@ public class ListFilterAdapter<T extends IEasyItem> extends BaseAdapter {
                 name = (TextView) convertView;
             } else {
                 name = (TextView) convertView.findViewById(R.id.easyListFilter_ItemDisplayName);
+                arrowImage = (ImageView) convertView.findViewById(R.id.easyListFilter_ItemDisplayImage);
             }
         }
+
         TextView name;
+        ImageView arrowImage;
     }
 }

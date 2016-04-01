@@ -3,6 +3,7 @@ package cc.easyandroid.listfiltermenu.simple;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -10,6 +11,7 @@ import com.google.gson.Gson;
 import java.util.List;
 
 import cc.easyandroid.listfiltermenu.core.IEasyItem;
+import cc.easyandroid.listfiltermenu.core.ListFilterAdapter;
 import cc.easyandroid.listfiltermenu.widget.EasyListFilterMenu;
 
 public class MainActivity extends AppCompatActivity {
@@ -32,7 +34,14 @@ public class MainActivity extends AppCompatActivity {
         easyListFilterMenu.setOnMenuListItemClickListener(new EasyListFilterMenu.OnMenuListItemClickListener() {
             @Override
             public void onClick(IEasyItem iEasyItem) {
-                Toast.makeText(getApplicationContext(), iEasyItem.getEasyId(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), iEasyItem.getEasyValue(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        easyListFilterMenu.setOnMultipleChoiceClickListener(new EasyListFilterMenu.OnMultipleChoiceClickListener() {
+            @Override
+            public void onClick(ListView listview, ListFilterAdapter<IEasyItem> filterAdapter_List) {
+                System.out.println("cgp=i  setOnMultipleChoiceClickListener");
+                easyListFilterMenu.setMenuTitle("多选");
             }
         });
         easyListFilterMenu2.setOnMenuClickLinstener(new EasyListFilterMenu.OnMenuWithoutDataClickLinstener() {

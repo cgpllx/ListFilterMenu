@@ -33,6 +33,9 @@
         <attr name="menuListPupupXoff" format="reference|dimension" />
         <attr name="menuListPupupYoff" format="reference|dimension" />
 
+        <attr name="menuList1HeaderView" format="reference|dimension" />
+
+
     </declare-styleable>
     <!--引用系统样式 -->
     <declare-styleable name="EasyListFilterMenus">

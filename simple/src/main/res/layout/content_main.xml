@@ -8,17 +8,18 @@
     android:background="#000000"
     android:orientation="horizontal"
     tools:showIn="@layout/activity_main">
+    <!--app:menuMode="multi"-->
     <!--android:id="@id/easylistfilter_menuparent"-->
     <cc.easyandroid.listfiltermenu.widget.EasyListFilterMenu
         android:id="@+id/easyListFilterMenu"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        app:menuMode="multi"
-        app:menuContentLayout="@layout/pop_filter"
-        android:layout_weight="1" app:unlimitedText="@string/app_name"
-        app:showUnlimiteds="list1"
+        android:layout_weight="1"
         android:background="@color/q_ffffff"
-        app:menuText="区域" />
+        app:menuContentLayout="@layout/pop_filter"
+        app:menuText="区域"
+        app:showUnlimiteds="list1"
+        app:unlimitedText="@string/app_name" />
     <!--app:menuBetweenListDivider="@drawable/dividerdrawableline"-->
     <!--app:menuNormalBackground="#000000"-->
     <!--app:menuListItemTextColor="#FF0000"-->
@@ -30,10 +31,11 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        app:unlimitedText="@string/app_name"
-        app:showUnlimiteds="list2"
         android:background="@color/q_ffffff"
-        app:menuText="售价" />
+        app:menuText="售价"
+        app:showUnlimiteds="list2"
+        app:unlimitedText="@string/app_name" />
+
     <cc.easyandroid.listfiltermenu.widget.EasyListFilterMenu
         android:id="@+id/easyListFilterMenu3"
         android:layout_width="0dp"
@@ -41,6 +43,7 @@
         android:layout_weight="1"
         android:background="@color/q_ffffff"
         app:menuText="间隔" />
+
     <cc.easyandroid.listfiltermenu.widget.EasyListFilterMenu
         android:id="@+id/easyListFilterMenu4"
         android:layout_width="0dp"
@@ -60,10 +63,10 @@
     <!--app:menuText="房型" />-->
 
     <!--<cc.easyandroid.listfiltermenu.widget.EasyPopMenu-->
-        <!--android:id="@+id/easyPopMenuid"-->
-        <!--android:layout_width="0dp"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_weight="1"-->
-        <!--android:background="#FFFFFF"-->
-        <!--android:text="pop" />-->
+    <!--android:id="@+id/easyPopMenuid"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_weight="1"-->
+    <!--android:background="#FFFFFF"-->
+    <!--android:text="pop" />-->
 </LinearLayout>
