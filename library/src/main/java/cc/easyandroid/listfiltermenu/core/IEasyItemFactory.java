@@ -26,10 +26,9 @@ public class IEasyItemFactory {
         return iEasyItem;
     }
 
-    public static class BaseIEasyItem implements IEasyItem {
+    public static class BaseIEasyItem extends SimpleEasyItem {
         private CharSequence displayName;
         private List<? extends IEasyItem> childItems;
-        private final HashMap<String, String> mapPara = new HashMap<>();
 
         public void setChildItems(List<? extends IEasyItem> childItems) {
             this.childItems = childItems;
@@ -45,23 +44,8 @@ public class IEasyItemFactory {
         }
 
         @Override
-        public int getChildSelectPosion() {
-            return -1;
-        }
-
-        @Override
-        public void setChildSelectPosion(int posion) {
-            //no treatment
-        }
-
-        @Override
         public CharSequence getDisplayName() {
             return displayName;
-        }
-
-        @Override
-        public HashMap<String, String> getEasyParameter() {
-            return mapPara;
         }
 
         @Override
