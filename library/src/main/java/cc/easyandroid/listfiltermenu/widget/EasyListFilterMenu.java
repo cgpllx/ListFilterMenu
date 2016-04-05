@@ -175,7 +175,6 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
                 public void onClick(View v) {
                     if (customViewConfirmClickListener != null) {
                         customViewConfirmClickListener.onClick(listview_1, filterAdapter_List1, filter);
-                        //dismiss();
                         //设置title也放在这里吧
                     }
                 }
@@ -196,10 +195,8 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
                         listview_1.clearChoices();
                         listview_1.setItemChecked(0, true);
                         filterAdapter_List1.notifyDataSetChanged();
-                        menuListItemClick(iEasyItem);
-//                        changMenuText(iEasyItem);
                         setMenuTitle(defultMenuText);
-                        dismiss();
+                        menuListItemClick(iEasyItem);
                     } else {
                         if (booleanArray.indexOfValue(true) != -1) {
                             listview_1.setItemChecked(0, false);
@@ -227,7 +224,6 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
                             } else {
                                 if (iEasyItem.isNoLimitItem()) {
                                     setMenuTitle(defultMenuText);
-                                    dismiss();
                                 } else {
                                     changMenuText(iEasyItem);
                                 }
@@ -348,6 +344,7 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
      * @param iEasyItem
      */
     public void menuListItemClick(IEasyItem iEasyItem) {
+        dismiss();//item 被点击后dismiss pop
         if (menuListItemClickListener != null) {
             menuListItemClickListener.onClick(iEasyItem);
         }
@@ -470,7 +467,7 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
     }
 
     private void changMenuText(IEasyItem iEasyItem) {
-        dismiss();
+//        dismiss();
         if (iEasyItem != null) {
             if (iEasyItem.isNoLimitItem()) {
                 mScreeningText.setText(currentMenuText);
@@ -484,7 +481,7 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
     }
 
     private void changMultiMenuText(IEasyItem iEasyItem, ListFilterAdapter<IEasyItem> adapter) {
-        dismiss();
+//        dismiss();
 //        HashMap<String, String> easyParameter = iEasyItem.getEasyParameter();
 //        Collection<String> c = easyParameter.values();
 
