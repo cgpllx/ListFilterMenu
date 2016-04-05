@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import java.util.HashMap;
 import java.util.List;
 
 import cc.easyandroid.listfiltermenu.R;
@@ -29,8 +30,8 @@ import cc.easyandroid.listfiltermenu.core.ListFilterAdapter;
 
 
 public class EasyListFilterMenu extends LinearLayout implements Runnable {
-    public static final String EASYID_NOFILTER = "";
     private CharSequence defultMenuText = "defultMenuText";
+    private CharSequence currentMenuText;
     protected PopupWindow pupupWindow;
     private int xoff = 0;
     private int yoff = 0;
@@ -167,13 +168,13 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
         listview_3.setVisibility(View.GONE);
         listview_3.setDivider(list3Divider);
 
-        View easyList1MultipleConfirm = filter.findViewById(R.id.easyList1MultipleConfirm);//多选择时候的确定按钮的id
+        View easyList1MultipleConfirm = filter.findViewById(R.id.easyList1CustomViewConfirm);//多选择时候的确定按钮的id
         if (easyList1MultipleConfirm != null) {
             easyList1MultipleConfirm.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (multipleChoiceClickListener != null) {
-                        multipleChoiceClickListener.onClick(listview_1, filterAdapter_List1);
+                    if (customViewConfirmClickListener != null) {
+                        customViewConfirmClickListener.onClick(listview_1, filterAdapter_List1, filter);
                         dismiss();
                         //设置title也放在这里吧
                     }
@@ -191,12 +192,14 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
                 IEasyItem iEasyItem = filterAdapter_List1.getItem(position);
                 if (listview_1.getChoiceMode() == ListView.CHOICE_MODE_MULTIPLE) {//listview 选择模式  是多选
                     SparseBooleanArray booleanArray = listview_1.getCheckedItemPositions();
-                    if (iEasyItem == null || TextUtils.isEmpty(iEasyItem.getEasyValue())) {
+                    if (iEasyItem == null || iEasyItem.isNoLimitItem()) {
                         listview_1.clearChoices();
                         listview_1.setItemChecked(0, true);
                         filterAdapter_List1.notifyDataSetChanged();
                         onMenuListItemClick(iEasyItem);
-                        changMenuText(iEasyItem);
+//                        changMenuText(iEasyItem);
+                        setMenuTitle(defultMenuText);
+                        dismiss();
                     } else {
                         if (booleanArray.indexOfValue(true) != -1) {
                             listview_1.setItemChecked(0, false);
@@ -209,6 +212,7 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
                     if (iEasyItem != null) {
                         List<? extends IEasyItem> mindleItems = iEasyItem.getChildItems();
                         if (mindleItems != null && mindleItems.size() > 0) {
+                            currentMenuText = iEasyItem.getDisplayName();
                             addList2Items(iEasyItem);//传的是父类的IEasyItem ，适配器自己去里面找
                             showView(childLayout);
                             showView(listview_2);
@@ -221,7 +225,10 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
                             if (selectMode == SelectMode.MULTI) {
                                 changMultiMenuText(iEasyItem, filterAdapter_List2);
                             } else {
-                                changMenuText(iEasyItem);
+                                if (iEasyItem.isNoLimitItem()) {
+                                    setMenuTitle(defultMenuText);
+                                    dismiss();
+                                }
                             }
                             onMenuListItemClick(iEasyItem);
                         }
@@ -242,10 +249,11 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
                 if (iEasyItem != null) {
                     List<? extends IEasyItem> rightItems = iEasyItem.getChildItems();
                     if (rightItems != null && rightItems.size() > 0) {
+                        currentMenuText = iEasyItem.getDisplayName();
                         addList3Items(iEasyItem);
                         showView(listview_3);
                         //listview_3.setItemChecked(iEasyItem.getChildSelectPosion(), true);
-                        if (selectMode == SelectMode.MULTI && TextUtils.isEmpty(iEasyItem.getEasyValue())) {
+                        if (selectMode == SelectMode.MULTI && iEasyItem.isNoLimitItem()) {
                             multiTitles.clear();
                         }
                     } else {
@@ -411,7 +419,9 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
             List list = parentIEasyItem.getChildItems();
             if (list != null && list.size() > 0) {
                 IEasyItem iEasyItem = (IEasyItem) list.get(0);
-                IEasyItem unlimitediEasyItem = IEasyItemFactory.buildOneIEasyItem(unlimitedTermDisplayName, iEasyItem.getEasyKey(), null);
+
+                HashMap<String, String> map = iEasyItem.getEasyParameter();
+                IEasyItem unlimitediEasyItem = IEasyItemFactory.buildOneIEasyItem(unlimitedTermDisplayName, map);
                 list.add(0, unlimitediEasyItem);
             }
         }
@@ -455,11 +465,10 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
     private void changMenuText(IEasyItem iEasyItem) {
         dismiss();
         if (iEasyItem != null) {
-            CharSequence displayName = iEasyItem.getDisplayName();
-            CharSequence easyId = iEasyItem.getEasyValue();
-            if (TextUtils.isEmpty(easyId) || EASYID_NOFILTER.equals(easyId)) {
-                mScreeningText.setText(defultMenuText);
+            if (iEasyItem.isNoLimitItem()) {
+                mScreeningText.setText(currentMenuText);
             } else {
+                CharSequence displayName = iEasyItem.getDisplayName();
                 if (!TextUtils.isEmpty(displayName)) {
                     mScreeningText.setText(displayName);
                 }
@@ -469,7 +478,10 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
 
     private void changMultiMenuText(IEasyItem iEasyItem, ListFilterAdapter<IEasyItem> adapter) {
         dismiss();
-        if (!TextUtils.isEmpty(iEasyItem.getEasyValue())) {
+//        HashMap<String, String> easyParameter = iEasyItem.getEasyParameter();
+//        Collection<String> c = easyParameter.values();
+
+        if (!iEasyItem.isNoLimitItem()) {
             multiTitles.put(adapter.getParentIEasyItem().hashCode(), iEasyItem.getDisplayName());
         } else {
             multiTitles.delete(adapter.getParentIEasyItem().hashCode());
@@ -569,14 +581,14 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
         void onClick(T t);
     }
 
-    OnMultipleChoiceClickListener multipleChoiceClickListener;
+    OnCustomViewConfirmClickListener customViewConfirmClickListener;
 
-    public void setOnMultipleChoiceClickListener(OnMultipleChoiceClickListener multipleChoiceClickListener) {
-        this.multipleChoiceClickListener = multipleChoiceClickListener;
+    public void setOnCustomViewConfirmClickListener(OnCustomViewConfirmClickListener customViewConfirmClickListener) {
+        this.customViewConfirmClickListener = customViewConfirmClickListener;
     }
 
-    public interface OnMultipleChoiceClickListener {
-        void onClick(ListView listview, ListFilterAdapter<IEasyItem> filterAdapter_List);
+    public interface OnCustomViewConfirmClickListener {
+        void onClick(ListView listview, ListFilterAdapter<IEasyItem> filterAdapter_List, ViewGroup viewGroup);
     }
 
     public interface OnMenuWithoutDataClickLinstener {

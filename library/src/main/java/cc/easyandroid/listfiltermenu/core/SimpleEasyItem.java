@@ -1,5 +1,6 @@
 package cc.easyandroid.listfiltermenu.core;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -7,6 +8,8 @@ import java.util.List;
  */
 public class SimpleEasyItem implements IEasyItem {
     private int childSelectPosion;
+    private boolean noLimitItem = false;
+    protected HashMap<String, String> easyParameter = new HashMap<>();
 
     @Override
     public List<? extends IEasyItem> getChildItems() {
@@ -29,12 +32,16 @@ public class SimpleEasyItem implements IEasyItem {
     }
 
     @Override
-    public String getEasyKey() {
-        return null;
+    public HashMap<String, String> getEasyParameter() {
+        return easyParameter;
     }
 
     @Override
-    public String getEasyValue() {
-        return null;
+    public boolean isNoLimitItem() {
+        return noLimitItem;
+    }
+
+    public void setNoLimitItem(boolean noLimitItem) {
+        this.noLimitItem = noLimitItem;
     }
 }

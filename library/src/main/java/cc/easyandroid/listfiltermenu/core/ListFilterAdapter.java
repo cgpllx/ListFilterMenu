@@ -82,7 +82,7 @@ public class ListFilterAdapter<T extends IEasyItem> extends BaseAdapter {
                 viewHolder.name.setSelected(false);
             }
             if (viewHolder.arrowImage != null) {
-                if (position == 0 && TextUtils.isEmpty(iEasyItem.getEasyValue())) {
+                if (position == 0 && iEasyItem.isNoLimitItem()) {
                     viewHolder.arrowImage.setVisibility(View.GONE);
                 } else {
                     viewHolder.arrowImage.setVisibility(View.VISIBLE);

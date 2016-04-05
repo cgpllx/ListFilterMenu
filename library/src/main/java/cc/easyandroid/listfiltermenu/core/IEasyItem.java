@@ -1,5 +1,6 @@
 package cc.easyandroid.listfiltermenu.core;
 
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -12,9 +13,8 @@ public interface IEasyItem {
 
     CharSequence getDisplayName();
 
-    String getEasyKey();
+    HashMap<String,String> getEasyParameter();
 
-    String getEasyValue();
-
+    boolean isNoLimitItem();
 
 }

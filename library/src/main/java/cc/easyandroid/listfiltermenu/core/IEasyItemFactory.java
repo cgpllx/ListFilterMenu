@@ -1,7 +1,8 @@
 package cc.easyandroid.listfiltermenu.core;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -13,40 +14,22 @@ public class IEasyItemFactory {
         return iEasyItem;
     }
 
-    public static IEasyItem buildOneIEasyItem(CharSequence displayName) {
-        IEasyItem iEasyItem = new BaseIEasyItem(displayName);
-        return iEasyItem;
-    }
-
-    public static IEasyItem buildOneIEasyItem(CharSequence displayName, String easyKey, String easyValue) {
+    public static IEasyItem buildOneIEasyItem(CharSequence displayName, HashMap<String, String> mapPara) {
         BaseIEasyItem iEasyItem = new BaseIEasyItem(displayName);
-        iEasyItem.setEasyKey(easyKey);
-        iEasyItem.setEasyValue(easyValue);
-        return iEasyItem;
-    }
-
-    public static IEasyItem buildTwoLevelIEasyItem(CharSequence displayName) {
-        BaseIEasyItem iEasyItem = new BaseIEasyItem(displayName);
-        IEasyItem childIEasyItem = new BaseIEasyItem(displayName);
-        List<IEasyItem> iEasyItemList = new ArrayList<>();
-        iEasyItemList.add(childIEasyItem);
-        iEasyItem.setChildItems(iEasyItemList);
+        if (mapPara != null && !mapPara.isEmpty()) {
+            Set<String> keys = mapPara.keySet();
+            for (String key : keys) {
+                HashMap<String, String> iEasyItemMap = iEasyItem.getEasyParameter();
+                iEasyItemMap.put(key, null);
+            }
+        }
         return iEasyItem;
     }
 
     public static class BaseIEasyItem implements IEasyItem {
         private CharSequence displayName;
         private List<? extends IEasyItem> childItems;
-        private String easyKey;
-        private String easyValue;
-
-        public void setEasyKey(String easyKey) {
-            this.easyKey = easyKey;
-        }
-
-        public void setEasyValue(String easyValue) {
-            this.easyValue = easyValue;
-        }
+        private final HashMap<String, String> mapPara = new HashMap<>();
 
         public void setChildItems(List<? extends IEasyItem> childItems) {
             this.childItems = childItems;
@@ -77,13 +60,13 @@ public class IEasyItemFactory {
         }
 
         @Override
-        public String getEasyKey() {
-            return easyKey;
+        public HashMap<String, String> getEasyParameter() {
+            return mapPara;
         }
 
         @Override
-        public String getEasyValue() {
-            return easyValue;
+        public boolean isNoLimitItem() {
+            return true;
         }
     }
 }
