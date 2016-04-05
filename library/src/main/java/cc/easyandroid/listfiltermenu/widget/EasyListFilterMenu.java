@@ -175,7 +175,7 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
                 public void onClick(View v) {
                     if (customViewConfirmClickListener != null) {
                         customViewConfirmClickListener.onClick(listview_1, filterAdapter_List1, filter);
-                        dismiss();
+                        //dismiss();
                         //设置title也放在这里吧
                     }
                 }
@@ -228,7 +228,7 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
                                 if (iEasyItem.isNoLimitItem()) {
                                     setMenuTitle(defultMenuText);
                                     dismiss();
-                                }else{
+                                } else {
                                     changMenuText(iEasyItem);
                                 }
                             }
@@ -344,6 +344,7 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
 
     /**
      * item click
+     *
      * @param iEasyItem
      */
     public void menuListItemClick(IEasyItem iEasyItem) {
