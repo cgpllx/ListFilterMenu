@@ -342,6 +342,10 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
         }
     }
 
+    /**
+     * item click
+     * @param iEasyItem
+     */
     public void menuListItemClick(IEasyItem iEasyItem) {
         if (menuListItemClickListener != null) {
             menuListItemClickListener.onClick(iEasyItem);
