@@ -196,7 +196,7 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
                         listview_1.clearChoices();
                         listview_1.setItemChecked(0, true);
                         filterAdapter_List1.notifyDataSetChanged();
-                        onMenuListItemClick(iEasyItem);
+                        menuListItemClick(iEasyItem);
 //                        changMenuText(iEasyItem);
                         setMenuTitle(defultMenuText);
                         dismiss();
@@ -232,7 +232,7 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
                                     changMenuText(iEasyItem);
                                 }
                             }
-                            onMenuListItemClick(iEasyItem);
+                            menuListItemClick(iEasyItem);
                         }
                         listview_1.setTag(position);
                     }
@@ -265,7 +265,7 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
                         } else {
                             changMenuText(iEasyItem);
                         }
-                        onMenuListItemClick(iEasyItem);
+                        menuListItemClick(iEasyItem);
                     }
                     listview_2.setTag(position);
                 }
@@ -277,7 +277,7 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
                 IEasyItem iEasyItem = filterAdapter_List3.getItem(position);
                 rememberPosion(filterAdapter_List3, position);
                 changMenuText(iEasyItem);
-                onMenuListItemClick(iEasyItem);
+                menuListItemClick(iEasyItem);
             }
         });
         initMenuTitleView(context, menuTitleViewResourceId);
@@ -342,7 +342,7 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
         }
     }
 
-    private void onMenuListItemClick(IEasyItem iEasyItem) {
+    public void menuListItemClick(IEasyItem iEasyItem) {
         if (menuListItemClickListener != null) {
             menuListItemClickListener.onClick(iEasyItem);
         }
