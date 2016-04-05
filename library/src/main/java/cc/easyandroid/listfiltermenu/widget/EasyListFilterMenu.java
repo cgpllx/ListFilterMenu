@@ -228,6 +228,8 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
                                 if (iEasyItem.isNoLimitItem()) {
                                     setMenuTitle(defultMenuText);
                                     dismiss();
+                                }else{
+                                    changMenuText(iEasyItem);
                                 }
                             }
                             onMenuListItemClick(iEasyItem);
