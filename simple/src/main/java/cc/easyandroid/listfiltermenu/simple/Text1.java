@@ -1,5 +1,6 @@
 package cc.easyandroid.listfiltermenu.simple;
 
+import java.util.HashMap;
 import java.util.List;
 
 import cc.easyandroid.listfiltermenu.core.IEasyItem;
@@ -57,15 +58,15 @@ public class Text1 {
 
     public static class ResultEntity implements IEasyItem {
 
-        @Override
-        public String getEasyKey() {
-            return null;
-        }
-
-        @Override
-        public String getEasyValue() {
-            return id;
-        }
+//        @Override
+//        public String getEasyKey() {
+//            return null;
+//        }
+//
+//        @Override
+//        public String getEasyValue() {
+//            return id;
+//        }
 
         private String fullPinyin;
         private String id;
@@ -136,6 +137,17 @@ public class Text1 {
         }
 
         @Override
+        public HashMap<String, String> getEasyParameter() {
+            HashMap<String, String> map=new HashMap<>();
+            return map;
+        }
+
+        @Override
+        public boolean isNoLimitItem() {
+            return false;
+        }
+
+        @Override
         public List<? extends IEasyItem> getChildItems() {
             return subregions;
         }
@@ -159,14 +171,14 @@ public class Text1 {
 
         public static class SubregionsEntity implements IEasyItem {
 
-            @Override
-            public String getEasyKey() {
-                return null;
-            }
-            @Override
-            public String getEasyValue() {
-                return id;
-            }
+//            @Override
+//            public String getEasyKey() {
+//                return null;
+//            }
+//            @Override
+//            public String getEasyValue() {
+//                return id;
+//            }
 
             private String fullPinyin;
             private String id;
@@ -217,6 +229,16 @@ public class Text1 {
             @Override
             public String getDisplayName() {
                 return name;
+            }
+
+            @Override
+            public HashMap<String, String> getEasyParameter() {
+                HashMap<String, String> map=new HashMap<>();
+                return map;
+            }
+            @Override
+            public boolean isNoLimitItem() {
+                return false;
             }
 
             List<SubregionsEntity> lists_sub_sub;

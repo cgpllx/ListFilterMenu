@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<cc.easyandroid.listfiltermenu.widget.EasyMenuContainer xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
 
@@ -16,7 +16,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="@color/q_ffffff"
-        app:menuContentLayout="@layout/pop_filter"
+        app:menuContentLayout="@layout/pop_price"
         app:menuText="区域"
         app:showUnlimiteds="list1"
         app:unlimitedText="@string/app_name" />
@@ -70,4 +70,4 @@
     <!--android:layout_weight="1"-->
     <!--android:background="#FFFFFF"-->
     <!--android:text="pop" />-->
-</LinearLayout>
+</cc.easyandroid.listfiltermenu.widget.EasyMenuContainer>

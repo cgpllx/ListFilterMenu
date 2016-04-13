@@ -40,7 +40,7 @@ public class AnimatorPopup extends PopupWindow {
                 dismiss();
             }
         });
-        ObjectAnimator animShow = ObjectAnimator.ofFloat(rootView, View.TRANSLATION_Y, height - rootViewHeight + paddingBottom - 10, 0).setDuration(200);
+        ObjectAnimator animShow = ObjectAnimator.ofFloat(rootView, View.TRANSLATION_Y, height - rootViewHeight + paddingBottom - 10, 0).setDuration(150);
         ValueAnimator colorChangeAnimator = ValueAnimator.ofInt(0);//
         colorChangeAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -50,11 +50,11 @@ public class AnimatorPopup extends PopupWindow {
                 rootView.setBackgroundColor(Color.argb(h, 0, 0, 0));
             }
         });
-        colorChangeAnimator.setDuration(200);
+        colorChangeAnimator.setDuration(150);
         AnimatorSet animSet = new AnimatorSet();
         animSet.play(colorChangeAnimator).after(animShow);
         animSet.setInterpolator(new LinearInterpolator());
-        animDismiss = ObjectAnimator.ofFloat(rootView, View.TRANSLATION_Y, 0, height - rootViewHeight + paddingBottom - 10).setDuration(200);
+        animDismiss = ObjectAnimator.ofFloat(rootView, View.TRANSLATION_Y, 0, height - rootViewHeight + paddingBottom - 10).setDuration(150);
         return animSet;
     }
 

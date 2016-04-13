@@ -3,7 +3,6 @@ package cc.easyandroid.listfiltermenu.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
@@ -146,7 +145,7 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
             filter.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
             childLayout.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
         }
-        pupupWindow = new AnimatorPopup(filter, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, true);
+        pupupWindow = new AnimatorPopup(filter, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, false);
         initPupupWindow(pupupWindow);
         filterAdapter_List1 = new ListFilterAdapter(context, list1ItemViewResourceId);
         filterAdapter_List2 = new ListFilterAdapter(context, list2ItemViewResourceId);
@@ -291,8 +290,11 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
     }
 
     private void initPupupWindow(PopupWindow pupupWindow) {
-        pupupWindow.setBackgroundDrawable(new BitmapDrawable());
-        pupupWindow.setOutsideTouchable(false);
+//        pupupWindow.setBackgroundDrawable(new BitmapDrawable());
+        pupupWindow.setOutsideTouchable(true);
+        pupupWindow.setFocusable(false);
+//        pupupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_FROM_FOCUSABLE);
+//        pupupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         pupupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
@@ -397,9 +399,19 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
         menuTitleView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                postShow();
+                menuTitleViewClick(v);
+
             }
         });
+    }
+
+    private void menuTitleViewClick(View view) {
+        if (!isShowing()) {
+            if (menuShowListener != null) {
+                menuShowListener.onMenuShowBefore(this);
+            }
+        }
+        postShow();
     }
 
     private void addList1Items(IEasyItem parentIEasyItem) {
@@ -458,7 +470,9 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
     public void addItems(boolean show, List<? extends IEasyItem> iEasyItems) {
         addList1Items(IEasyItemFactory.buildIEasyItem(iEasyItems));
         if (show && iEasyItems != null && iEasyItems.size() > 0) {
-            postShow();
+//            postShow();
+            mHandler.postDelayed(this, 200);
+            System.out.println("cgp addItems=" + System.currentTimeMillis());
         }
     }
 
@@ -531,7 +545,7 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
     }
 
     private void postShow() {
-        mHandler.post(this);
+        mHandler.postDelayed(this, 150);
     }
 
     private void showListFilter() {
@@ -551,17 +565,39 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
             mScreeningText.setSelected(true);
             menuTitleView.setSelected(true);
         }
+
     }
 
-    private void dismiss() {
+    public void dismiss() {
         if (pupupWindow != null && pupupWindow.isShowing()) {
             pupupWindow.dismiss();
         }
     }
 
+    public boolean isShowing() {
+        if (pupupWindow != null && pupupWindow.isShowing()) {
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public void run() {
-        showListFilter();
+        if (pupupWindow != null && !pupupWindow.isShowing()) {
+            showListFilter();
+        } else {
+            dismiss();
+        }
+    }
+
+    OnMenuShowListener menuShowListener;
+
+    public void setOnMenuShowListener(OnMenuShowListener menuShowListener) {
+        this.menuShowListener = menuShowListener;
+    }
+
+    public interface OnMenuShowListener {
+        void onMenuShowBefore(EasyListFilterMenu menu);
     }
 
     public void setOnMenuListItemClickListener(OnMenuListItemClickListener menuListItemClickListener) {
