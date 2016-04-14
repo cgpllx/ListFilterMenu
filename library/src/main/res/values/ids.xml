@@ -12,4 +12,5 @@
     <item name="easyListFilter_MenuContent_ChildLayout" type="id" />
 
     <item name="easyList1CustomViewConfirm" type="id" />
+    <item name="priceFrom" type="id" />
 </resources>

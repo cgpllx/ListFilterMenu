@@ -3,6 +3,7 @@ package cc.easyandroid.listfiltermenu.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
@@ -147,6 +148,29 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
         }
         pupupWindow = new AnimatorPopup(filter, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, false);
         initPupupWindow(pupupWindow);
+//       View v=null;// filter.findViewById(R.id.priceFrom);
+//        if(v!=null){
+//
+//            v.setOnTouchListener(new OnTouchListener() {
+//                @Override
+//                public boolean onTouch(View v, MotionEvent event) {
+//                    v.setFocusable(true);
+//                    if (event.getAction() == MotionEvent.ACTION_OUTSIDE) {
+//                        pupupWindow.setFocusable(false);
+////                    pupupWindow.setTouchable(false);
+//                        pupupWindow.setOutsideTouchable(false);
+//                        System.out.println("cgp===+setOnTouchListener+000");
+//                    } else {
+//                        pupupWindow.setOutsideTouchable(true);
+//                        pupupWindow.setTouchable(true);
+//                        pupupWindow.setFocusable(true);
+//                        System.out.println("cgp===+setOnTouchListener+1111");
+//                    }
+//                    pupupWindow.update();
+//                    return false;
+//                }
+//            });
+//        }
         filterAdapter_List1 = new ListFilterAdapter(context, list1ItemViewResourceId);
         filterAdapter_List2 = new ListFilterAdapter(context, list2ItemViewResourceId);
         filterAdapter_List3 = new ListFilterAdapter(context, list3ItemViewResourceId);
@@ -289,12 +313,29 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
         this.selectMode = selectMode;
     }
 
-    private void initPupupWindow(PopupWindow pupupWindow) {
-//        pupupWindow.setBackgroundDrawable(new BitmapDrawable());
-        pupupWindow.setOutsideTouchable(true);
-        pupupWindow.setFocusable(false);
-//        pupupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_FROM_FOCUSABLE);
+    private void initPupupWindow(final PopupWindow pupupWindow) {
+        pupupWindow.setBackgroundDrawable(new BitmapDrawable());
+        pupupWindow.setOutsideTouchable(false);
+
+        pupupWindow.setTouchable(true);
+//        pupupWindow.set
+//        pupupWindow.setAttachedInDecor(true);
+        pupupWindow.setFocusable(true);
+//        pupupWindow.setContentView();
+//        pupupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
 //        pupupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+//        pupupWindow.sett
+//        pupupWindow.setTouchInterceptor(new OnTouchListener() {
+//
+//            public boolean onTouch(View v, MotionEvent event) {
+//                System.out.println("cgp= onTouch==" + v);
+//                if (event.getAction() == MotionEvent.ACTION_OUTSIDE) {
+//
+//                }
+////                pupupWindow.setFocusable(false);
+//                return v.onTouchEvent(event);
+//            }
+//        });
         pupupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
@@ -545,7 +586,7 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
     }
 
     private void postShow() {
-        mHandler.postDelayed(this, 150);
+        mHandler.postDelayed(this, 200);
     }
 
     private void showListFilter() {
