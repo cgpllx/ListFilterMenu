@@ -1,6 +1,7 @@
 package cc.easyandroid.listfiltermenu.widget;
 
 import android.content.Context;
+import android.support.v4.app.FragmentManager;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import cc.easyandroid.listfiltermenu.core.EasyMenuManager;
  */
 public class EasyMenuContainer extends LinearLayout {
     EasyMenuManager easyMenuManager;
+    FragmentManager fragmentManager;
 
     public EasyMenuContainer(Context context) {
         super(context);

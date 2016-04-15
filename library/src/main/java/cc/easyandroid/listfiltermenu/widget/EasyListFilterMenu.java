@@ -3,7 +3,6 @@ package cc.easyandroid.listfiltermenu.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
@@ -314,9 +313,10 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
     }
 
     private void initPupupWindow(final PopupWindow pupupWindow) {
-        pupupWindow.setBackgroundDrawable(new BitmapDrawable());
-        pupupWindow.setOutsideTouchable(false);
-
+//        pupupWindow.setBackgroundDrawable(new BitmapDrawable());
+//        pupupWindow. setBackgroundDrawable(new ColorDrawable(Color.argb(255, 255, 0, 0)));
+        pupupWindow.setOutsideTouchable(true);
+//        pupupWindow.r
         pupupWindow.setTouchable(true);
 //        pupupWindow.set
 //        pupupWindow.setAttachedInDecor(true);
@@ -512,7 +512,7 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
         addList1Items(IEasyItemFactory.buildIEasyItem(iEasyItems));
         if (show && iEasyItems != null && iEasyItems.size() > 0) {
 //            postShow();
-            mHandler.postDelayed(this, 200);
+            mHandler.postDelayed(this, 1);
             System.out.println("cgp addItems=" + System.currentTimeMillis());
         }
     }
@@ -586,7 +586,7 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
     }
 
     private void postShow() {
-        mHandler.postDelayed(this, 200);
+        mHandler.postDelayed(this, 1);
     }
 
     private void showListFilter() {
