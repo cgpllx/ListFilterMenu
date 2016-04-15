@@ -33,7 +33,7 @@ public class EasyMenuContainer extends LinearLayout {
     }
 
     private void init() {
-        easyMenuManager = new EasyMenuManager();
+        easyMenuManager = new EasyMenuManager(null);
     }
 
     @Override

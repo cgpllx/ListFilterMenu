@@ -105,7 +105,7 @@ public class AnimatorPopup extends PopupWindow {
         TranslateAnimation an = new TranslateAnimation(type, 0, type, 0, type,
                 -1, type, 0);
         an.setDuration(200);
-        an.setStartOffset(100);
+//        an.setStartOffset(100);
         an.setFillAfter(true);
 
         return an;
