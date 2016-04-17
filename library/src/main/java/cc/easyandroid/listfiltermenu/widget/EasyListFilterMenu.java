@@ -5,14 +5,18 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.SparseArray;
 import android.util.SparseBooleanArray;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -20,6 +24,8 @@ import android.widget.TextView;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import cc.easyandroid.listfiltermenu.R;
 import cc.easyandroid.listfiltermenu.core.AnimatorPopup;
@@ -34,7 +40,7 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
     protected PopupWindow pupupWindow;
     private int xoff = 0;
     private int yoff = 0;
-    private final Handler mHandler;
+    //    private final Handler mHandler;
     private ListFilterAdapter<IEasyItem> filterAdapter_List1;
     private ListFilterAdapter<IEasyItem> filterAdapter_List2;
     private ListFilterAdapter<IEasyItem> filterAdapter_List3;
@@ -81,7 +87,7 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
 
     public EasyListFilterMenu(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        mHandler = new Handler(context.getMainLooper());
+//        mHandler = new Handler(context.getMainLooper());
         init(context, attrs, defStyle);
     }
 
@@ -145,31 +151,34 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
             filter.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
             childLayout.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
         }
+        final EditText editText = (EditText) filter.findViewById(R.id.priceFrom);
+
         pupupWindow = new AnimatorPopup(filter, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, false);
         initPupupWindow(pupupWindow);
-//       View v=null;// filter.findViewById(R.id.priceFrom);
-//        if(v!=null){
-//
-//            v.setOnTouchListener(new OnTouchListener() {
+        if (editText != null) {
+            editText.setOnTouchListener(new OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+//                    editText.setFocusable(true);
+//                    editText.findFocus();
+//                    pupupWindow.seto
+                    pupupWindow.setFocusable(true);
+                    return false;
+                }
+            });
+//            editText.setOnFocusChangeListener(new OnFocusChangeListener() {
 //                @Override
-//                public boolean onTouch(View v, MotionEvent event) {
-//                    v.setFocusable(true);
-//                    if (event.getAction() == MotionEvent.ACTION_OUTSIDE) {
-//                        pupupWindow.setFocusable(false);
-////                    pupupWindow.setTouchable(false);
-//                        pupupWindow.setOutsideTouchable(false);
-//                        System.out.println("cgp===+setOnTouchListener+000");
-//                    } else {
-//                        pupupWindow.setOutsideTouchable(true);
-//                        pupupWindow.setTouchable(true);
-//                        pupupWindow.setFocusable(true);
-//                        System.out.println("cgp===+setOnTouchListener+1111");
-//                    }
-//                    pupupWindow.update();
-//                    return false;
+//                public void onFocusChange(View v, boolean hasFocus) {
+////                    if (hasFocus) {
+////                        openKeyboard();
+////                    }else{
+////                        closeKeyBoard();
+////                    }
+//                    setFocusableInTouchMode(true);
+//                    setFocusable(true);
 //                }
 //            });
-//        }
+        }
         filterAdapter_List1 = new ListFilterAdapter(context, list1ItemViewResourceId);
         filterAdapter_List2 = new ListFilterAdapter(context, list2ItemViewResourceId);
         filterAdapter_List3 = new ListFilterAdapter(context, list3ItemViewResourceId);
@@ -301,8 +310,41 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
         initMenuTitleView(context, menuTitleViewResourceId);
         setMenuTitle(defultMenuText);
         buildDefaultMultiMenuTitleFormat();
+        setOnKeyListener(new OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    if (isShowing()) {
+                        dismiss();
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
     }
 
+    /**
+     * 打开软键盘
+     */
+    private void openKeyboard() {
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+
+            }
+        }, 10);
+    }
+
+    public void closeKeyBoard() {
+        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm.isActive()) {
+            imm.hideSoftInputFromWindow(getWindowToken(), 0);
+        }
+    }
 
     public int getSelectMode() {
         return selectMode;
@@ -312,18 +354,21 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
         this.selectMode = selectMode;
     }
 
+
     private void initPupupWindow(final PopupWindow pupupWindow) {
-//        pupupWindow.setBackgroundDrawable(new BitmapDrawable());
-//        pupupWindow. setBackgroundDrawable(new ColorDrawable(Color.argb(255, 255, 0, 0)));
-        pupupWindow.setOutsideTouchable(true);
-//        pupupWindow.r
-        pupupWindow.setTouchable(true);
-//        pupupWindow.set
-//        pupupWindow.setAttachedInDecor(true);
+        pupupWindow.setBackgroundDrawable(new ColorDrawable(Color.argb(0, 0, 0, 0)));
+        pupupWindow.setOutsideTouchable(false);
+//        pupupWindow.setTouchable(true);
         pupupWindow.setFocusable(true);
-//        pupupWindow.setContentView();
-//        pupupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
-//        pupupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+//        pupupWindow.getContentView().getRootView().setOnKeyListener(new OnKeyListener() {
+//            @Override
+//            public boolean onKey(View v, int keyCode, KeyEvent event) {
+//                System.out.println("onKey  1=" + keyCode);
+//                return false;
+//            }
+//        });
+        pupupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
+        pupupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_IS_FORWARD_NAVIGATION);
 //        pupupWindow.sett
 //        pupupWindow.setTouchInterceptor(new OnTouchListener() {
 //
@@ -341,6 +386,9 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
             public void onDismiss() {
                 mScreeningText.setSelected(false);
                 menuTitleView.setSelected(false);
+                setFocusableInTouchMode(false);
+                setFocusable(false);
+                closeKeyBoard();
             }
         });
     }
@@ -452,6 +500,7 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
                 menuShowListener.onMenuShowBefore(this);
             }
         }
+//        System.out.p
         postShow();
     }
 
@@ -511,9 +560,9 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
     public void addItems(boolean show, List<? extends IEasyItem> iEasyItems) {
         addList1Items(IEasyItemFactory.buildIEasyItem(iEasyItems));
         if (show && iEasyItems != null && iEasyItems.size() > 0) {
-//            postShow();
-            mHandler.postDelayed(this, 1);
-            System.out.println("cgp addItems=" + System.currentTimeMillis());
+            postShow();
+//            mHandler.postDelayed(this, 200);
+//            System.out.println("cgp addItems=" + System.currentTimeMillis());
         }
     }
 
@@ -586,7 +635,7 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
     }
 
     private void postShow() {
-        mHandler.postDelayed(this, 1);
+        postDelayed(this, 150);
     }
 
     private void showListFilter() {
@@ -605,6 +654,8 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
             }
             mScreeningText.setSelected(true);
             menuTitleView.setSelected(true);
+            setFocusableInTouchMode(true);
+//            setFocusable(true);
         }
 
     }
@@ -675,4 +726,18 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
     public interface OnMenuWithoutDataClickLinstener {
         void withoutData(EasyListFilterMenu menu);
     }
+//    @Override
+//    public boolean dispatchKeyEvent(KeyEvent event) {
+//        System.out.println("onKey  1=" + event);
+//        switch (event.getKeyCode()) {
+//            case KeyEvent.KEYCODE_BACK:
+//            case KeyEvent.KEYCODE_MENU:
+//                // 处理自己的逻辑break;
+//
+//            default:
+//                break;
+//        }
+//        return super.dispatchKeyEvent(event);
+//    }
+
 }

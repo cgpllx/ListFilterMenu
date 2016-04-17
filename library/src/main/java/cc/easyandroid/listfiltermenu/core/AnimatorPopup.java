@@ -6,6 +6,7 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
@@ -15,110 +16,99 @@ import android.widget.PopupWindow;
 
 public class AnimatorPopup extends PopupWindow {
     private Animator animator_Show;
-    private ObjectAnimator animator_Dismiss;
-
-//    public AnimatorPopup(Context context, AttributeSet attrs, int defStyleAttr) {
-//        super(context, attrs, defStyleAttr);
-//    }
+    private Animator animator_Dismiss;
 
     public AnimatorPopup(View contentView, int width, int height, boolean focusable) {
         super(contentView, width, height, focusable);
-        setBackgroundDrawable(new ColorDrawable());
-//        setAnimationStyle(R.style.mypopwindow_anim_style);
-//        setWindowLayoutType(WindowManager.LayoutParams.TYPE_ACCESSIBILITY_OVERLAY);
-//        setEnterTransition(null);
-//        set
-//        set
-//        getContentView().getContext().get
+        setAnimationStyle(0);
+        creatAnimator(contentView);
     }
+
 
     public void showAsDropDown(View anchor, int xoff, int yoff) {
         super.showAsDropDown(anchor, xoff, yoff);
-        if (animator_Show == null) {
-            animator_Show = creatAnimator(anchor, xoff, yoff);
+         getContentView().getRootView().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                System.out.println("onKey  1=" + keyCode);
+                return false;
+            }
+        });
+        if (animator_Show != null) {
+            animator_Show.addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+                    if (animator_Dismiss != null) {
+                        animator_Dismiss.cancel();
+                    }
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+//                    AnimatorPopup.super.dismiss();
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+//                    AnimatorPopup.super.dismiss();
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+//                    AnimatorPopup.super.dismiss();
+                }
+            });
+            animator_Show.start();
         }
-        getContentView().startAnimation(createTranslationInAnimation());
-//        animator_Show.start();
     }
 
-    private Animator creatAnimator(View anchor, int xoff, int yoff) {
-        int height = anchor.getMeasuredHeight();
+    private void creatAnimator(View contentView) {
         int[] location = new int[2];
-        int screenHeight = getContentView().getResources().getDisplayMetrics().heightPixels;
-        int rootViewHeight = screenHeight - location[1] - height;
-        int paddingBottom = getContentView().getPaddingBottom();
-        View rootView = getContentView();
-        rootView.setOnClickListener(new View.OnClickListener() {
+        int screenHeight = contentView.getResources().getDisplayMetrics().heightPixels;
+        int rootViewHeight = screenHeight - location[1];
+        int paddingBottom = contentView.getPaddingBottom();
+        contentView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();
             }
         });
-        animator_Show = createShowAnimator(rootView, height - rootViewHeight + paddingBottom - 20);
-        animator_Dismiss = createDismissAnimator(rootView, height - rootViewHeight + paddingBottom - 20);
+        animator_Show = createShowAnimator(contentView, -rootViewHeight + paddingBottom - 5);
+        animator_Dismiss = createDismissAnimator(contentView, -rootViewHeight + paddingBottom - 5);
 
-        return animator_Show;
     }
 
-    private Animator createShowAnimator(View together, int translationValue) {
-        int duration = getContentView().getResources().getInteger(android.R.integer.config_shortAnimTime);
-        ObjectAnimator animShow = ObjectAnimator.ofFloat(getContentView(), View.TRANSLATION_Y, translationValue, 0, 0).setDuration(1000);
-//        animShow.
-//        ObjectAnimator animShow = ObjectAnimator.ofFloat(getContentView().getRootView(), View.TRANSLATION_Y, -getContentView().getResources().getDisplayMetrics().heightPixels, 0,0).setDuration(500);
-//        ObjectAnimator animShow = getContentView().getRootView().animate().translationY(translationValue);
-        ValueAnimator animator_color = ValueAnimator.ofInt(0).setDuration(duration);
-        animator_color.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float animatedFraction = animation.getAnimatedFraction();
-                int h = (int) (77 * animatedFraction);
-                getContentView().getRootView().setBackgroundColor(Color.argb(h, 0, 0, 0));
-            }
-        });
-//        animator_color.setStartDelay();
-        AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.play(animator_color).after(animShow);
-        animatorSet.setInterpolator(new LinearInterpolator());
-        return animatorSet;
-    }
-
-
-    private ObjectAnimator createDismissAnimator(View together, int translationValue) {
+    private Animator createShowAnimator(final View together, int translationValue) {
         int duration = together.getResources().getInteger(android.R.integer.config_shortAnimTime);
-        ObjectAnimator animShow = ObjectAnimator.ofFloat(getContentView(), View.TRANSLATION_Y, 0, translationValue).setDuration(duration);
+        ObjectAnimator animShow = ObjectAnimator.ofFloat(getContentView(), View.TRANSLATION_Y, translationValue, 0, 0).setDuration(duration);
         animShow.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 float animatedFraction = animation.getAnimatedFraction();
-                int h = (int) (77 - 77 * animatedFraction);
-//                getContentView().getRootView().setBackgroundColor(Color.argb(h, 0, 0, 0));
+                int h = (int) (100 * animatedFraction);
+                together.getRootView().setBackgroundColor(Color.argb(h, 0, 0, 0));
             }
         });
         animShow.setInterpolator(new LinearInterpolator());
         return animShow;
     }
 
-    private Animation createTranslationInAnimation() {
-        int type = Animation.RELATIVE_TO_SELF;
-//        TranslateAnimation(int fromXType, float fromXValue, int toXType, float toXValue,
-//        int fromYType, float fromYValue, int toYType, float toYValue)
-        TranslateAnimation an = new TranslateAnimation(type, 0, type, 0, type,
-                -1, type, 0);
-        an.setDuration(200);
-//        an.setStartOffset(100);
-        an.setFillAfter(true);
 
-        return an;
+    private ObjectAnimator createDismissAnimator(View together, int translationValue) {
+        int duration = together.getResources().getInteger(android.R.integer.config_shortAnimTime);
+        ObjectAnimator animShow = ObjectAnimator.ofFloat(getContentView(), View.TRANSLATION_Y, 0, translationValue).setDuration(150);
+        animShow.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float animatedFraction = animation.getAnimatedFraction();
+                int h = (int) (100 - 100 * animatedFraction);
+                getContentView().getRootView().setBackgroundColor(Color.argb(h, 0, 0, 0));
+            }
+        });
+        animShow.setInterpolator(new LinearInterpolator());
+        return animShow;
     }
 
-    private Animation createTranslationOutAnimation() {
-        int type = Animation.RELATIVE_TO_SELF;
-        TranslateAnimation an = new TranslateAnimation(type, 0, type, 0, type,
-                0, type, -1);
-        an.setDuration(200);
-        an.setFillAfter(true);
-        return an;
-    }
 
     /**
      * 这里是重点：两次调用dismiss，如果直接使用super方法是没有办法显示动画的，
@@ -127,55 +117,33 @@ public class AnimatorPopup extends PopupWindow {
      */
     @Override
     public void dismiss() {
-        Animation animation= createTranslationOutAnimation();
-        animation.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
 
+        if (animator_Dismiss == null || animator_Dismiss.isRunning()) {
+            return;
+        }
+        animator_Dismiss.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                if (animator_Show != null && animator_Show.isRunning()) {
+                    animator_Show.cancel();
+                }
             }
 
             @Override
-            public void onAnimationEnd(Animation animation) {
+            public void onAnimationEnd(Animator animation) {
                 AnimatorPopup.super.dismiss();
             }
 
             @Override
-            public void onAnimationRepeat(Animation animation) {
-
+            public void onAnimationCancel(Animator animation) {
+                AnimatorPopup.super.dismiss();
             }
 
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+                AnimatorPopup.super.dismiss();
+            }
         });
-//        animation.li
-        getContentView().startAnimation(animation);
-//        getContentView().setlis
-
-//        if (animator_Dismiss == null) {
-//            return;
-//        }
-//        animator_Dismiss.addListener(new Animator.AnimatorListener() {
-//            @Override
-//            public void onAnimationStart(Animator animation) {
-//                if (animator_Show != null && animator_Show.isRunning()) {
-//                    animator_Show.cancel();
-//                }
-//                getContentView().getRootView().setBackgroundColor(Color.argb(0, 0, 0, 0));
-//            }
-//
-//            @Override
-//            public void onAnimationEnd(Animator animation) {
-//                AnimatorPopup.super.dismiss();
-//            }
-//
-//            @Override
-//            public void onAnimationCancel(Animator animation) {
-//                AnimatorPopup.super.dismiss();
-//            }
-//
-//            @Override
-//            public void onAnimationRepeat(Animator animation) {
-//                AnimatorPopup.super.dismiss();
-//            }
-//        });
-//        animator_Dismiss.start();
+        animator_Dismiss.start();
     }
 }

@@ -15,11 +15,13 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        app:menuContentLayout="@layout/menu_content_layout1"
         android:background="@color/q_ffffff"
-        app:menuContentLayout="@layout/pop_price"
         app:menuText="区域"
         app:showUnlimiteds="list1"
+
         app:unlimitedText="@string/app_name" />
+    <!--app:menuContentLayout="@layout/pop_price"-->
     <!--app:menuBetweenListDivider="@drawable/dividerdrawableline"-->
     <!--app:menuNormalBackground="#000000"-->
     <!--app:menuListItemTextColor="#FF0000"-->

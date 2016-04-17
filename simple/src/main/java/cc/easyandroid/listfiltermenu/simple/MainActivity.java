@@ -68,4 +68,10 @@ public class MainActivity extends AppCompatActivity {
         //IEasyItemFactory.buildIEasyItem(lists);
         return lists;
     }
+
+    @Override
+    protected void onDestroy() {
+//        easyListFilterMenu.dismiss();
+        super.onDestroy();
+    }
 }

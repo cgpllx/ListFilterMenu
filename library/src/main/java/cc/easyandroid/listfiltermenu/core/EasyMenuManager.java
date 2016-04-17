@@ -1,6 +1,5 @@
 package cc.easyandroid.listfiltermenu.core;
 
-import android.support.v4.app.FragmentManager;
 
 import java.util.ArrayList;
 
@@ -8,12 +7,10 @@ import cc.easyandroid.listfiltermenu.widget.EasyListFilterMenu;
 
 public class EasyMenuManager implements EasyListFilterMenu.OnMenuShowListener {
 
-    public EasyMenuManager(FragmentManager fragmentManager) {
+    public EasyMenuManager() {
         menus = new ArrayList<>();
-        this.fragmentManager=fragmentManager;
     }
 
-    FragmentManager fragmentManager;
 
     ArrayList<EasyListFilterMenu> menus;
 
