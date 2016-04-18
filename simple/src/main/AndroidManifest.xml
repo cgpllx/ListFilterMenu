@@ -9,6 +9,7 @@
         android:supportsRtl="true">
         <activity
             android:name=".MainActivity"
+            android:windowSoftInputMode="adjustUnspecified"
             android:configChanges="orientation|keyboardHidden|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -24,8 +24,6 @@ import android.widget.TextView;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import cc.easyandroid.listfiltermenu.R;
 import cc.easyandroid.listfiltermenu.core.AnimatorPopup;
@@ -40,7 +38,6 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
     protected PopupWindow pupupWindow;
     private int xoff = 0;
     private int yoff = 0;
-    //    private final Handler mHandler;
     private ListFilterAdapter<IEasyItem> filterAdapter_List1;
     private ListFilterAdapter<IEasyItem> filterAdapter_List2;
     private ListFilterAdapter<IEasyItem> filterAdapter_List3;
@@ -87,7 +84,6 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
 
     public EasyListFilterMenu(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-//        mHandler = new Handler(context.getMainLooper());
         init(context, attrs, defStyle);
     }
 
@@ -159,29 +155,15 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
             editText.setOnTouchListener(new OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-//                    editText.setFocusable(true);
-//                    editText.findFocus();
-//                    pupupWindow.seto
                     pupupWindow.setFocusable(true);
                     return false;
                 }
             });
-//            editText.setOnFocusChangeListener(new OnFocusChangeListener() {
-//                @Override
-//                public void onFocusChange(View v, boolean hasFocus) {
-////                    if (hasFocus) {
-////                        openKeyboard();
-////                    }else{
-////                        closeKeyBoard();
-////                    }
-//                    setFocusableInTouchMode(true);
-//                    setFocusable(true);
-//                }
-//            });
         }
         filterAdapter_List1 = new ListFilterAdapter(context, list1ItemViewResourceId);
         filterAdapter_List2 = new ListFilterAdapter(context, list2ItemViewResourceId);
         filterAdapter_List3 = new ListFilterAdapter(context, list3ItemViewResourceId);
+
         //listview--1
         final ListView listview_1 = (ListView) filter.findViewById(R.id.easyListFilter_MenuContent_List_1);
         initListView(listview_1, filterAdapter_List1);
@@ -190,14 +172,18 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
         listview_1.setDivider(list1Divider);
         //listview--2
         final ListView listview_2 = (ListView) filter.findViewById(R.id.easyListFilter_MenuContent_List_2);
-        initListView(listview_2, filterAdapter_List2);
-        listview_2.setVisibility(View.GONE);
-        listview_2.setDivider(list2Divider);
+        if (listview_2 != null) {
+            initListView(listview_2, filterAdapter_List2);
+            listview_2.setVisibility(View.GONE);
+            listview_2.setDivider(list2Divider);
+        }
         //listview--3
         final ListView listview_3 = (ListView) filter.findViewById(R.id.easyListFilter_MenuContent_List_3);
-        initListView(listview_3, filterAdapter_List3);
-        listview_3.setVisibility(View.GONE);
-        listview_3.setDivider(list3Divider);
+        if (listview_3 != null) {
+            initListView(listview_3, filterAdapter_List3);
+            listview_3.setVisibility(View.GONE);
+            listview_3.setDivider(list3Divider);
+        }
 
         View easyList1MultipleConfirm = filter.findViewById(R.id.easyList1CustomViewConfirm);//多选择时候的确定按钮的id
         if (easyList1MultipleConfirm != null) {
@@ -206,12 +192,11 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
                 public void onClick(View v) {
                     if (customViewConfirmClickListener != null) {
                         customViewConfirmClickListener.onClick(listview_1, filterAdapter_List1, filter);
-                        //设置title也放在这里吧
+                        //title 的设置请在回调中设置
                     }
                 }
             });
         }
-
         listview_1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -266,47 +251,51 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
                 }
             }
         });
-        listview_2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                boolean nextListIsVisible = listview_3.getVisibility() == View.VISIBLE;
-                if (!clickPositionIsChanged(listview_2, position) && nextListIsVisible) {//下一个listview 是显示的，且当前点击的位置是上次记住的位置
-                    return;
-                }
-                IEasyItem iEasyItem = filterAdapter_List2.getItem(position);
-                rememberPosion(filterAdapter_List2, position);
-                if (iEasyItem != null) {
-                    List<? extends IEasyItem> rightItems = iEasyItem.getChildItems();
-                    if (rightItems != null && rightItems.size() > 0) {
-                        currentMenuText = iEasyItem.getDisplayName();
-                        addList3Items(iEasyItem);
-                        showView(listview_3);
-                        //listview_3.setItemChecked(iEasyItem.getChildSelectPosion(), true);
-                        if (selectMode == SelectMode.MULTI && iEasyItem.isNoLimitItem()) {
-                            multiTitles.clear();
-                        }
-                    } else {
-                        hideView(listview_3);
-                        if (selectMode == SelectMode.MULTI) {
-                            changMultiMenuText(iEasyItem, filterAdapter_List2);
-                        } else {
-                            changMenuText(iEasyItem);
-                        }
-                        menuListItemClick(iEasyItem);
+        if (listview_2 != null) {
+            listview_2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    boolean nextListIsVisible = listview_3.getVisibility() == View.VISIBLE;
+                    if (!clickPositionIsChanged(listview_2, position) && nextListIsVisible) {//下一个listview 是显示的，且当前点击的位置是上次记住的位置
+                        return;
                     }
-                    listview_2.setTag(position);
+                    IEasyItem iEasyItem = filterAdapter_List2.getItem(position);
+                    rememberPosion(filterAdapter_List2, position);
+                    if (iEasyItem != null) {
+                        List<? extends IEasyItem> rightItems = iEasyItem.getChildItems();
+                        if (rightItems != null && rightItems.size() > 0) {
+                            currentMenuText = iEasyItem.getDisplayName();
+                            addList3Items(iEasyItem);
+                            showView(listview_3);
+                            //listview_3.setItemChecked(iEasyItem.getChildSelectPosion(), true);
+                            if (selectMode == SelectMode.MULTI && iEasyItem.isNoLimitItem()) {
+                                multiTitles.clear();
+                            }
+                        } else {
+                            hideView(listview_3);
+                            if (selectMode == SelectMode.MULTI) {
+                                changMultiMenuText(iEasyItem, filterAdapter_List2);
+                            } else {
+                                changMenuText(iEasyItem);
+                            }
+                            menuListItemClick(iEasyItem);
+                        }
+                        listview_2.setTag(position);
+                    }
                 }
-            }
-        });
-        listview_3.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                IEasyItem iEasyItem = filterAdapter_List3.getItem(position);
-                rememberPosion(filterAdapter_List3, position);
-                changMenuText(iEasyItem);
-                menuListItemClick(iEasyItem);
-            }
-        });
+            });
+        }
+        if (listview_3 != null) {
+            listview_3.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    IEasyItem iEasyItem = filterAdapter_List3.getItem(position);
+                    rememberPosion(filterAdapter_List3, position);
+                    changMenuText(iEasyItem);
+                    menuListItemClick(iEasyItem);
+                }
+            });
+        }
         initMenuTitleView(context, menuTitleViewResourceId);
         setMenuTitle(defultMenuText);
         buildDefaultMultiMenuTitleFormat();
@@ -328,18 +317,11 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
      * 打开软键盘
      */
     private void openKeyboard() {
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-
-            }
-        }, 10);
+        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
-    public void closeKeyBoard() {
+    private void closeKeyBoard() {
         InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm.isActive()) {
             imm.hideSoftInputFromWindow(getWindowToken(), 0);
@@ -403,11 +385,11 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
         return unlimitedTermDisplayName;
     }
 
-    public int getmShowUnlimiteds() {
+    public int getShowUnlimiteds() {
         return mShowUnlimiteds;
     }
 
-    public void setmShowUnlimiteds(int mShowUnlimiteds) {
+    public void setShowUnlimiteds(int mShowUnlimiteds) {
         this.mShowUnlimiteds = mShowUnlimiteds;
     }
 
@@ -500,7 +482,6 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
                 menuShowListener.onMenuShowBefore(this);
             }
         }
-//        System.out.p
         postShow();
     }
 
@@ -561,8 +542,6 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
         addList1Items(IEasyItemFactory.buildIEasyItem(iEasyItems));
         if (show && iEasyItems != null && iEasyItems.size() > 0) {
             postShow();
-//            mHandler.postDelayed(this, 200);
-//            System.out.println("cgp addItems=" + System.currentTimeMillis());
         }
     }
 
@@ -585,9 +564,6 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
     }
 
     private void changMultiMenuText(IEasyItem iEasyItem, ListFilterAdapter<IEasyItem> adapter) {
-//        dismiss();
-//        HashMap<String, String> easyParameter = iEasyItem.getEasyParameter();
-//        Collection<String> c = easyParameter.values();
 
         if (!iEasyItem.isNoLimitItem()) {
             multiTitles.put(adapter.getParentIEasyItem().hashCode(), iEasyItem.getDisplayName());
@@ -635,7 +611,7 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
     }
 
     private void postShow() {
-        postDelayed(this, 150);
+        postDelayed(this, 1);
     }
 
     private void showListFilter() {
@@ -726,18 +702,4 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
     public interface OnMenuWithoutDataClickLinstener {
         void withoutData(EasyListFilterMenu menu);
     }
-//    @Override
-//    public boolean dispatchKeyEvent(KeyEvent event) {
-//        System.out.println("onKey  1=" + event);
-//        switch (event.getKeyCode()) {
-//            case KeyEvent.KEYCODE_BACK:
-//            case KeyEvent.KEYCODE_MENU:
-//                // 处理自己的逻辑break;
-//
-//            default:
-//                break;
-//        }
-//        return super.dispatchKeyEvent(event);
-//    }
-
 }
