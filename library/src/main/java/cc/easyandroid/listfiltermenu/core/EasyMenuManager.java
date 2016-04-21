@@ -17,7 +17,6 @@ public class EasyMenuManager implements EasyListFilterMenu.OnMenuShowListener {
     public void addMenu(EasyListFilterMenu menu) {
         menus.add(menu);
         menu.setOnMenuShowListener(this);
-//        fragmentManager.beginTransaction().
     }
 
     @Override
