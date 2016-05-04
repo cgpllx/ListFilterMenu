@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         easyListFilterMenu.setOnMenuListItemClickListener(new EasyListFilterMenu.OnMenuListItemClickListener() {
             @Override
             public void onClick(IEasyItem iEasyItem) {
+//                easyListFilterMenu.set
 //                Toast.makeText(getApplicationContext(), iEasyItem.getDisplayName(), Toast.LENGTH_SHORT).show();
             }
         });

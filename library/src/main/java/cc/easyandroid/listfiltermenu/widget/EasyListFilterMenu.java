@@ -68,6 +68,8 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
 
     private int mShowUnlimiteds;//哪几个list 显示
 
+    private boolean highlightMenu;
+
 
     public interface SelectMode {
         int SINGLE = 0;
@@ -366,6 +368,11 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
         pupupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
+                if (!defultMenuText.equals(mScreeningText.getText())) {
+                    mScreeningText.setEnabled(true);
+                } else {
+                    mScreeningText.setEnabled(false);
+                }
                 mScreeningText.setSelected(false);
                 menuTitleView.setSelected(false);
                 setFocusableInTouchMode(false);
@@ -417,10 +424,10 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
      * @param iEasyItem
      */
     public void menuListItemClick(IEasyItem iEasyItem) {
-        dismiss();//item 被点击后dismiss pop
         if (menuListItemClickListener != null) {
             menuListItemClickListener.onClick(iEasyItem);
         }
+        dismiss();//item 被点击后dismiss pop 最后销毁，
     }
 
     /**
@@ -467,6 +474,7 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
     private void initMenuTitleView(Context context, int menuTitleViewResourceId) {
         menuTitleView = View.inflate(context, menuTitleViewResourceId, this);
         mScreeningText = (TextView) menuTitleView.findViewById(R.id.easyListFilter_MenuTitleDisplayName);
+        mScreeningText.setEnabled(false);
         menuTitleView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

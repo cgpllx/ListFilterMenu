@@ -15,8 +15,8 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        app:menuContentLayout="@layout/menu_content_layout1"
         android:background="@color/q_ffffff"
+        app:menuContentLayout="@layout/menu_content_layout1"
         app:menuText="区域"
         app:showUnlimiteds="list1"
 
@@ -36,7 +36,7 @@
         android:background="@color/q_ffffff"
         app:menuContentLayout="@layout/menu_content_layout"
         app:menuText="售价"
-        app:showUnlimiteds="list2"
+        app:showUnlimiteds="list1"
         app:unlimitedText="@string/app_name" />
 
     <cc.easyandroid.listfiltermenu.widget.EasyListFilterMenu
@@ -45,7 +45,8 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="@color/q_ffffff"
-        app:menuText="间隔" />
+        app:menuText="间隔"
+        app:unlimitedText="@string/app_name" />
 
     <cc.easyandroid.listfiltermenu.widget.EasyListFilterMenu
         android:id="@+id/easyListFilterMenu4"
