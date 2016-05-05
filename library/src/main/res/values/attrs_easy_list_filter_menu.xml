@@ -34,8 +34,6 @@
         <attr name="menuListPupupYoff" format="reference|dimension" />
 
         <attr name="menuList1HeaderView" format="reference|dimension" />
-        <attr name="menuHighlight" format="boolean" />
-
 
     </declare-styleable>
     <!--引用系统样式 -->

@@ -68,9 +68,6 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
 
     private int mShowUnlimiteds;//哪几个list 显示
 
-    private boolean highlightMenu;
-
-
     public interface SelectMode {
         int SINGLE = 0;
         int MULTI = 1;
@@ -378,6 +375,9 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
                 setFocusableInTouchMode(false);
                 setFocusable(false);
                 closeKeyBoard();
+                if(dismissListener!=null){
+                    dismissListener.onDismiss();
+                }
             }
         });
     }
@@ -709,5 +709,15 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
 
     public interface OnMenuWithoutDataClickLinstener {
         void withoutData(EasyListFilterMenu menu);
+    }
+
+    public void setOnDismissListener(OnDismissListener dismissListener) {
+        this.dismissListener = dismissListener;
+    }
+
+    private OnDismissListener dismissListener;
+
+    public interface OnDismissListener {
+        public void onDismiss();
     }
 }
