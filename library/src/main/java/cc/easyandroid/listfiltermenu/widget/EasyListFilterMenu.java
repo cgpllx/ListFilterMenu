@@ -31,7 +31,20 @@ import cc.easyandroid.listfiltermenu.core.IEasyItem;
 import cc.easyandroid.listfiltermenu.core.IEasyItemFactory;
 import cc.easyandroid.listfiltermenu.core.ListFilterAdapter;
 
-
+/**
+ * 下拉筛选控件
+ * 1.点击menu 显示listview1,
+ * 2.点击listview1 的item 有两种情况
+ * 1。当children 没有的时候，直接回调menuListItemClick
+ * 2。有的时候，显示listview2,
+ * 3.点击listview2 的item 有两种情况
+ * 1。当children 没有的时候，直接回调menuListItemClick
+ * 2。有的时候，显示listview3,
+ * 4.点击listview3 的item 直接回调menuListItemClick
+ * <p/>
+ * 1 multi状态是在适配器中实现的，判断子类是否被选择，
+ * 2
+ */
 public class EasyListFilterMenu extends LinearLayout implements Runnable {
     private CharSequence defultMenuText = "defultMenuText";
     private CharSequence currentMenuText;
@@ -41,6 +54,10 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
     private ListFilterAdapter<IEasyItem> filterAdapter_List1;
     private ListFilterAdapter<IEasyItem> filterAdapter_List2;
     private ListFilterAdapter<IEasyItem> filterAdapter_List3;
+
+    ListView mListView1;
+    ListView mListView2;
+    ListView mListView3;
 
     private OnMenuListItemClickListener menuListItemClickListener;
     private OnMenuWithoutDataClickLinstener menuWithoutDataClickLinstener;
@@ -165,6 +182,7 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
 
         //listview--1
         final ListView listview_1 = (ListView) filter.findViewById(R.id.easyListFilter_MenuContent_List_1);
+        mListView1 = listview_1;
         initListView(listview_1, filterAdapter_List1);
         listview_1.setVisibility(View.VISIBLE);
         listview_1.setItemChecked(0, true);
@@ -172,6 +190,7 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
         //listview--2
         final ListView listview_2 = (ListView) filter.findViewById(R.id.easyListFilter_MenuContent_List_2);
         if (listview_2 != null) {
+            mListView2 = listview_2;
             initListView(listview_2, filterAdapter_List2);
             listview_2.setVisibility(View.GONE);
             listview_2.setDivider(list2Divider);
@@ -179,6 +198,7 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
         //listview--3
         final ListView listview_3 = (ListView) filter.findViewById(R.id.easyListFilter_MenuContent_List_3);
         if (listview_3 != null) {
+            mListView3 = listview_3;
             initListView(listview_3, filterAdapter_List3);
             listview_3.setVisibility(View.GONE);
             listview_3.setDivider(list3Divider);
@@ -209,6 +229,7 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
                     if (iEasyItem == null || iEasyItem.isNoLimitItem()) {
                         listview_1.clearChoices();
                         listview_1.setItemChecked(0, true);
+                        listview_1.performItemClick(listview_1, 1, 1);
                         filterAdapter_List1.notifyDataSetChanged();
                         setMenuTitle(defultMenuText);
                         menuListItemClick(iEasyItem);
@@ -375,7 +396,7 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
                 setFocusableInTouchMode(false);
                 setFocusable(false);
                 closeKeyBoard();
-                if(dismissListener!=null){
+                if (dismissListener != null) {
                     dismissListener.onDismiss();
                 }
             }
@@ -718,6 +739,6 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
     private OnDismissListener dismissListener;
 
     public interface OnDismissListener {
-        public void onDismiss();
+        void onDismiss();
     }
 }

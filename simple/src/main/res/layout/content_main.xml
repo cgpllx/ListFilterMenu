@@ -35,6 +35,7 @@
         android:layout_weight="1"
         android:background="@color/q_ffffff"
         app:menuContentLayout="@layout/menu_content_layout"
+        app:menuMode="multi"
         app:menuText="售价"
         app:showUnlimiteds="list1"
         app:unlimitedText="@string/app_name" />

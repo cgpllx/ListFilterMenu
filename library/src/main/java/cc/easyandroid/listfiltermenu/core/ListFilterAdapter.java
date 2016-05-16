@@ -76,7 +76,7 @@ public class ListFilterAdapter<T extends IEasyItem> extends BaseAdapter {
             if (!TextUtils.isEmpty(displayName)) {
                 viewHolder.name.setText(displayName);
             }
-            if (posion > 0) {
+            if (posion > 0) {//多选时候，判断子类是否被选择，如果是，将自己的变色（通过选择器变色）
                 viewHolder.name.setSelected(true);
             } else {
                 viewHolder.name.setSelected(false);

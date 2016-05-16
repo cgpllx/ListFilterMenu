@@ -59,6 +59,24 @@ public class MainActivity extends AppCompatActivity {
             public void withoutData(EasyListFilterMenu menu) {
                 Toast.makeText(getApplicationContext(), "没有数据,马上加载数据...", Toast.LENGTH_SHORT).show();
                 menu.addItems(true, lists2);
+
+                easyListFilterMenu2.getListView1().performItemClick(easyListFilterMenu2, 3, 3);
+            }
+        });
+        easyListFilterMenu2.setOnMenuListItemClickListener(new EasyListFilterMenu.OnMenuListItemClickListener() {
+            @Override
+            public void onClick(IEasyItem iEasyItem) {
+                System.out.println("onClick " + iEasyItem);
+//                easyListFilterMenu2.getListView1().performItemClick(easyListFilterMenu2, 2, 2);
+                long[] longs = easyListFilterMenu2.getListView1().//trw
+                        getCheckedItemIds();
+                int position = easyListFilterMenu2.getListView1().getCheckedItemPosition();
+                System.out.println("onClick position ====" + position);
+                System.out.println("onClick longs111====" + longs);
+                System.out.println("onClick longslength===" + longs.length);
+//                easyListFilterMenu2.getListView1().getCheckedItemPositions()
+//                SparseBooleanArray d = null;
+//                getIntent().putExtra(" ,",d.);
             }
         });
     }
@@ -67,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
         Text1 text1 = new Gson().fromJson(Text.text, Text1.class);
         final List<Text1.ResultEntity> lists = text1.getResult();
         //IEasyItemFactory.buildIEasyItem(lists);
+
         return lists;
     }
 
