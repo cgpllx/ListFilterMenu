@@ -30,6 +30,9 @@ public class IEasyItemFactory {
         return iEasyItem;
     }
 
+    /**
+     *
+     */
     public static class BaseIEasyItem extends SimpleEasyItem implements Parcelable {
 
 
@@ -67,18 +70,18 @@ public class IEasyItemFactory {
 
         @Override
         public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this.displayName.toString());
             dest.writeList(this.childItems);
             dest.writeInt(this.childSelectPosion);
             dest.writeByte(noLimitItem ? (byte) 1 : (byte) 0);
-            dest.writeSerializable(this.easyParameter);
         }
 
         protected BaseIEasyItem(Parcel in) {
+            this.displayName =in.readString();
             this.childItems = new ArrayList<>();
             in.readList(this.childItems, List.class.getClassLoader());
             this.childSelectPosion = in.readInt();
             this.noLimitItem = in.readByte() != 0;
-            this.easyParameter = (HashMap<String, String>) in.readSerializable();
         }
 
         public static final Creator<BaseIEasyItem> CREATOR = new Creator<BaseIEasyItem>() {
