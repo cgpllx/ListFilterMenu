@@ -21,6 +21,7 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -612,7 +613,7 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
      *
      * @param iEasyItems 数据
      */
-    public void setItems(List<? extends IEasyItem> iEasyItems) {
+    public void setItems(ArrayList<? extends IEasyItem> iEasyItems) {
         if (iEasyItems != null && iEasyItems.size() > 0) {
             addList1Items(IEasyItemFactory.buildIEasyItem(iEasyItems));
         }
@@ -624,14 +625,14 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
      * @param show       是否马上显示窗口
      * @param iEasyItems 数据
      */
-    public void addItems(boolean show, List<? extends IEasyItem> iEasyItems) {
+    public void addItems(boolean show, ArrayList<? extends IEasyItem> iEasyItems) {
         addList1Items(IEasyItemFactory.buildIEasyItem(iEasyItems));//创建一个父容器
         if (show && iEasyItems != null && iEasyItems.size() > 0) {
             postShow();
         }
     }
 
-    public void addItems(List<? extends IEasyItem> iEasyItems) {
+    public void addItems(ArrayList<? extends IEasyItem> iEasyItems) {
         addItems(true, iEasyItems);
     }
 

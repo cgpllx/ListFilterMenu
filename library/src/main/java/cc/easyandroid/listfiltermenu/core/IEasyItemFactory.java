@@ -1,5 +1,8 @@
 package cc.easyandroid.listfiltermenu.core;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,7 +30,8 @@ public class IEasyItemFactory {
         return iEasyItem;
     }
 
-    public static class BaseIEasyItem extends SimpleEasyItem {
+    public static class BaseIEasyItem extends SimpleEasyItem implements Parcelable {
+
 
         private CharSequence displayName;
         private ArrayList<? extends IEasyItem> childItems;
@@ -41,7 +45,7 @@ public class IEasyItemFactory {
         }
 
         @Override
-        public List<? extends IEasyItem> getChildItems() {
+        public ArrayList<? extends IEasyItem> getChildItems() {
             return childItems;
         }
 
@@ -54,5 +58,37 @@ public class IEasyItemFactory {
         public boolean isNoLimitItem() {
             return true;
         }
+
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeList(this.childItems);
+            dest.writeInt(this.childSelectPosion);
+            dest.writeByte(noLimitItem ? (byte) 1 : (byte) 0);
+            dest.writeSerializable(this.easyParameter);
+        }
+
+        protected BaseIEasyItem(Parcel in) {
+            this.childItems = new ArrayList<>();
+            in.readList(this.childItems, List.class.getClassLoader());
+            this.childSelectPosion = in.readInt();
+            this.noLimitItem = in.readByte() != 0;
+            this.easyParameter = (HashMap<String, String>) in.readSerializable();
+        }
+
+        public static final Creator<BaseIEasyItem> CREATOR = new Creator<BaseIEasyItem>() {
+            public BaseIEasyItem createFromParcel(Parcel source) {
+                return new BaseIEasyItem(source);
+            }
+
+            public BaseIEasyItem[] newArray(int size) {
+                return new BaseIEasyItem[size];
+            }
+        };
     }
 }

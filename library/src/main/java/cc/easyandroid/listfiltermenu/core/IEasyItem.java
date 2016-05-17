@@ -1,11 +1,11 @@
 package cc.easyandroid.listfiltermenu.core;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 
 public interface IEasyItem     {
-    List<? extends IEasyItem> getChildItems();
+    ArrayList<? extends IEasyItem> getChildItems();
 
     int getChildSelectPosion();
 

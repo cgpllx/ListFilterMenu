@@ -1,7 +1,7 @@
 package cc.easyandroid.listfiltermenu.core;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * simple IEasyItem
@@ -12,7 +12,7 @@ public class SimpleEasyItem implements IEasyItem {
     protected HashMap<String, String> easyParameter = new HashMap<>();
 
     @Override
-    public List<? extends IEasyItem> getChildItems() {
+    public ArrayList<? extends IEasyItem> getChildItems() {
         return null;
     }
 
