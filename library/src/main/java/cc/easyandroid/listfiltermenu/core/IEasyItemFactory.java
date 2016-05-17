@@ -1,11 +1,10 @@
 package cc.easyandroid.listfiltermenu.core;
 
+import android.os.Bundle;
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -33,13 +32,13 @@ public class IEasyItemFactory {
     /**
      *
      */
-    public static class BaseIEasyItem extends SimpleEasyItem implements Parcelable {
+    public static class BaseIEasyItem extends SimpleParcelableEasyItem {
 
 
         private CharSequence displayName;
-        private ArrayList<? extends IEasyItem> childItems;
+        private ArrayList<? extends SimpleParcelableEasyItem> childItems;//如果对象要在组件中传递，请使用SimpleParcelableEasyItem
 
-        public void setChildItems(ArrayList<? extends IEasyItem> childItems) {
+        public void setChildItems(ArrayList childItems) {
             this.childItems = childItems;
         }
 
@@ -68,19 +67,29 @@ public class IEasyItemFactory {
             return 0;
         }
 
+        public static final String DATA_KEY = "DATA_KEY";
+
         @Override
         public void writeToParcel(Parcel dest, int flags) {
             dest.writeString(this.displayName.toString());
-            dest.writeList(this.childItems);
+
+            //将泛型的Parcelable 封装后保存
+            Bundle bundle = new Bundle();
+            bundle.putParcelableArrayList(DATA_KEY, this.childItems);
+            dest.writeBundle(bundle);
+
             dest.writeInt(this.childSelectPosion);
+
             dest.writeByte(noLimitItem ? (byte) 1 : (byte) 0);
         }
 
         protected BaseIEasyItem(Parcel in) {
-            this.displayName =in.readString();
-            this.childItems = new ArrayList<>();
-            in.readList(this.childItems, List.class.getClassLoader());
+            this.displayName = in.readString();
+
+            this.childItems = in.readBundle().getParcelableArrayList(DATA_KEY);
+
             this.childSelectPosion = in.readInt();
+
             this.noLimitItem = in.readByte() != 0;
         }
 
