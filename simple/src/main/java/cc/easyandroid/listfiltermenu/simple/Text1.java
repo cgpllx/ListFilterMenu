@@ -1,5 +1,9 @@
 package cc.easyandroid.listfiltermenu.simple;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -27,7 +31,7 @@ public class Text1 {
      * subregions : [{"fullPinyin":"nanshan-shekou","id":"1247839","latitude":22.482307,"longitude":113.92022,"name":"蛇口"},{"fullPinyin":"nanshan-houhai","id":"1247833","latitude":22.522809,"longitude":113.946817,"name":"后海"},{"fullPinyin":"nanshan-nantou","id":"1247747","latitude":22.542046,"longitude":113.925284,"name":"南头"},{"fullPinyin":"nanshan-huaqiaocheng","id":"1247835","latitude":22.54056,"longitude":113.990657,"name":"华侨城"},{"fullPinyin":"nanshan-nanshanzhongxinqu","id":"1247831","latitude":22.526035,"longitude":113.944224,"name":"南山中心区"},{"fullPinyin":"nanshan-taoyuan","id":"1247757","name":"桃源"},{"fullPinyin":"nanshan-qianhai","id":"1247841","latitude":22.530257,"longitude":113.891176,"name":"前海"},{"fullPinyin":"nanshan-nanyou","id":"1247837","latitude":22.514934,"longitude":113.933403,"name":"南油"},{"fullPinyin":"nanshan-kejiyuan","id":"1247845","name":"科技园"},{"fullPinyin":"nanshan-xili","id":"1247843","latitude":22.586421,"longitude":113.95953,"name":"西丽"}]
      */
 
-    private List<ResultEntity> result;
+    private ArrayList<ResultEntity> result;
 
     public Text1() {
     }
@@ -40,7 +44,7 @@ public class Text1 {
         this.status = status;
     }
 
-    public void setResult(List<ResultEntity> result) {
+    public void setResult(ArrayList<ResultEntity> result) {
         this.result = result;
     }
 
@@ -52,21 +56,12 @@ public class Text1 {
         return status;
     }
 
-    public List<ResultEntity> getResult() {
+    public ArrayList<ResultEntity> getResult() {
         return result;
     }
 
-    public static class ResultEntity implements IEasyItem {
+    public static class ResultEntity implements IEasyItem, Parcelable {
 
-//        @Override
-//        public String getEasyKey() {
-//            return null;
-//        }
-//
-//        @Override
-//        public String getEasyValue() {
-//            return id;
-//        }
 
         private String fullPinyin;
         private String id;
@@ -81,7 +76,7 @@ public class Text1 {
          * name : 蛇口
          */
 
-        private List<SubregionsEntity> subregions;
+        private ArrayList<ResultEntity> subregions;
 
         public void setFullPinyin(String fullPinyin) {
             this.fullPinyin = fullPinyin;
@@ -103,7 +98,7 @@ public class Text1 {
             this.name = name;
         }
 
-        public void setSubregions(List<SubregionsEntity> subregions) {
+        public void setSubregions(ArrayList<ResultEntity> subregions) {
             this.subregions = subregions;
         }
 
@@ -127,7 +122,7 @@ public class Text1 {
             return name;
         }
 
-        public List<SubregionsEntity> getSubregions() {
+        public List<ResultEntity> getSubregions() {
             return subregions;
         }
 
@@ -164,114 +159,43 @@ public class Text1 {
             childSelectPosion = posion;
         }
 
-//        @Override
-//        public int getSelectPosion() {
-//            return 2;
-//        }
-
-        public static class SubregionsEntity implements IEasyItem {
-
-//            @Override
-//            public String getEasyKey() {
-//                return null;
-//            }
-//            @Override
-//            public String getEasyValue() {
-//                return id;
-//            }
-
-            private String fullPinyin;
-            private String id;
-            private double latitude;
-            private double longitude;
-            private String name;
-
-            public void setFullPinyin(String fullPinyin) {
-                this.fullPinyin = fullPinyin;
-            }
-
-            public void setId(String id) {
-                this.id = id;
-            }
-
-            public void setLatitude(double latitude) {
-                this.latitude = latitude;
-            }
-
-            public void setLongitude(double longitude) {
-                this.longitude = longitude;
-            }
-
-            public void setName(String name) {
-                this.name = name;
-            }
-
-            public String getFullPinyin() {
-                return fullPinyin;
-            }
-
-            public String getId() {
-                return id;
-            }
-
-            public double getLatitude() {
-                return latitude;
-            }
-
-            public double getLongitude() {
-                return longitude;
-            }
-
-            public String getName() {
-                return name;
-            }
-
-            @Override
-            public String getDisplayName() {
-                return name;
-            }
-
-            @Override
-            public HashMap<String, String> getEasyParameter() {
-                HashMap<String, String> map=new HashMap<>();
-                return map;
-            }
-            @Override
-            public boolean isNoLimitItem() {
-                return false;
-            }
-
-            List<SubregionsEntity> lists_sub_sub;
-
-            public void setSub(List<SubregionsEntity> lists_sub_sub) {
-                this.lists_sub_sub = lists_sub_sub;
-            }
-
-            @Override
-            public List<? extends IEasyItem> getChildItems() {
-//                List<Text1.ResultEntity.SubregionsEntity> lists_sub_sub=new ArrayList<>();
-//                Text1.ResultEntity.SubregionsEntity resultEntity_sub_sub = new Text1.ResultEntity.SubregionsEntity();
-//                resultEntity_sub_sub.setName("不限");
-//                lists_sub_sub.add(resultEntity_sub_sub);
-                return lists_sub_sub;
-            }
-
-            int childSelectPosion;
-
-            @Override
-            public int getChildSelectPosion() {
-                return childSelectPosion;
-            }
-
-            @Override
-            public void setChildSelectPosion(int posion) {
-                childSelectPosion = posion;
-            }
-
-//            @Override
-//            public int getSelectPosion() {
-//                return 0;
-//            }
+        public ResultEntity() {
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this.fullPinyin);
+            dest.writeString(this.id);
+            dest.writeDouble(this.latitude);
+            dest.writeDouble(this.longitude);
+            dest.writeString(this.name);
+            dest.writeTypedList(subregions);
+            dest.writeInt(this.childSelectPosion);
+        }
+
+        protected ResultEntity(Parcel in) {
+            this.fullPinyin = in.readString();
+            this.id = in.readString();
+            this.latitude = in.readDouble();
+            this.longitude = in.readDouble();
+            this.name = in.readString();
+            this.subregions = in.createTypedArrayList(ResultEntity.CREATOR);
+            this.childSelectPosion = in.readInt();
+        }
+
+        public static final Creator<ResultEntity> CREATOR = new Creator<ResultEntity>() {
+            public ResultEntity createFromParcel(Parcel source) {
+                return new ResultEntity(source);
+            }
+
+            public ResultEntity[] newArray(int size) {
+                return new ResultEntity[size];
+            }
+        };
     }
 }
