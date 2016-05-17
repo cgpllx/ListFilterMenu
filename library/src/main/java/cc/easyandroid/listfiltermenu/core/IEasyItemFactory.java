@@ -1,5 +1,6 @@
 package cc.easyandroid.listfiltermenu.core;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -8,7 +9,7 @@ import java.util.Set;
  *
  */
 public class IEasyItemFactory {
-    public static IEasyItem buildIEasyItem(final List<? extends IEasyItem> iEasyItems) {
+    public static IEasyItem buildIEasyItem(final ArrayList<? extends IEasyItem> iEasyItems) {
         BaseIEasyItem iEasyItem = new BaseIEasyItem("");
         iEasyItem.setChildItems(iEasyItems);
         return iEasyItem;
@@ -27,10 +28,11 @@ public class IEasyItemFactory {
     }
 
     public static class BaseIEasyItem extends SimpleEasyItem {
-        private CharSequence displayName;
-        private List<? extends IEasyItem> childItems;
 
-        public void setChildItems(List<? extends IEasyItem> childItems) {
+        private CharSequence displayName;
+        private ArrayList<? extends IEasyItem> childItems;
+
+        public void setChildItems(ArrayList<? extends IEasyItem> childItems) {
             this.childItems = childItems;
         }
 

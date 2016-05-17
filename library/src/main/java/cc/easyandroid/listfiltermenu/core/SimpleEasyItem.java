@@ -7,8 +7,8 @@ import java.util.List;
  * simple IEasyItem
  */
 public class SimpleEasyItem implements IEasyItem {
-    private int childSelectPosion;
-    private boolean noLimitItem = false;
+    protected int childSelectPosion;
+    protected boolean noLimitItem = false;
     protected HashMap<String, String> easyParameter = new HashMap<>();
 
     @Override

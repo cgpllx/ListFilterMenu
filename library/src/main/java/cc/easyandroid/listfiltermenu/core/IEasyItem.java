@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public interface IEasyItem {
+public interface IEasyItem     {
     List<? extends IEasyItem> getChildItems();
 
     int getChildSelectPosion();
@@ -13,10 +13,9 @@ public interface IEasyItem {
 
     CharSequence getDisplayName();
 
-    HashMap<String,String> getEasyParameter();
+    HashMap<String, String> getEasyParameter();
 
     boolean isNoLimitItem();
-
 
 
 }
