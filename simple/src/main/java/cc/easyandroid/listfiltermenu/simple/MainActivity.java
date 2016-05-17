@@ -10,7 +10,6 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import cc.easyandroid.listfiltermenu.core.IEasyItem;
 import cc.easyandroid.listfiltermenu.core.ListFilterAdapter;
@@ -29,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         easyListFilterMenu = (EasyListFilterMenu) findViewById(R.id.easyListFilterMenu);
         easyListFilterMenu2 = (EasyListFilterMenu) findViewById(R.id.easyListFilterMenu2);
-        final List<Text1.ResultEntity> lists1 = dd();
+        final ArrayList<Text1.ResultEntity> lists1 = dd();
 
         final ArrayList<Text1.ResultEntity> lists2 = dd();
 //        EasyMenuManager easyMenuManager =new EasyMenuManager( );

@@ -143,7 +143,7 @@ public class Text1 {
         }
 
         @Override
-        public List<? extends IEasyItem> getChildItems() {
+        public ArrayList<? extends IEasyItem> getChildItems() {
             return subregions;
         }
 
