@@ -1,6 +1,7 @@
 package cc.easyandroid.listfiltermenu.simple;
 
 import android.os.Bundle;
+import android.support.v4.util.ArrayMap;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.ViewGroup;
@@ -10,6 +11,9 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import cc.easyandroid.listfiltermenu.core.IEasyItem;
 import cc.easyandroid.listfiltermenu.core.ListFilterAdapter;
@@ -89,6 +93,12 @@ public class MainActivity extends AppCompatActivity {
 //
 //        g
         getIntent().putParcelableArrayListExtra("lists2",lists2);
+//        getIntent().put
+//        String dd;
+//        HashMap<Integer,CharSequence> map;
+//
+//        ArrayMap;
+//        HashSet
     }
 
     public ArrayList<Text1.ResultEntity> dd() {

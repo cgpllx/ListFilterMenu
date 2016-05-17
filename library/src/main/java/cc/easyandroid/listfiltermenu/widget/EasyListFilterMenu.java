@@ -306,7 +306,11 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
     }
 
     public IEasyItem getData() {
-        return filterAdapter_List1.getParentIEasyItem();
+        IEasyItem iEasyItem=filterAdapter_List1.getParentIEasyItem();
+        if (iEasyItem!=null&&(mShowUnlimiteds & SHOW_LIST_1) != 0) {//如果要显示不限
+            iEasyItem.getChildItems().remove(0);//删除不限制的
+        }
+        return iEasyItem;
     }
 
     /**
@@ -588,7 +592,7 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
     }
 
     void addUnlimitedToContaier(IEasyItem parentIEasyItem) {//hasAddUnlimitedContainer 中存放的是parentIEasyItem的哈希，
-        if (!TextUtils.isEmpty(unlimitedTermDisplayName) && !hasAddUnlimitedContainer.get(parentIEasyItem.hashCode(), false)) {
+        if (!TextUtils.isEmpty(unlimitedTermDisplayName) && !hasAddUnlimitedContainer.get(parentIEasyItem.hashCode(), false)) {//检查是否添加过不限，如果没有才添加
             hasAddUnlimitedContainer.put(parentIEasyItem.hashCode(), true);
             List list = parentIEasyItem.getChildItems();//从父容器中取出子容器的第一个，然后把不限制添加进去
             if (list != null && list.size() > 0) {
@@ -653,9 +657,9 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
     private void changMultiMenuText(IEasyItem iEasyItem, ListFilterAdapter<IEasyItem> adapter) {
 
         if (!iEasyItem.isNoLimitItem()) {
-            multiTitles.put(adapter.getParentIEasyItem().hashCode(), iEasyItem.getDisplayName());
+            multiTitles.put(adapter.getParentIEasyItem().getDisplayName().hashCode(), iEasyItem.getDisplayName());
         } else {
-            multiTitles.delete(adapter.getParentIEasyItem().hashCode());
+            multiTitles.delete(adapter.getParentIEasyItem().getDisplayName().hashCode());
         }
         if (onMultiMenuTitleFormat != null) {
             onMultiMenuTitleFormat.format(this, multiTitles);
