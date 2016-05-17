@@ -719,7 +719,10 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
             } else {
                 pupupWindow.showAsDropDown(this, xoff, yoff);
             }
-            mListView1.setItemChecked(filterAdapter_List1.getParentIEasyItem().getChildSelectPosion(), true);//第一个list的显示位置
+            if (mListView1.getChoiceMode() != ListView.CHOICE_MODE_MULTIPLE) {//listview 选择模式  是多选
+                mListView1.setItemChecked(filterAdapter_List1.getParentIEasyItem().getChildSelectPosion(), true);//第一个list的显示位置
+            }
+
             mScreeningText.setSelected(true);
             menuTitleView.setSelected(true);
             setFocusableInTouchMode(true);
