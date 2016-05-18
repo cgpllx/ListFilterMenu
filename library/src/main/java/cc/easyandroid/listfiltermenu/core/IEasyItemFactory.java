@@ -38,7 +38,7 @@ public class IEasyItemFactory {
         private CharSequence displayName;
         private ArrayList<? extends IEasyItem> childItems;//如果对象要在组件中传递，请使用SimpleParcelableEasyItem
 
-        public void setChildItems(ArrayList childItems) {
+        public void setChildItems(ArrayList<? extends IEasyItem>  childItems) {
             this.childItems = childItems;
         }
 
