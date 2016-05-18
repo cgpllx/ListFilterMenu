@@ -648,9 +648,25 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
             postShow();
         }
     }
+    /**
+     * add item
+     *
+     * @param show       是否马上显示窗口
+     * @param iEasyItems 数据
+     */
+    public void addItems(boolean show, ArrayList<? extends IEasyItem> iEasyItems    ) {
+        addList1Items(IEasyItemFactory.buildIEasyItem(iEasyItems), true);//创建一个父容器
+        if (show && iEasyItems != null && iEasyItems.size() > 0) {
+            postShow();
+        }
+    }
 
     public void addItems(ArrayList<? extends IEasyItem> iEasyItems, boolean autoAddUnlimited) {
         addItems(true, iEasyItems, autoAddUnlimited);
+    }
+
+    public void addItems(ArrayList<? extends IEasyItem> iEasyItems) {
+        addItems(true, iEasyItems, true);//
     }
 
     private void changMenuText(IEasyItem iEasyItem) {
