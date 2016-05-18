@@ -307,9 +307,9 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
 
     public IEasyItem getData() {
         IEasyItem iEasyItem = filterAdapter_List1.getParentIEasyItem();
-        if (iEasyItem != null && (mShowUnlimiteds & SHOW_LIST_1) != 0) {//如果要显示不限
-            iEasyItem.getChildItems().remove(0);//删除不限制的
-        }
+//        if (iEasyItem != null && (mShowUnlimiteds & SHOW_LIST_1) != 0) {//如果要显示不限
+//            iEasyItem.getChildItems().remove(0);//删除不限制的
+//        }
         return iEasyItem;
     }
 
@@ -578,8 +578,8 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
     /**
      * @param parentIEasyItem 父 parentIEasyItem
      */
-    private void addList1Items(IEasyItem parentIEasyItem) {
-        if ((mShowUnlimiteds & SHOW_LIST_1) != 0) {//如果要显示不限
+    private void addList1Items(IEasyItem parentIEasyItem, boolean autoAddUnlimited) {
+        if ((mShowUnlimiteds & SHOW_LIST_1) != 0 && autoAddUnlimited) {//如果要显示不限
             addUnlimitedToContaier(parentIEasyItem);//给父容器添加不限
         }
         filterAdapter_List1.setParentIEasyItem(parentIEasyItem);
@@ -619,9 +619,20 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
      *
      * @param iEasyItems 数据
      */
+    public void setItems(ArrayList<? extends IEasyItem> iEasyItems, boolean autoAddUnlimited) {
+        if (iEasyItems != null && iEasyItems.size() > 0) {
+            addList1Items(IEasyItemFactory.buildIEasyItem(iEasyItems), autoAddUnlimited);
+        }
+    }
+
+    /**
+     * set items
+     *
+     * @param iEasyItems 数据
+     */
     public void setItems(ArrayList<? extends IEasyItem> iEasyItems) {
         if (iEasyItems != null && iEasyItems.size() > 0) {
-            addList1Items(IEasyItemFactory.buildIEasyItem(iEasyItems));
+            addList1Items(IEasyItemFactory.buildIEasyItem(iEasyItems), true);
         }
     }
 
@@ -631,15 +642,15 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
      * @param show       是否马上显示窗口
      * @param iEasyItems 数据
      */
-    public void addItems(boolean show, ArrayList<? extends IEasyItem> iEasyItems) {
-        addList1Items(IEasyItemFactory.buildIEasyItem(iEasyItems));//创建一个父容器
+    public void addItems(boolean show, ArrayList<? extends IEasyItem> iEasyItems, boolean autoAddUnlimited) {
+        addList1Items(IEasyItemFactory.buildIEasyItem(iEasyItems), autoAddUnlimited);//创建一个父容器
         if (show && iEasyItems != null && iEasyItems.size() > 0) {
             postShow();
         }
     }
 
-    public void addItems(ArrayList<? extends IEasyItem> iEasyItems) {
-        addItems(true, iEasyItems);
+    public void addItems(ArrayList<? extends IEasyItem> iEasyItems, boolean autoAddUnlimited) {
+        addItems(true, iEasyItems, autoAddUnlimited);
     }
 
     private void changMenuText(IEasyItem iEasyItem) {
