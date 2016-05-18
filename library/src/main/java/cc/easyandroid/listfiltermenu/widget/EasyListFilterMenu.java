@@ -307,9 +307,7 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
 
     public IEasyItem getData() {
         IEasyItem iEasyItem = filterAdapter_List1.getParentIEasyItem();
-//        if (iEasyItem != null && (mShowUnlimiteds & SHOW_LIST_1) != 0) {//如果要显示不限
-//            iEasyItem.getChildItems().remove(0);//删除不限制的
-//        }
+
         return iEasyItem;
     }
 
