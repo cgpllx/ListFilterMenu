@@ -49,7 +49,7 @@ import cc.easyandroid.listfiltermenu.core.ListFilterAdapter;
  */
 public class EasyListFilterMenu extends LinearLayout implements Runnable {
     private CharSequence defultMenuText = "defultMenuText";
-    private CharSequence currentMenuText;
+    private CharSequence currentMenuText;//记录当前要显示的menutitle
     protected PopupWindow pupupWindow;
     private int xoff = 0;
     private int yoff = 0;
@@ -306,8 +306,8 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
     }
 
     public IEasyItem getData() {
-        IEasyItem iEasyItem=filterAdapter_List1.getParentIEasyItem();
-        if (iEasyItem!=null&&(mShowUnlimiteds & SHOW_LIST_1) != 0) {//如果要显示不限
+        IEasyItem iEasyItem = filterAdapter_List1.getParentIEasyItem();
+        if (iEasyItem != null && (mShowUnlimiteds & SHOW_LIST_1) != 0) {//如果要显示不限
             iEasyItem.getChildItems().remove(0);//删除不限制的
         }
         return iEasyItem;
@@ -336,9 +336,11 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
             return;
         }
         IEasyItem iEasyItem = filterAdapter_List2.getItem(position);
-        if (selectMode == SelectMode.MULTI) {//MULTI 状态才记住
-            rememberPosion(filterAdapter_List2, position);//MULTI状态才会记住
+        if (selectMode != SelectMode.MULTI) {//MULTI 状态才记住
+            // 清除list1中记录的childposion，
+            filterAdapter_List1.clearAllChildPosion();
         }
+        rememberPosion(filterAdapter_List2, position);//MULTI状态才会记住
         if (iEasyItem != null) {
             List<? extends IEasyItem> rightItems = iEasyItem.getChildItems();
             if (rightItems != null && rightItems.size() > 0) {

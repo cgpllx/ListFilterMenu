@@ -109,4 +109,15 @@ public class ListFilterAdapter<T extends IEasyItem> extends BaseAdapter {
         TextView name;
         ImageView arrowImage;
     }
+
+    /**
+     * 删除所以的child 位置记录信息
+     */
+    public void clearAllChildPosion() {
+        int count = getCount();
+        for (int i = 0; i < count; i++) {
+            IEasyItem easyItem = getItem(i);
+            easyItem.setChildSelectPosion(0);
+        }
+    }
 }
