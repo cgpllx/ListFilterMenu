@@ -7,9 +7,18 @@ import java.util.HashMap;
  * simple IEasyItem
  */
 public class SimpleEasyItem implements IEasyItem {
-    protected int childSelectPosion;
+    protected int childSelectPosion ;
     protected boolean noLimitItem = false;
     protected HashMap<String, String> easyParameter = new HashMap<>();
+    protected boolean childSelected ;
+
+    public boolean isChildSelected() {
+        return childSelected;
+    }
+
+    public void setChildSelected(boolean childSelected) {
+        this.childSelected = childSelected;
+    }
 
     @Override
     public ArrayList<? extends IEasyItem> getChildItems() {
@@ -43,5 +52,10 @@ public class SimpleEasyItem implements IEasyItem {
 
     public void setNoLimitItem(boolean noLimitItem) {
         this.noLimitItem = noLimitItem;
+    }
+
+    @Override
+    public int hashCode() {
+        return getDisplayName().hashCode();
     }
 }

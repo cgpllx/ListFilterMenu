@@ -76,7 +76,7 @@ public class ListFilterAdapter<T extends IEasyItem> extends BaseAdapter {
             if (!TextUtils.isEmpty(displayName)) {
                 viewHolder.name.setText(displayName);
             }
-            if (posion > 0) {//多选时候，判断子类是否被选择，如果是，将自己的变色（通过选择器变色）
+            if (iEasyItem.isChildSelected()) {// 判断子类是否被选择，如果是，将自己的变色（通过选择器变色）
                 viewHolder.name.setSelected(true);
             } else {
                 viewHolder.name.setSelected(false);
@@ -118,6 +118,7 @@ public class ListFilterAdapter<T extends IEasyItem> extends BaseAdapter {
         for (int i = 0; i < count; i++) {
             IEasyItem easyItem = getItem(i);
             easyItem.setChildSelectPosion(0);
+            easyItem.setChildSelected(false);
         }
     }
 }

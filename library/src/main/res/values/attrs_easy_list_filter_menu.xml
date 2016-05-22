@@ -4,28 +4,25 @@
 
         <attr name="menuBetweenListDivider" format="reference|color" />
         <!--//listview item的布局-->
-        <attr name="menuList1ItemLayout" format="reference" />
-        <attr name="menuList2ItemLayout" format="reference" />
-        <attr name="menuList3ItemLayout" format="reference" />
+        <attr name="menuList1ItemLayout" />
+        <attr name="menuList2ItemLayout" />
+        <attr name="menuList3ItemLayout" />
 
         <attr name="list1Divider" format="reference" />
         <attr name="list2Divider" format="reference" />
         <attr name="list3Divider" format="reference" />
 
-        <attr name="menuContentLayout" format="reference" />
+        <attr name="menuContentLayout" />
         <!--//显示不限制的名称-->
-        <attr name="unlimitedText" format="reference|string" />
+        <attr name="unlimitedText" />
         <!--//显示不限制的位置-->
         <attr name="showUnlimiteds">
-            <flag name="list1" value="1" />
-            <flag name="list2" value="2" />
-            <flag name="list3" value="4" />
+
         </attr>
         <attr name="menuTitleView" format="reference" />
-        <attr name="menuMode">
-            <enum name="single" value="0" />
-            <enum name="multi" value="1" />
-        </attr>
+
+        <attr name="menuMode"   />
+
         <attr name="menuListItemTextSize" format="reference|dimension" />
         <attr name="menuListItemTextColor" format="reference|color" />
         <attr name="menuListItemDrawableRight" format="reference" />
@@ -40,6 +37,68 @@
     <declare-styleable name="EasyListFilterMenus">
         <attr name="EasyListFilterMenuStyle" format="reference" />
     </declare-styleable>
+    <declare-styleable name="EasyFilterMenus">
+        <attr name="EasyFilterMenuStyle" format="reference" />
+    </declare-styleable>
 
+    <declare-styleable name="EasyFilterMenu">
+        <!--title-->
+        <attr name="menuTitle" format="reference|string" />
+        <!--menuContent ResourceId-->
+        <attr name="menuContentLayout" format="reference" />
+        <!--menuTitle ResourceId-->
+        <attr name="menuTitleLayout" format="reference" />
+        <!--偏移量-->
+        <attr name="menuPupupXoff" format="reference|dimension" />
+        <attr name="menuPupupYoff" format="reference|dimension" />
+    </declare-styleable>
 
+    <declare-styleable name="EasyFilterMenu_SingleSelection">
+        <!--//listview item的布局-->
+        <attr name="menuList1ItemLayout" />
+        <attr name="menuList2ItemLayout" />
+        <attr name="menuList3ItemLayout" />
+
+        <!--//显示不限制的名称-->
+        <attr name="unlimitedText" />
+        <!--//显示不限制的位置-->
+        <attr name="showUnlimiteds" />
+
+    </declare-styleable>
+    <!--但列表的多项选择&lt;!&ndash;&ndash;&gt;-->
+    <declare-styleable name="EasyFilterMenu_MultiSelection">
+        <!--//listview item的布局-->
+        <attr name="menuList1ItemLayout" />
+        <!--//显示不限制的名称-->
+        <attr name="unlimitedText" />
+
+    </declare-styleable>
+
+    <declare-styleable name="EasyFileterMenu_MoreSelection">
+        <!--//listview item的布局-->
+        <attr name="menuList1ItemLayout" />
+        <attr name="menuList2ItemLayout" />
+
+        <!--//显示不限制的名称-->
+        <attr name="unlimitedText" />
+        <!--//显示不限制的位置-->
+        <attr name="showUnlimiteds" />
+
+    </declare-styleable>
+    <attr name="menuList1ItemLayout" format="reference" />
+    <attr name="menuList2ItemLayout" format="reference" />
+    <attr name="menuList3ItemLayout" format="reference" />
+
+    <!--//显示不限制的名称-->
+    <attr name="unlimitedText" format="reference|string" />
+    <!--//显示不限制的位置-->
+    <attr name="showUnlimiteds">
+        <flag name="list1" value="1" />
+        <flag name="list2" value="2" />
+        <flag name="list3" value="4" />
+    </attr>
+    <attr name="menuMode">
+        <enum name="single" value="0" />
+        <enum name="multi" value="1" />
+    </attr>
 </resources>

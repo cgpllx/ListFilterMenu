@@ -285,6 +285,7 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
 
 
     public ListView getListView1() {
+//        mListView1.getCheckedItemPositions()
         return mListView1;
     }
 
@@ -438,7 +439,7 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
             @Override
             public void onDismiss() {
                 if (!defultMenuText.equals(mScreeningText.getText())) {
-                    mScreeningText.setEnabled(true);
+                    mScreeningText.setEnabled(true);//通过改变mScreeningText的Enabled属性去改变他的颜色
                 } else {
                     mScreeningText.setEnabled(false);
                 }
@@ -522,6 +523,7 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
         }
         return clickIsHasChosen;
     }
+
 
 
     private void initListView(ListView listView, ListFilterAdapter<IEasyItem> adapter) {
@@ -668,7 +670,7 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
     }
 
     private void changMenuText(IEasyItem iEasyItem) {
-//        dismiss();
+//        dismissMenuContent();
         if (iEasyItem != null) {
             if (iEasyItem.isNoLimitItem()) {
                 mScreeningText.setText(currentMenuText);
@@ -684,9 +686,9 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
     private void changMultiMenuText(IEasyItem iEasyItem, ListFilterAdapter<IEasyItem> adapter) {
 
         if (!iEasyItem.isNoLimitItem()) {
-            multiTitles.put(adapter.getParentIEasyItem().getDisplayName().hashCode(), iEasyItem.getDisplayName());
+            multiTitles.put(adapter.getParentIEasyItem(). hashCode(), iEasyItem.getDisplayName());
         } else {
-            multiTitles.delete(adapter.getParentIEasyItem().getDisplayName().hashCode());
+            multiTitles.delete(adapter.getParentIEasyItem(). hashCode());
         }
         if (onMultiMenuTitleFormat != null) {
             onMultiMenuTitleFormat.format(this, multiTitles);
@@ -747,7 +749,8 @@ public class EasyListFilterMenu extends LinearLayout implements Runnable {
                 pupupWindow.showAsDropDown(this, xoff, yoff);
             }
             if (mListView1.getChoiceMode() != ListView.CHOICE_MODE_MULTIPLE) {//listview 选择模式  是多选
-                mListView1.setItemChecked(filterAdapter_List1.getParentIEasyItem().getChildSelectPosion(), true);//第一个list的显示位置
+//                mListView1.setItemChecked(filterAdapter_List1.getParentIEasyItem().getChildSelectPosion(), true);//第一个list的显示位置
+                setMenuList1State(filterAdapter_List1.getParentIEasyItem().getChildSelectPosion());
             }
 
             mScreeningText.setSelected(true);

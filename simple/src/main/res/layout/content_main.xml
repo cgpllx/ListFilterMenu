@@ -40,22 +40,36 @@
         app:showUnlimiteds="list1"
         app:unlimitedText="@string/app_name" />
 
-    <cc.easyandroid.listfiltermenu.widget.EasyListFilterMenu
+    <cc.easyandroid.listfiltermenu.widget.EasyFilterMenu_SingleSelection
         android:id="@+id/easyListFilterMenu3"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="@color/q_ffffff"
-        app:menuText="间隔"
-        app:unlimitedText="@string/app_name" />
+        app:menuContentLayout="@layout/menu_content_layoutsingle"
+        app:menuTitle="间隔"
+        app:showUnlimiteds="list2|list1"
+        app:unlimitedText="不限" />
 
-    <cc.easyandroid.listfiltermenu.widget.EasyListFilterMenu
+    <cc.easyandroid.listfiltermenu.widget.EasyFilterMenu_MultiSelection
         android:id="@+id/easyListFilterMenu4"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="@color/q_ffffff"
-        app:menuText="更多" />
+        app:menuContentLayout="@layout/menu_content_layoutsingle"
+        app:menuText="更多"
+        app:unlimitedText="不限" />
+    <cc.easyandroid.listfiltermenu.widget.EasyFileterMenu_MoreSelection
+        android:id="@+id/easyListFilterMenu5"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/q_ffffff"
+        app:menuContentLayout="@layout/menu_content_layoutsingle"
+        app:menuText="更多"
+        app:showUnlimiteds="list2|list1"
+        app:unlimitedText="不限" />
 
     <!--<cc.easyandroid.listfiltermenu.widget.EasyListFilterMenu-->
     <!--android:layout_width="0dp"-->

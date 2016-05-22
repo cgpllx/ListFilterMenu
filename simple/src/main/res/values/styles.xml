@@ -8,7 +8,9 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="EasyListFilterMenuStyle">@style/QfamgEasyListFilterMenuStyle</item>
+        <item name="EasyFilterMenuStyle">@style/QfamgEasyListFilterMenuStyle</item>
+        <!--<item name="EasyFilterMenuStyle">@style/QfamgEasyListFilterMenuStyle</item>-->
+
         <item name="android:dropDownListViewStyle">@style/widget_dropdownlistview</item>
     </style>
     <style name="widget_dropdownlistview" parent="android:style/Widget.Holo.ListView.DropDown">

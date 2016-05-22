@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import cc.easyandroid.listfiltermenu.core.IEasyItem;
+import cc.easyandroid.listfiltermenu.core.SimpleEasyItem;
 
 
 /**
@@ -60,7 +61,7 @@ public class Text1 {
         return result;
     }
 
-    public static class ResultEntity implements IEasyItem, Parcelable {
+    public static class ResultEntity extends SimpleEasyItem {
 
 
         private String fullPinyin;
@@ -133,7 +134,7 @@ public class Text1 {
 
         @Override
         public HashMap<String, String> getEasyParameter() {
-            HashMap<String, String> map=new HashMap<>();
+            HashMap<String, String> map = new HashMap<>();
             return map;
         }
 
@@ -147,55 +148,11 @@ public class Text1 {
             return subregions;
         }
 
-        int childSelectPosion;
 
-        @Override
-        public int getChildSelectPosion() {
-            return childSelectPosion;
-        }
-
-        @Override
-        public void setChildSelectPosion(int posion) {
-            childSelectPosion = posion;
-        }
 
         public ResultEntity() {
         }
 
-        @Override
-        public int describeContents() {
-            return 0;
-        }
 
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            dest.writeString(this.fullPinyin);
-            dest.writeString(this.id);
-            dest.writeDouble(this.latitude);
-            dest.writeDouble(this.longitude);
-            dest.writeString(this.name);
-            dest.writeTypedList(subregions);
-            dest.writeInt(this.childSelectPosion);
-        }
-
-        protected ResultEntity(Parcel in) {
-            this.fullPinyin = in.readString();
-            this.id = in.readString();
-            this.latitude = in.readDouble();
-            this.longitude = in.readDouble();
-            this.name = in.readString();
-            this.subregions = in.createTypedArrayList(ResultEntity.CREATOR);
-            this.childSelectPosion = in.readInt();
-        }
-
-        public static final Creator<ResultEntity> CREATOR = new Creator<ResultEntity>() {
-            public ResultEntity createFromParcel(Parcel source) {
-                return new ResultEntity(source);
-            }
-
-            public ResultEntity[] newArray(int size) {
-                return new ResultEntity[size];
-            }
-        };
     }
 }
