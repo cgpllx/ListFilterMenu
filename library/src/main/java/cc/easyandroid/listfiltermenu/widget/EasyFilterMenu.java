@@ -150,6 +150,10 @@ public abstract class EasyFilterMenu extends LinearLayout implements Runnable {
         mTitleTextView.setText(menuTitle);
     }
 
+    public String getMenuTitle() {
+        return mTitleTextView.getText().toString();
+    }
+
     /**
      * init menuTitle
      *
@@ -347,5 +351,5 @@ public abstract class EasyFilterMenu extends LinearLayout implements Runnable {
         this.menuListItemClickListener = menuListItemClickListener;
     }
 
-     protected OnMenuListItemClickListener menuListItemClickListener;
+    protected OnMenuListItemClickListener menuListItemClickListener;
 }

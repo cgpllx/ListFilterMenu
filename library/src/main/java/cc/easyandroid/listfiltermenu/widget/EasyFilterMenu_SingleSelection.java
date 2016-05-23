@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.SparseBooleanArray;
@@ -29,7 +31,7 @@ import cc.easyandroid.listfiltermenu.core.OnMenuListItemClickListener;
  */
 public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
 
-    private CharSequence currentMenuText;//记录第二个列表点击不限时候要现实的title
+    private String currentMenuText;//记录第二个列表点击不限时候要现实的title
     private SparseBooleanArray hasAddUnlimitedContainer = new SparseBooleanArray();
     private ListView mListView1;
     private ListView mListView2;
@@ -221,7 +223,7 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
         if (iEasyItem != null) {
             List<? extends IEasyItem> mindleItems = iEasyItem.getChildItems();//如果child不是null，就吧第二个现实出来
             if (mindleItems != null && mindleItems.size() > 0) {
-                currentMenuText = iEasyItem.getDisplayName();//记住当前被点击的item的显示的名称
+                currentMenuText = iEasyItem.getDisplayName().toString();//记住当前被点击的item的显示的名称
                 addList2Items(iEasyItem);//传的是父类的IEasyItem ，适配器自己去里面找
 
                 EasyUtils.showView(mListView2);
@@ -268,7 +270,7 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
         if (iEasyItem != null) {
             List<? extends IEasyItem> rightItems = iEasyItem.getChildItems();
             if (rightItems != null && rightItems.size() > 0) {
-                currentMenuText = iEasyItem.getDisplayName();
+                currentMenuText = iEasyItem.getDisplayName().toString();
                 addList3Items(iEasyItem);
                 EasyUtils.showView(mListView3);
                 EasyUtils.showView(list3Box);
@@ -462,6 +464,7 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
         currentMenuText = menuStates.currentMenuText;
         hasAddUnlimitedContainer = menuStates.hasAddUnlimitedContainer;
         setMenuData(false, menuStates.parentIEasyItem);
+        setMenuTitle(menuStates.title);
     }
 
     public SingleSelectionMenuStates getMenuStates() {
@@ -469,31 +472,41 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
         IEasyItem parentIEasyItem = listFilterAdapter.getParentIEasyItem();
         SingleSelectionMenuStates singleSelectionMenuStates = new SingleSelectionMenuStates.Builder()//
                 .setCurrentMenuText(currentMenuText)//
+                .setMenuTitle(getMenuTitle())
                 .setHasAddUnlimitedContainer(hasAddUnlimitedContainer.clone())//
                 .setParentIEasyItem(parentIEasyItem)//
                 .build();
         return singleSelectionMenuStates;
     }
 
-    public static class SingleSelectionMenuStates {
+    public static class SingleSelectionMenuStates implements Parcelable {
         SparseBooleanArray hasAddUnlimitedContainer;
         IEasyItem parentIEasyItem;
-        CharSequence currentMenuText;
+        String currentMenuText;
+        String title;
+
 
         private SingleSelectionMenuStates(Builder builder) {
             hasAddUnlimitedContainer = builder.hasAddUnlimitedContainer;
             parentIEasyItem = builder.parentIEasyItem;
             currentMenuText = builder.currentMenuText;
+            title = builder.title;
         }
 
 
         public static class Builder {
             SparseBooleanArray hasAddUnlimitedContainer;
             IEasyItem parentIEasyItem;
-            CharSequence currentMenuText;
+            String currentMenuText;
+            String title;
 
-            public Builder setCurrentMenuText(CharSequence currentMenuText) {
+            public Builder setCurrentMenuText(String currentMenuText) {
                 this.currentMenuText = currentMenuText;
+                return this;
+            }
+
+            public Builder setMenuTitle(String title) {
+                this.title = title;
                 return this;
             }
 
@@ -512,5 +525,37 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
                 return singleSelectionMenuStates;
             }
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeSparseBooleanArray(this.hasAddUnlimitedContainer);
+            dest.writeSerializable(this.parentIEasyItem);
+            dest.writeString(this.currentMenuText);
+            dest.writeString(this.title);
+        }
+
+        protected SingleSelectionMenuStates(Parcel in) {
+            this.hasAddUnlimitedContainer = in.readSparseBooleanArray();
+            this.parentIEasyItem = (IEasyItem) in.readSerializable();
+            this.currentMenuText = in.readString();
+            this.title = in.readString();
+        }
+
+        public static final Parcelable.Creator<SingleSelectionMenuStates> CREATOR = new Parcelable.Creator<SingleSelectionMenuStates>() {
+            @Override
+            public SingleSelectionMenuStates createFromParcel(Parcel source) {
+                return new SingleSelectionMenuStates(source);
+            }
+
+            @Override
+            public SingleSelectionMenuStates[] newArray(int size) {
+                return new SingleSelectionMenuStates[size];
+            }
+        };
     }
 }

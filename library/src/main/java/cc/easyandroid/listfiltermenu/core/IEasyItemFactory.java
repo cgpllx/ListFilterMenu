@@ -12,7 +12,7 @@ import java.util.Set;
  */
 public class IEasyItemFactory {
     public static IEasyItem buildIEasyItem(final ArrayList<? extends IEasyItem> iEasyItems) {
-        BaseIEasyItem iEasyItem = new BaseIEasyItem("");
+        BaseIEasyItem iEasyItem = new BaseIEasyItem("topIEasyItem");
         iEasyItem.setChildItems(iEasyItems);
         return iEasyItem;
     }
