@@ -458,4 +458,59 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
         }
     }
 
+    public void setMenuStates(SingleSelectionMenuStates menuStates) {
+        currentMenuText = menuStates.currentMenuText;
+        hasAddUnlimitedContainer = menuStates.hasAddUnlimitedContainer;
+        setMenuData(false, menuStates.parentIEasyItem);
+    }
+
+    public SingleSelectionMenuStates getMenuStates() {
+        ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView1.getAdapter();
+        IEasyItem parentIEasyItem = listFilterAdapter.getParentIEasyItem();
+        SingleSelectionMenuStates singleSelectionMenuStates = new SingleSelectionMenuStates.Builder()//
+                .setCurrentMenuText(currentMenuText)//
+                .setHasAddUnlimitedContainer(hasAddUnlimitedContainer.clone())//
+                .setParentIEasyItem(parentIEasyItem)//
+                .build();
+        return singleSelectionMenuStates;
+    }
+
+    public static class SingleSelectionMenuStates {
+        SparseBooleanArray hasAddUnlimitedContainer;
+        IEasyItem parentIEasyItem;
+        CharSequence currentMenuText;
+
+        private SingleSelectionMenuStates(Builder builder) {
+            hasAddUnlimitedContainer = builder.hasAddUnlimitedContainer;
+            parentIEasyItem = builder.parentIEasyItem;
+            currentMenuText = builder.currentMenuText;
+        }
+
+
+        public static class Builder {
+            SparseBooleanArray hasAddUnlimitedContainer;
+            IEasyItem parentIEasyItem;
+            CharSequence currentMenuText;
+
+            public Builder setCurrentMenuText(CharSequence currentMenuText) {
+                this.currentMenuText = currentMenuText;
+                return this;
+            }
+
+            public Builder setHasAddUnlimitedContainer(SparseBooleanArray hasAddUnlimitedContainer) {
+                this.hasAddUnlimitedContainer = hasAddUnlimitedContainer;
+                return this;
+            }
+
+            public Builder setParentIEasyItem(IEasyItem parentIEasyItem) {
+                this.parentIEasyItem = parentIEasyItem;
+                return this;
+            }
+
+            public SingleSelectionMenuStates build() {
+                SingleSelectionMenuStates singleSelectionMenuStates = new SingleSelectionMenuStates(this);
+                return singleSelectionMenuStates;
+            }
+        }
+    }
 }

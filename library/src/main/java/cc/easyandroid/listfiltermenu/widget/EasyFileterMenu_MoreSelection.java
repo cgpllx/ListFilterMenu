@@ -391,9 +391,9 @@ public class EasyFileterMenu_MoreSelection extends EasyFilterMenu {
         if (stringBuilder.length() > 0) {
             stringBuilder.delete(stringBuilder.length() - 1, stringBuilder.length());
         }
-        if(!TextUtils.isEmpty(stringBuilder.toString())){
+        if (!TextUtils.isEmpty(stringBuilder.toString())) {
             easyListFilterMenu.setMenuTitle(stringBuilder.toString());
-        }else{
+        } else {
             easyListFilterMenu.setMenuTitle(defultMenuText);
         }
 
@@ -409,5 +409,16 @@ public class EasyFileterMenu_MoreSelection extends EasyFilterMenu {
         this.onMultiMenuTitleFormat = onMultiMenuTitleFormat;
     }
 
+    public void setMenuStates(MoreSelectionMenuStates menuStates) {
 
+    }
+
+    public MoreSelectionMenuStates getMenuStates() {
+        return null;
+    }
+
+    public static class MoreSelectionMenuStates {
+        SparseArray<CharSequence> multiTitles;
+        IEasyItem parentIEasyItem;
+    }
 }

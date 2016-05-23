@@ -29,7 +29,7 @@ import cc.easyandroid.listfiltermenu.core.ListFilterAdapter;
 public class EasyFilterMenu_MultiSelection extends EasyFilterMenu {
     private SparseBooleanArray hasAddUnlimitedContainer = new SparseBooleanArray();
     private ListView mListView1;
-
+    private SparseBooleanArray mMenuStatesArray;//保存被选中的状态的
     private CharSequence unlimitedTermDisplayName;//不限制，默认名称  只要不为空就显示
 
 
@@ -152,8 +152,16 @@ public class EasyFilterMenu_MultiSelection extends EasyFilterMenu {
     @Override
     protected void onShowMenuContent() {
         super.onShowMenuContent();
-        ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView1.getAdapter();
-//        setMenuList1State(listFilterAdapter.getParentIEasyItem().getChildSelectPosion(), null, false);//pop显示的时候去检查看是要现实哪一个
+        mListView1.clearChoices();
+        if (mMenuStatesArray != null) {
+            for (int i = 0; i < mMenuStatesArray.size(); i++) {
+                int posion = mMenuStatesArray.keyAt(i);
+                boolean value = mMenuStatesArray.valueAt(i);
+                mListView1.setItemChecked(posion, value);
+            }
+        } else {
+            mListView1.setItemChecked(0, true);
+        }
     }
 
     /**
@@ -188,4 +196,15 @@ public class EasyFilterMenu_MultiSelection extends EasyFilterMenu {
         }
     }
 
+    //Save state
+    public void saveStates() {
+        final SparseBooleanArray menuStatesArray = mListView1.getCheckedItemPositions();
+        mMenuStatesArray = menuStatesArray.clone();
+    }
+
+    @Override
+    protected void onDismissMenuContent() {
+        super.onDismissMenuContent();
+//        saveStates();
+    }
 }
