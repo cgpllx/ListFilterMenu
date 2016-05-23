@@ -45,7 +45,7 @@ public class Main2Activity extends AppCompatActivity {
         easyFilterMenu_multiSelection = (EasyFilterMenu_MultiSelection) findViewById(R.id.easyListFilterMenu4);
         easyFileterMenu_moreSelection= (EasyFileterMenu_MoreSelection) findViewById(R.id.easyListFilterMenu5);
 
-        EasyFilterMenu_SingleSelection.setMenuData(false, lists2);
+//        EasyFilterMenu_SingleSelection.setMenuData(false, lists2);
         EasyFilterMenu_SingleSelection.setOnMenuWithoutDataClickLinstener(new EasyFilterMenu.OnMenuWithoutDataClickLinstener() {
             @Override
             public void withoutData(EasyFilterMenu menu) {
