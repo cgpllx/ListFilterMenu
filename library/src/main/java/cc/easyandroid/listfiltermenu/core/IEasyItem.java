@@ -1,7 +1,5 @@
 package cc.easyandroid.listfiltermenu.core;
 
-import android.os.Parcelable;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,10 +7,6 @@ import java.util.HashMap;
 
 public interface IEasyItem extends Serializable {
     ArrayList<? extends IEasyItem> getChildItems();
-
-    int getChildSelectPosion();
-
-    void setChildSelectPosion(int posion);//设置child中那个posion被选中
 
     CharSequence getDisplayName();//显示的名称
 
@@ -23,6 +17,10 @@ public interface IEasyItem extends Serializable {
     boolean isChildSelected();//child是否被选中
 
     void setChildSelected(boolean isChildSelected);
+
+    int getChildSelectPosion();
+
+    void setChildSelectPosion(int posion);//设置child中那个posion被选中
 
 
 }

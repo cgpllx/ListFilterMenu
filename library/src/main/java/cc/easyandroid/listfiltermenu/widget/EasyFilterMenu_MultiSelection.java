@@ -205,6 +205,12 @@ public class EasyFilterMenu_MultiSelection extends EasyFilterMenu {
     @Override
     protected void onDismissMenuContent() {
         super.onDismissMenuContent();
-//        saveStates();
+    }
+
+    public static class MultiSelectionMenuStates {
+        SparseBooleanArray hasAddUnlimitedContainer;
+        IEasyItem parentIEasyItem;
+        SparseBooleanArray mMenuStatesArray;//保存被选中的状态的
+        String menuTitle;
     }
 }

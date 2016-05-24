@@ -18,8 +18,6 @@ import java.util.ArrayList;
 import cc.easyandroid.listfiltermenu.R;
 import cc.easyandroid.listfiltermenu.core.AnimatorPopup;
 import cc.easyandroid.listfiltermenu.core.IEasyItem;
-import cc.easyandroid.listfiltermenu.core.IEasyItemFactory;
-import cc.easyandroid.listfiltermenu.core.ListFilterAdapter;
 import cc.easyandroid.listfiltermenu.core.OnMenuListItemClickListener;
 
 /**
@@ -148,6 +146,11 @@ public abstract class EasyFilterMenu extends LinearLayout implements Runnable {
 
     public void setMenuTitle(CharSequence menuTitle) {
         mTitleTextView.setText(menuTitle);
+        if (!defultMenuText.equals(menuTitle)) {
+            mTitleTextView.setEnabled(true);//通过改变mScreeningText的Enabled属性去改变他的颜色
+        } else {
+            mTitleTextView.setEnabled(false);
+        }
     }
 
     public String getMenuTitle() {
@@ -253,11 +256,6 @@ public abstract class EasyFilterMenu extends LinearLayout implements Runnable {
      * pop消失后调用
      */
     protected void onDismissMenuContent() {
-        if (!defultMenuText.equals(mTitleTextView.getText())) {
-            mTitleTextView.setEnabled(true);//通过改变mScreeningText的Enabled属性去改变他的颜色
-        } else {
-            mTitleTextView.setEnabled(false);
-        }
         mTitleTextView.setSelected(false);
         setFocusableInTouchMode(false);
         setFocusable(false);//当前layout

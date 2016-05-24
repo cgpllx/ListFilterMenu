@@ -1,8 +1,5 @@
 package cc.easyandroid.listfiltermenu.core;
 
-import android.os.Bundle;
-import android.os.Parcel;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
@@ -38,8 +35,9 @@ public class IEasyItemFactory {
         private CharSequence displayName;
         private ArrayList<? extends IEasyItem> childItems;//如果对象要在组件中传递，请使用SimpleParcelableEasyItem
 
-        public void setChildItems(ArrayList<? extends IEasyItem>  childItems) {
+        public void setChildItems(ArrayList<? extends IEasyItem> childItems) {
             this.childItems = childItems;
+            setNoLimitItem(true);
         }
 
         public BaseIEasyItem(CharSequence displayName) {
@@ -56,10 +54,6 @@ public class IEasyItemFactory {
             return displayName;
         }
 
-        @Override
-        public boolean isNoLimitItem() {
-            return true;
-        }
 
     }
 }

@@ -2,7 +2,6 @@ package cc.easyandroid.listfiltermenu.simple;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.util.ArrayMap;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -13,9 +12,6 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 
 import cc.easyandroid.listfiltermenu.core.IEasyItem;
 import cc.easyandroid.listfiltermenu.core.ListFilterAdapter;
@@ -135,17 +131,18 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.click).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getApplicationContext(),Main2Activity.class);
-                cc.easyandroid.listfiltermenu.widget.EasyFilterMenu_SingleSelection.SingleSelectionMenuStates singleSelectionMenuStates=  EasyFilterMenu_SingleSelection.getMenuStates();
-                intent.putExtra("singleSelectionMenuStates",singleSelectionMenuStates);
+                Intent intent = new Intent(getApplicationContext(), Main2Activity.class);
+                cc.easyandroid.listfiltermenu.widget.EasyFilterMenu_SingleSelection.SingleSelectionMenuStates singleSelectionMenuStates = EasyFilterMenu_SingleSelection.getMenuStates();
+                intent.putExtra("singleSelectionMenuStates", singleSelectionMenuStates);
                 startActivity(intent);
             }
         });
         findViewById(R.id.click2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getApplicationContext(),Main2Activity.class);
-                cc.easyandroid.listfiltermenu.widget.EasyFilterMenu_SingleSelection.SingleSelectionMenuStates singleSelectionMenuStates=  EasyFilterMenu_SingleSelection.getMenuStates();
+                Intent intent = new Intent(getApplicationContext(), Main2Activity.class);
+//                intent.put
+                cc.easyandroid.listfiltermenu.widget.EasyFilterMenu_SingleSelection.SingleSelectionMenuStates singleSelectionMenuStates = EasyFilterMenu_SingleSelection.getMenuStates();
 //                intent.putExtra("singleSelectionMenuStates",singleSelectionMenuStates);
                 startActivity(intent);
             }
