@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
-public class EasyItemManager implements Serializable, Parcelable {
-    protected ArrayList<IEasyItem> mEasyItems;
+public class EasyItemManager implements Serializable {
+    protected ArrayList<? extends IEasyItem> mEasyItems;
     protected int childSelectPosion;
     protected boolean noLimitItem = false;
     protected boolean childSelected;
@@ -23,7 +23,7 @@ public class EasyItemManager implements Serializable, Parcelable {
         this.hasAddUnlimited = hasAddUnlimited;
     }
 
-    public EasyItemManager(ArrayList<IEasyItem> easyItems) {
+    public EasyItemManager(ArrayList<? extends IEasyItem> easyItems) {
         this.mEasyItems = easyItems;
     }
 
@@ -56,37 +56,5 @@ public class EasyItemManager implements Serializable, Parcelable {
     }
 
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeTypedList(this.mEasyItems);
-        dest.writeInt(this.childSelectPosion);
-        dest.writeByte(this.noLimitItem ? (byte) 1 : (byte) 0);
-        dest.writeByte(this.childSelected ? (byte) 1 : (byte) 0);
-        dest.writeByte(this.hasAddUnlimited ? (byte) 1 : (byte) 0);
-    }
-
-    protected EasyItemManager(Parcel in) {
-        this.mEasyItems = in.createTypedArrayList(EasyItemManager.CREATOR);
-        this.childSelectPosion = in.readInt();
-        this.noLimitItem = in.readByte() != 0;
-        this.childSelected = in.readByte() != 0;
-        this.hasAddUnlimited = in.readByte() != 0;
-    }
-
-    public static final Creator<EasyItemManager> CREATOR = new Creator<EasyItemManager>() {
-        @Override
-        public EasyItemManager createFromParcel(Parcel source) {
-            return new EasyItemManager(source);
-        }
-
-        @Override
-        public EasyItemManager[] newArray(int size) {
-            return new EasyItemManager[size];
-        }
-    };
 }

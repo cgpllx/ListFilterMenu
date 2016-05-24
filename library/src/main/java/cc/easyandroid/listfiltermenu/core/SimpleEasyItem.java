@@ -28,32 +28,6 @@ public class SimpleEasyItem implements IEasyItem {
     }
 
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeSerializable(this.easyParameter);
-    }
 
-    public SimpleEasyItem() {
-    }
-
-    protected SimpleEasyItem(Parcel in) {
-        this.easyParameter = (HashMap<String, String>) in.readSerializable();
-    }
-
-    public static final Creator<SimpleEasyItem> CREATOR = new Creator<SimpleEasyItem>() {
-        @Override
-        public SimpleEasyItem createFromParcel(Parcel source) {
-            return new SimpleEasyItem(source);
-        }
-
-        @Override
-        public SimpleEasyItem[] newArray(int size) {
-            return new SimpleEasyItem[size];
-        }
-    };
 }

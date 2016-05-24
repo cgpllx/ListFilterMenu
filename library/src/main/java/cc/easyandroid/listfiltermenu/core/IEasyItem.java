@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
-public interface IEasyItem extends Serializable ,Parcelable {
+public interface IEasyItem extends Serializable   {
     EasyItemManager getEasyItemManager();
 
     CharSequence getDisplayName();//显示的名称

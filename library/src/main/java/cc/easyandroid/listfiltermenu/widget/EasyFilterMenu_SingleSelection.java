@@ -207,7 +207,7 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
     protected void onShowMenuContent() {
         super.onShowMenuContent();
         ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView1.getAdapter();
-        setMenuList1State(listFilterAdapter.getParentIEasyItem().getChildSelectPosion(), null, false);//pop显示的时候去检查看是要现实哪一个
+        setMenuList1State(listFilterAdapter.getEasyItemManager().getChildSelectPosion(), null, false);//pop显示的时候去检查看是要现实哪一个
     }
 
     /**
@@ -225,7 +225,7 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
             List<? extends IEasyItem> mindleItems = iEasyItem.getEasyItemManager().getEasyItems();//如果child不是null，就吧第二个现实出来
             if (mindleItems != null && mindleItems.size() > 0) {
                 currentMenuText = iEasyItem.getDisplayName().toString();//记住当前被点击的item的显示的名称
-                addList2Items(iEasyItem);//传的是父类的IEasyItem ，适配器自己去里面找
+                addList2Items(listFilterAdapter.getEasyItemManager());//传的是父类的IEasyItem ，适配器自己去里面找
 
                 EasyUtils.showView(mListView2);
                 EasyUtils.showView(list2Box);
@@ -355,16 +355,11 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
     /**
      * 数据准备好了  直接传送的是父item
      *
-     * @param parentIEasyItem
+     * @param easyItemManager
      */
     @Override
-    protected void onMenuDataPrepared(IEasyItem parentIEasyItem) {
-        addList1Items(parentIEasyItem);//
-    }
-
-    @Override
-    protected void onMenuDataPrepared(ArrayList<? extends IEasyItem> iEasyItems) {
-        addList1Items(IEasyItemFactory.buildIEasyItem(iEasyItems));//创建一个父容器
+    protected void onMenuDataPrepared(EasyItemManager easyItemManager) {
+        addList1Items(easyItemManager);//
     }
 
     /**
@@ -374,7 +369,7 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
      */
     private void addList1Items(EasyItemManager easyItemManager) {
         if ((mShowUnlimiteds & SHOW_LIST_1) != 0) {//是否要添加不限制
-            addUnlimitedToContaier(parentIEasyItem);
+            addUnlimitedToContaier(easyItemManager);
         }
         ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView1.getAdapter();
         listFilterAdapter.setEasyItemManager(easyItemManager);
@@ -387,7 +382,7 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
      */
     private void addList2Items(EasyItemManager easyItemManager) {
         if ((mShowUnlimiteds & SHOW_LIST_2) != 0) {//是否要添加不限制
-            addUnlimitedToContaier(parentIEasyItem);
+            addUnlimitedToContaier(easyItemManager);
         }
         ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView2.getAdapter();
         listFilterAdapter.setEasyItemManager(easyItemManager);
@@ -400,7 +395,7 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
      */
     private void addList3Items(EasyItemManager easyItemManager) {
         if ((mShowUnlimiteds & SHOW_LIST_3) != 0) {//是否要添加不限制
-            addUnlimitedToContaier(parentIEasyItem);
+            addUnlimitedToContaier(easyItemManager);
         }
         ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView3.getAdapter();
         listFilterAdapter.setEasyItemManager(easyItemManager);
@@ -465,31 +460,28 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
     public void setMenuStates(SingleSelectionMenuStates menuStates) {
         currentMenuText = menuStates.currentMenuText;
 //        hasAddUnlimitedContainer = menuStates.hasAddUnlimitedContainer;
-        setMenuData(false, menuStates.parentIEasyItem);
+        setMenuData(false, menuStates.easyItemManager);
         setMenuTitle(menuStates.title);
     }
 
     public SingleSelectionMenuStates getMenuStates() {
         ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView1.getAdapter();
-        IEasyItem parentIEasyItem = listFilterAdapter.getParentIEasyItem();
+        EasyItemManager easyItemManager = listFilterAdapter.getEasyItemManager();
         SingleSelectionMenuStates singleSelectionMenuStates = new SingleSelectionMenuStates.Builder()//
                 .setCurrentMenuText(currentMenuText)//
+                .setEasyItemManager(easyItemManager)
                 .setMenuTitle(getMenuTitle())
-                .setHasAddUnlimitedContainer(hasAddUnlimitedContainer.clone())//
-                .setParentIEasyItem(parentIEasyItem)//
                 .build();
         return singleSelectionMenuStates;
     }
 
     public static class SingleSelectionMenuStates implements Parcelable {
-        SparseBooleanArray hasAddUnlimitedContainer;
-        EasyItemManager<? extends IEasyItem> easyItemManager;
+        EasyItemManager easyItemManager;
         String currentMenuText;
         String title;
 
 
         private SingleSelectionMenuStates(Builder builder) {
-            hasAddUnlimitedContainer = builder.hasAddUnlimitedContainer;
             easyItemManager = builder.easyItemManager;
             currentMenuText = builder.currentMenuText;
             title = builder.title;
@@ -497,8 +489,7 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
 
 
         public static class Builder {
-            SparseBooleanArray hasAddUnlimitedContainer;
-            EasyItemManager<? extends IEasyItem> easyItemManager;
+            EasyItemManager easyItemManager;
             String currentMenuText;
             String title;
 
@@ -512,12 +503,9 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
                 return this;
             }
 
-            public Builder setHasAddUnlimitedContainer(SparseBooleanArray hasAddUnlimitedContainer) {
-                this.hasAddUnlimitedContainer = hasAddUnlimitedContainer;
-                return this;
-            }
 
-            public Builder setEasyItemManager(EasyItemManager<? extends IEasyItem> easyItemManager) {
+
+            public Builder setEasyItemManager(EasyItemManager easyItemManager) {
                 this.easyItemManager = easyItemManager;
                 return this;
             }
@@ -536,15 +524,13 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
 
         @Override
         public void writeToParcel(Parcel dest, int flags) {
-            dest.writeSparseBooleanArray(this.hasAddUnlimitedContainer);
             dest.writeSerializable(this.easyItemManager);
             dest.writeString(this.currentMenuText);
             dest.writeString(this.title);
         }
 
         protected SingleSelectionMenuStates(Parcel in) {
-            this.hasAddUnlimitedContainer = in.readSparseBooleanArray();
-            this.easyItemManager = (EasyItemManager<? extends IEasyItem>) in.readSerializable();
+            this.easyItemManager = (EasyItemManager) in.readSerializable();
             this.currentMenuText = in.readString();
             this.title = in.readString();
         }

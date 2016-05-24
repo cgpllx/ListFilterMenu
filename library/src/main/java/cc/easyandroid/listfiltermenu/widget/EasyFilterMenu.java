@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 import cc.easyandroid.listfiltermenu.R;
 import cc.easyandroid.listfiltermenu.core.AnimatorPopup;
+import cc.easyandroid.listfiltermenu.core.EasyItemManager;
 import cc.easyandroid.listfiltermenu.core.IEasyItem;
 import cc.easyandroid.listfiltermenu.core.OnMenuListItemClickListener;
 
@@ -121,15 +122,15 @@ public abstract class EasyFilterMenu extends LinearLayout implements Runnable {
         }
     }
 
-    public void setMenuData(boolean show, ArrayList<? extends IEasyItem> iEasyItems) {
-        onMenuDataPrepared(iEasyItems);
-        if (show && iEasyItems != null && iEasyItems.size() > 0) {
-            toggle();
-        }
-    }
+//    public void setMenuData(boolean show, ArrayList<? extends IEasyItem> iEasyItems) {
+//        onMenuDataPrepared(iEasyItems);
+//        if (show && iEasyItems != null && iEasyItems.size() > 0) {
+//            toggle();
+//        }
+//    }
 
-    public void setMenuData(boolean show, IEasyItem parentIEasyItem) {
-        onMenuDataPrepared(parentIEasyItem);
+    public void setMenuData(boolean show, EasyItemManager easyItemManager) {
+        onMenuDataPrepared(easyItemManager);
         if (show && parentIEasyItem != null && parentIEasyItem.getChildItems().size() > 0) {
             toggle();
         }
@@ -140,7 +141,7 @@ public abstract class EasyFilterMenu extends LinearLayout implements Runnable {
 
     }
 
-    protected void onMenuDataPrepared(IEasyItem parentIEasyItem) {
+    protected void onMenuDataPrepared(EasyItemManager easyItemManager) {
 
     }
 
