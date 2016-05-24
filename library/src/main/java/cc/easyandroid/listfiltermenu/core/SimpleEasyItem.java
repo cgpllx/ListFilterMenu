@@ -1,5 +1,7 @@
 package cc.easyandroid.listfiltermenu.core;
 
+import android.os.Parcel;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -7,32 +9,12 @@ import java.util.HashMap;
  * simple IEasyItem
  */
 public class SimpleEasyItem implements IEasyItem {
-    protected int childSelectPosion ;
-    protected boolean noLimitItem = false;
     protected HashMap<String, String> easyParameter = new HashMap<>();
-    protected boolean childSelected ;
 
-    public boolean isChildSelected() {
-        return childSelected;
-    }
-
-    public void setChildSelected(boolean childSelected) {
-        this.childSelected = childSelected;
-    }
 
     @Override
-    public ArrayList<? extends IEasyItem> getChildItems() {
-        return null;
-    }
-
-    @Override
-    public int getChildSelectPosion() {
-        return childSelectPosion;
-    }
-
-    @Override
-    public void setChildSelectPosion(int posion) {
-        this.childSelectPosion = posion;
+    public EasyItemManager getEasyItemManager() {
+        return new EasyItemManager(null);
     }
 
     @Override
@@ -45,17 +27,33 @@ public class SimpleEasyItem implements IEasyItem {
         return easyParameter;
     }
 
-    @Override
-    public boolean isNoLimitItem() {
-        return noLimitItem;
-    }
 
-    public void setNoLimitItem(boolean noLimitItem) {
-        this.noLimitItem = noLimitItem;
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     @Override
-    public int hashCode() {
-        return getDisplayName().hashCode();
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeSerializable(this.easyParameter);
     }
+
+    public SimpleEasyItem() {
+    }
+
+    protected SimpleEasyItem(Parcel in) {
+        this.easyParameter = (HashMap<String, String>) in.readSerializable();
+    }
+
+    public static final Creator<SimpleEasyItem> CREATOR = new Creator<SimpleEasyItem>() {
+        @Override
+        public SimpleEasyItem createFromParcel(Parcel source) {
+            return new SimpleEasyItem(source);
+        }
+
+        @Override
+        public SimpleEasyItem[] newArray(int size) {
+            return new SimpleEasyItem[size];
+        }
+    };
 }

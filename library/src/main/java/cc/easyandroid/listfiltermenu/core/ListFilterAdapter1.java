@@ -10,25 +10,18 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import cc.easyandroid.listfiltermenu.R;
 
 
-public class ListFilterAdapter<T extends IEasyItem> extends BaseAdapter {
-
+public class ListFilterAdapter1<T extends IEasyItem> extends BaseAdapter {
+    EasyItemManager<? extends IEasyItem> wrap;
     private LayoutInflater inflater;
     private int listItemViewResourceId = 0;
 //    private IEasyItem parentIEasyItem;
 
-    private EasyItemManager<T> easyItemManager;
-
-    public void setEasyItemManager(EasyItemManager<T> easyItemManager) {
-        this.easyItemManager = easyItemManager;
-        notifyDataSetChanged();
-    }
-
-    public ListFilterAdapter(Context context, int listItemViewResourceId) {
+    public ListFilterAdapter1(Context context, int listItemViewResourceId) {
         inflater = LayoutInflater.from(context);
         this.listItemViewResourceId = listItemViewResourceId;
     }
@@ -40,8 +33,8 @@ public class ListFilterAdapter<T extends IEasyItem> extends BaseAdapter {
 
     @Override
     public int getCount() {
-        if (easyItemManager != null) {
-            List<? extends IEasyItem> childItems = easyItemManager.getEasyItems();
+        if (wrap != null) {
+            ArrayList<? extends IEasyItem> childItems = wrap.getiEasyItems();
             if (childItems != null) {
                 return childItems.size();
             }
@@ -51,13 +44,18 @@ public class ListFilterAdapter<T extends IEasyItem> extends BaseAdapter {
 
     @Override
     public IEasyItem getItem(int position) {
-        if (easyItemManager != null) {
-            List<? extends IEasyItem> childItems = easyItemManager.getEasyItems();
+        if (wrap != null) {
+            ArrayList<? extends IEasyItem> childItems = wrap.getiEasyItems();
             if (childItems != null) {
                 return childItems.get(position);
             }
         }
         return null;
+    }
+
+    public void setParentIEasyItem(EasyItemManager<? extends IEasyItem> wrap) {
+        this.wrap = wrap;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -94,8 +92,8 @@ public class ListFilterAdapter<T extends IEasyItem> extends BaseAdapter {
         return convertView;
     }
 
-    public EasyItemManager<T> getEasyItemManager() {
-        return easyItemManager;
+    public EasyItemManager<? extends IEasyItem> getWrapIEasyItem() {
+        return wrap;
     }
 
     final class ViewHolder {
