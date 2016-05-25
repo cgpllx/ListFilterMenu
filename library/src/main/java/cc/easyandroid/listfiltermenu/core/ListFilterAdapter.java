@@ -3,6 +3,7 @@ package cc.easyandroid.listfiltermenu.core;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,15 +16,15 @@ import java.util.List;
 import cc.easyandroid.listfiltermenu.R;
 
 
-public class ListFilterAdapter<T extends IEasyItem> extends BaseAdapter {
+public class ListFilterAdapter extends BaseAdapter {
 
     private LayoutInflater inflater;
     private int listItemViewResourceId = 0;
 //    private IEasyItem parentIEasyItem;
 
-    private EasyItemManager<T> easyItemManager;
+    private EasyItemManager easyItemManager;
 
-    public void setEasyItemManager(EasyItemManager<T> easyItemManager) {
+    public void setEasyItemManager(EasyItemManager easyItemManager) {
         this.easyItemManager = easyItemManager;
         notifyDataSetChanged();
     }
@@ -74,17 +75,16 @@ public class ListFilterAdapter<T extends IEasyItem> extends BaseAdapter {
         IEasyItem iEasyItem = getItem(position);
         if (iEasyItem != null) {
             CharSequence displayName = iEasyItem.getDisplayName();
-            int posion = iEasyItem.getChildSelectPosion();
             if (!TextUtils.isEmpty(displayName)) {
                 viewHolder.name.setText(displayName);
             }
-            if (iEasyItem.isChildSelected()) {// 判断子类是否被选择，如果是，将自己的变色（通过选择器变色）
+            if (iEasyItem.getEasyItemManager().isChildSelected()) {// 判断子类是否被选择，如果是，将自己的变色（通过选择器变色）
                 viewHolder.name.setSelected(true);
             } else {
                 viewHolder.name.setSelected(false);
             }
             if (viewHolder.arrowImage != null) {
-                if (position == 0 && iEasyItem.isNoLimitItem()) {
+                if (position == 0 && iEasyItem.getEasyItemManager().isNoLimitItem()) {
                     viewHolder.arrowImage.setVisibility(View.GONE);
                 } else {
                     viewHolder.arrowImage.setVisibility(View.VISIBLE);
@@ -94,7 +94,7 @@ public class ListFilterAdapter<T extends IEasyItem> extends BaseAdapter {
         return convertView;
     }
 
-    public EasyItemManager<T> getEasyItemManager() {
+    public EasyItemManager getEasyItemManager() {
         return easyItemManager;
     }
 
@@ -119,8 +119,21 @@ public class ListFilterAdapter<T extends IEasyItem> extends BaseAdapter {
         int count = getCount();
         for (int i = 0; i < count; i++) {
             IEasyItem easyItem = getItem(i);
-            easyItem.setChildSelectPosion(0);
-            easyItem.setChildSelected(false);
+            easyItem.getEasyItemManager().setChildSelectPosion(0);
+            easyItem.getEasyItemManager().setChildSelected(false);
         }
     }
+
+    //获取当前列表中所有item的easyitemmanager的tag
+    public SparseArray<CharSequence> getAllTags() {
+        SparseArray<CharSequence> tags = new SparseArray<>();//多选择时候，记住标题的容器
+        int count = getCount();
+        for (int i = 0; i < count; i++) {
+            IEasyItem easyItem = getItem(i);
+            easyItem.getEasyItemManager().setChildSelectPosion(0);
+            easyItem.getEasyItemManager().setChildSelected(false);
+        }
+        return  tags;
+    }
+
 }

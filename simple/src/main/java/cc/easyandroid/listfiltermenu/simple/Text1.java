@@ -1,13 +1,10 @@
 package cc.easyandroid.listfiltermenu.simple;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import cc.easyandroid.listfiltermenu.core.IEasyItem;
+import cc.easyandroid.listfiltermenu.core.EasyItemManager;
 import cc.easyandroid.listfiltermenu.core.SimpleEasyItem;
 
 
@@ -139,14 +136,18 @@ public class Text1 {
         }
 
         @Override
-        public boolean isNoLimitItem() {
-            return false;
+        public EasyItemManager onCreatChildEasyItemManager() {
+            return new EasyItemManager(subregions);
         }
-
-        @Override
-        public ArrayList<? extends IEasyItem> getChildItems() {
-            return subregions;
-        }
+        //        @Override
+//        public boolean isNoLimitItem() {
+//            return false;
+//        }
+//
+//        @Override
+//        public ArrayList<? extends IEasyItem> getChildItems() {
+//            return subregions;
+//        }
 
 
 

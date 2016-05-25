@@ -2,11 +2,13 @@ package cc.easyandroid.listfiltermenu.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import cc.easyandroid.listfiltermenu.core.EasyMenuManager;
+import cc.easyandroid.listfiltermenu.core.SingleSelectionMenuStates;
 
 /**
  *
@@ -37,8 +39,8 @@ public class EasyMenuContainer extends LinearLayout {
     @Override
     public void addView(View childView, int index, ViewGroup.LayoutParams params) {
         super.addView(childView, index, params);
-        if (childView != null && childView instanceof EasyListFilterMenu) {
-            easyMenuManager.addMenu(((EasyListFilterMenu) childView));
+        if (childView != null && childView instanceof EasyFilterMenu) {
+            easyMenuManager.addMenu(((EasyFilterMenu) childView));
         }
     }
 
@@ -48,5 +50,15 @@ public class EasyMenuContainer extends LinearLayout {
         if (easyMenuManager != null) {
             easyMenuManager.clear();
         }
+    }
+
+    public SparseArray<SingleSelectionMenuStates> getMenusStates() {
+        SparseArray<SingleSelectionMenuStates> sparseArray=new SparseArray<>();
+//        sparseArray.put();
+//        ArrayMap<String, SingleSelectionMenuStates> arrayMap=new ArrayMap<>();
+//        Bundle bundle=null;
+//        bundle.putSparseParcelableArray();
+//        return  arrayMap;
+        return  null;
     }
 }

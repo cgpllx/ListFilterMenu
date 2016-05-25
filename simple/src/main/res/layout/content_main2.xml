@@ -10,7 +10,7 @@
     tools:showIn="@layout/activity_main">
     <!--app:menuMode="multi"-->
     <!--android:id="@id/easylistfilter_menuparent"-->
-    <cc.easyandroid.listfiltermenu.widget.EasyListFilterMenu
+    <cc.easyandroid.listfiltermenu.widget.EasyFilterMenu_SingleSelection
         android:id="@+id/easyListFilterMenu"
         android:layout_width="0dp"
         android:layout_height="match_parent"
@@ -28,7 +28,7 @@
     <!--app:menuList1ItemNormalBackground="#FFFFF0"-->
     <!--app:menuPressedBackground="#FFFF00"-->
     <!--app:menuList1ItemPressedBackground="#000000"-->
-    <cc.easyandroid.listfiltermenu.widget.EasyListFilterMenu
+    <cc.easyandroid.listfiltermenu.widget.EasyFilterMenu_SingleSelection
         android:id="@+id/easyListFilterMenu2"
         android:layout_width="0dp"
         android:layout_height="match_parent"

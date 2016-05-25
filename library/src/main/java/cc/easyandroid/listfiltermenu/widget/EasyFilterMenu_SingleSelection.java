@@ -4,18 +4,14 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.SparseBooleanArray;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -26,14 +22,14 @@ import cc.easyandroid.listfiltermenu.core.IEasyItem;
 import cc.easyandroid.listfiltermenu.core.IEasyItemFactory;
 import cc.easyandroid.listfiltermenu.core.ListFilterAdapter;
 import cc.easyandroid.listfiltermenu.core.OnMenuListItemClickListener;
+import cc.easyandroid.listfiltermenu.core.SingleSelectionMenuStates;
 
 /**
  * 最多3个列表的单选
  */
 public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
 
-    private String currentMenuText;//记录第二个列表点击不限时候要现实的title
-//    private SparseBooleanArray hasAddUnlimitedContainer = new SparseBooleanArray();
+    private String tempMenuTitle;//记录第二个列表点击不限时候要现实的title
     private ListView mListView1;
     private ListView mListView2;
     private ListView mListView3;
@@ -97,15 +93,15 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
         a.recycle();
 
         if (mListView1 != null) {
-            ListFilterAdapter<? extends IEasyItem> adapter_List1 = new ListFilterAdapter<>(context, list1ItemViewResourceId);
+            ListFilterAdapter adapter_List1 = new ListFilterAdapter(context, list1ItemViewResourceId);
             setList1Adapter(adapter_List1);
         }
         if (mListView2 != null) {
-            ListFilterAdapter<? extends IEasyItem> adapter_List2 = new ListFilterAdapter<>(context, list2ItemViewResourceId);
+            ListFilterAdapter adapter_List2 = new ListFilterAdapter(context, list2ItemViewResourceId);
             setList2Adapter(adapter_List2);
         }
         if (mListView3 != null) {
-            ListFilterAdapter<? extends IEasyItem> adapter_List3 = new ListFilterAdapter<>(context, list3ItemViewResourceId);
+            ListFilterAdapter adapter_List3 = new ListFilterAdapter(context, list3ItemViewResourceId);
             setList3Adapter(adapter_List3);
         }
 
@@ -146,7 +142,7 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
         listview_1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                boolean nextListIsVisible = mListView2 != null ? mListView2.getVisibility() == View.VISIBLE : false;
+                boolean nextListIsVisible = mListView2 != null && mListView2.getVisibility() == View.VISIBLE;
                 if (!clickPositionIsChanged(mListView1, position) && nextListIsVisible) {//下一个listview 是显示的，且当前点击的位置是上次记住的位置
                     return;
                 }
@@ -158,7 +154,7 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
             listview_2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    boolean nextListIsVisible = mListView3 != null ? mListView3.getVisibility() == View.VISIBLE : false;
+                    boolean nextListIsVisible = mListView3 != null && mListView3.getVisibility() == View.VISIBLE;
                     if (!clickPositionIsChanged(mListView2, position) && nextListIsVisible) {//下一个listview 是显示的，且当前点击的位置是上次记住的位置
                         return;
                     }
@@ -183,21 +179,20 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
         return mListView1.getAdapter().isEmpty();
     }
 
-    public void setList1Adapter(ListFilterAdapter<? extends IEasyItem> adapter) {
+    public void setList1Adapter(ListFilterAdapter adapter) {
         mListView1.setAdapter(adapter);
     }
 
-    public void setList2Adapter(ListFilterAdapter<? extends IEasyItem> adapter) {
+    public void setList2Adapter(ListFilterAdapter adapter) {
         mListView2.setAdapter(adapter);
     }
 
-    public void setList3Adapter(ListFilterAdapter<? extends IEasyItem> adapter) {
+    public void setList3Adapter(ListFilterAdapter adapter) {
         mListView3.setAdapter(adapter);
     }
 
 
     void setupListView(ListView listView) {
-        listView.setBackgroundColor(getResources().getColor(android.R.color.white));
         listView.setSelector(new ColorDrawable(Color.TRANSPARENT));
         listView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
         listView.setTextFilterEnabled(true);
@@ -217,22 +212,22 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
      */
     public void setMenuList1State(int position, OnMenuListItemClickListener menuListItemClickListener, boolean fromUserClick) {
 
-        ListFilterAdapter<? extends IEasyItem> listFilterAdapter = (ListFilterAdapter) mListView1.getAdapter();
+        ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView1.getAdapter();
         IEasyItem iEasyItem = listFilterAdapter.getItem(position);
         mListView1.setItemChecked(position, true);//标记选中项
         rememberPosion(listFilterAdapter, position, fromUserClick);//让父 记住被选中的子的位置
         if (iEasyItem != null) {
-            List<? extends IEasyItem> mindleItems = iEasyItem.getEasyItemManager().getEasyItems();//如果child不是null，就吧第二个现实出来
-            if (mindleItems != null && mindleItems.size() > 0) {
-                currentMenuText = iEasyItem.getDisplayName().toString();//记住当前被点击的item的显示的名称
-                addList2Items(listFilterAdapter.getEasyItemManager());//传的是父类的IEasyItem ，适配器自己去里面找
+            EasyItemManager easyItemManager = iEasyItem.getEasyItemManager();//如果child不是null，就吧第二个现实出来
+            if (easyItemManager.isHasEasyItems()) {
+                tempMenuTitle = iEasyItem.getDisplayName().toString();//记住当前被点击的item的显示的名称
+                addList2Items(easyItemManager);//传的是父类的IEasyItem ，适配器自己去里面找
 
                 EasyUtils.showView(mListView2);
                 EasyUtils.showView(list2Box);
 
                 EasyUtils.hideView(mListView3);
                 EasyUtils.hideView(list3Box);
-                setMenuList2State(iEasyItem.getEasyItemManager().getChildSelectPosion(), menuListItemClickListener, false);
+                setMenuList2State(easyItemManager.getChildSelectPosion(), menuListItemClickListener, false);
             } else {
                 ((ListFilterAdapter) mListView1.getAdapter()).clearAllChildPosion(); // 点击lise1中的不限制，清除list1中记录的childselected 记录，
                 EasyUtils.hideView(mListView2);
@@ -260,7 +255,7 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
      * @param menuListItemClickListener 点击回掉
      */
     public void setMenuList2State(int position, OnMenuListItemClickListener menuListItemClickListener, boolean fromUserClick) {
-        ListFilterAdapter<? extends IEasyItem> listFilterAdapter = (ListFilterAdapter) mListView2.getAdapter();
+        ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView2.getAdapter();
         IEasyItem iEasyItem = listFilterAdapter.getItem(position);
         mListView2.setItemChecked(position, true);//标记选中项
         if (fromUserClick) {//防止第一次显示时候执行，主要是在list1的item被点击后
@@ -269,13 +264,13 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
 
         rememberPosion(listFilterAdapter, position, fromUserClick);//MULTI状态才会记住
         if (iEasyItem != null) {
-            List<? extends IEasyItem> rightItems = iEasyItem.getEasyItemManager().getEasyItems() ;
-            if (rightItems != null && rightItems.size() > 0) {
-                currentMenuText = iEasyItem.getDisplayName().toString();
-                addList3Items(iEasyItem);
+            EasyItemManager easyItemManager = iEasyItem.getEasyItemManager();
+            if (easyItemManager.isHasEasyItems()) {
+                tempMenuTitle = iEasyItem.getDisplayName().toString();
+                addList3Items(easyItemManager);
                 EasyUtils.showView(mListView3);
                 EasyUtils.showView(list3Box);
-                setMenuList3State(iEasyItem.getEasyItemManager().getChildSelectPosion(), menuListItemClickListener, false);
+                setMenuList3State(easyItemManager.getChildSelectPosion(), menuListItemClickListener, false);
             } else {
                 ((ListFilterAdapter) mListView2.getAdapter()).clearAllChildPosion(); // 点击lise1中的不限制，清除list1中记录的childselected 记录
                 EasyUtils.hideView(mListView3);
@@ -301,7 +296,7 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
      * @param fromUserClick             是否来自用户点击
      */
     public void setMenuList3State(int position, OnMenuListItemClickListener menuListItemClickListener, boolean fromUserClick) {
-        ListFilterAdapter<? extends IEasyItem> listFilterAdapter = (ListFilterAdapter) mListView3.getAdapter();
+        ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView3.getAdapter();
         IEasyItem iEasyItem = listFilterAdapter.getItem(position);
         mListView3.setItemChecked(position, true);//标记选中项
         if (fromUserClick) {
@@ -339,7 +334,7 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
     private void changMenuText(IEasyItem iEasyItem) {
         if (iEasyItem != null) {
             if (iEasyItem.getEasyItemManager().isNoLimitItem()) {
-                setMenuTitle(currentMenuText);
+                setMenuTitle(tempMenuTitle);
             } else {
                 CharSequence displayName = iEasyItem.getDisplayName();
                 if (!TextUtils.isEmpty(displayName)) {
@@ -355,7 +350,7 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
     /**
      * 数据准备好了  直接传送的是父item
      *
-     * @param easyItemManager
+     * @param easyItemManager easyItemManager
      */
     @Override
     protected void onMenuDataPrepared(EasyItemManager easyItemManager) {
@@ -407,8 +402,7 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
      * @param easyItemManager 是他的之类添加的
      */
     void addUnlimitedToContaier(EasyItemManager easyItemManager) {//hasAddUnlimitedContainer 中存放的是parentIEasyItem的哈希，  hashCode被重写了，解决传递时候数据问题
-        if (!TextUtils.isEmpty(unlimitedTermDisplayName) && easyItemManager.isHasAddUnlimited()) {//检查是否添加过不限，如果没有才添加
-//            hasAddUnlimitedContainer.put(parentIEasyItem.hashCode(), true);
+        if (!TextUtils.isEmpty(unlimitedTermDisplayName) && !easyItemManager.isHasAddUnlimited()) {//检查是否添加过不限，如果没有才添加
             easyItemManager.setHasAddUnlimited(true);
             List list = easyItemManager.getEasyItems();//从父容器中取出子容器的第一个，然后把不限制添加进去
             if (list != null && list.size() > 0) {
@@ -450,7 +444,7 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
      * @param position 位置
      */
 
-    private void rememberPosion(ListFilterAdapter<? extends IEasyItem> adapter, int position, boolean fromUserClick) {
+    private void rememberPosion(ListFilterAdapter adapter, int position, boolean fromUserClick) {
         adapter.getEasyItemManager().setChildSelectPosion(position);
         if (fromUserClick) {
             adapter.getEasyItemManager().setChildSelected(true);
@@ -458,93 +452,17 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
     }
 
     public void setMenuStates(SingleSelectionMenuStates menuStates) {
-        currentMenuText = menuStates.currentMenuText;
-//        hasAddUnlimitedContainer = menuStates.hasAddUnlimitedContainer;
-        setMenuData(false, menuStates.easyItemManager);
-        setMenuTitle(menuStates.title);
+        setMenuData(false, menuStates.getEasyItemManager());
+        setMenuTitle(menuStates.getMenuTitle());
     }
 
     public SingleSelectionMenuStates getMenuStates() {
         ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView1.getAdapter();
         EasyItemManager easyItemManager = listFilterAdapter.getEasyItemManager();
-        SingleSelectionMenuStates singleSelectionMenuStates = new SingleSelectionMenuStates.Builder()//
-                .setCurrentMenuText(currentMenuText)//
+        return new SingleSelectionMenuStates.Builder()//
                 .setEasyItemManager(easyItemManager)
                 .setMenuTitle(getMenuTitle())
                 .build();
-        return singleSelectionMenuStates;
     }
 
-    public static class SingleSelectionMenuStates implements Parcelable {
-        EasyItemManager easyItemManager;
-        String currentMenuText;
-        String title;
-
-
-        private SingleSelectionMenuStates(Builder builder) {
-            easyItemManager = builder.easyItemManager;
-            currentMenuText = builder.currentMenuText;
-            title = builder.title;
-        }
-
-
-        public static class Builder {
-            EasyItemManager easyItemManager;
-            String currentMenuText;
-            String title;
-
-            public Builder setCurrentMenuText(String currentMenuText) {
-                this.currentMenuText = currentMenuText;
-                return this;
-            }
-
-            public Builder setMenuTitle(String title) {
-                this.title = title;
-                return this;
-            }
-
-
-
-            public Builder setEasyItemManager(EasyItemManager easyItemManager) {
-                this.easyItemManager = easyItemManager;
-                return this;
-            }
-
-            public SingleSelectionMenuStates build() {
-                SingleSelectionMenuStates singleSelectionMenuStates = new SingleSelectionMenuStates(this);
-                return singleSelectionMenuStates;
-            }
-        }
-
-
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            dest.writeSerializable(this.easyItemManager);
-            dest.writeString(this.currentMenuText);
-            dest.writeString(this.title);
-        }
-
-        protected SingleSelectionMenuStates(Parcel in) {
-            this.easyItemManager = (EasyItemManager) in.readSerializable();
-            this.currentMenuText = in.readString();
-            this.title = in.readString();
-        }
-
-        public static final Creator<SingleSelectionMenuStates> CREATOR = new Creator<SingleSelectionMenuStates>() {
-            @Override
-            public SingleSelectionMenuStates createFromParcel(Parcel source) {
-                return new SingleSelectionMenuStates(source);
-            }
-
-            @Override
-            public SingleSelectionMenuStates[] newArray(int size) {
-                return new SingleSelectionMenuStates[size];
-            }
-        };
-    }
 }
