@@ -164,6 +164,12 @@ public class EasyFilterMenu_MultiSelection extends EasyFilterMenu {
         ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView1.getAdapter();
         listFilterAdapter.setEasyItemManager(easyItemManager);
     }
+    @Override
+    public EasyItemManager getMenuData() {
+        ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView1.getAdapter();
+        EasyItemManager easyItemManager = listFilterAdapter.getEasyItemManager();
+        return easyItemManager;
+    }
 
 
     /**
@@ -207,6 +213,9 @@ public class EasyFilterMenu_MultiSelection extends EasyFilterMenu {
     public SingleSelectionMenuStates getMenuStates() {
         ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView1.getAdapter();
         EasyItemManager easyItemManager = listFilterAdapter.getEasyItemManager();
+        if(easyItemManager==null){
+            return  null;
+        }
         return new SingleSelectionMenuStates.Builder()//
 //                .setTempMenuTitle(tempMenuTitle)//
                 .setMenuStatesArray(mMenuStatesArray)

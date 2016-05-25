@@ -16,6 +16,7 @@ import android.widget.TextView;
 import cc.easyandroid.listfiltermenu.R;
 import cc.easyandroid.listfiltermenu.core.AnimatorPopup;
 import cc.easyandroid.listfiltermenu.core.EasyItemManager;
+import cc.easyandroid.listfiltermenu.core.ListFilterAdapter;
 import cc.easyandroid.listfiltermenu.core.OnMenuListItemClickListener;
 import cc.easyandroid.listfiltermenu.core.SingleSelectionMenuStates;
 
@@ -128,6 +129,8 @@ public abstract class EasyFilterMenu extends LinearLayout implements Runnable {
         }
 
     }
+
+    public abstract EasyItemManager getMenuData();
 
     protected void onMenuDataPrepared(EasyItemManager easyItemManager) {
 
@@ -288,6 +291,13 @@ public abstract class EasyFilterMenu extends LinearLayout implements Runnable {
         } else {
             dismissMenuContent();
         }
+    }
+
+    /**
+     * serial number
+     */
+    public int getMenuSerialNumber(){
+        return defultMenuText.toString().hashCode();
     }
 
     /**

@@ -148,6 +148,7 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
                 }
                 setMenuList1State(position, menuListItemClickListener, true);
                 mListView1.setTag(position);//tag记录的就是上一次被点击的位置
+
             }
         });
         if (listview_2 != null) {
@@ -172,6 +173,7 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
             });
         }
     }
+
 
 
     @Override
@@ -455,10 +457,18 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
         setMenuData(false, menuStates.getEasyItemManager());
         setMenuTitle(menuStates.getMenuTitle());
     }
-
-    public SingleSelectionMenuStates getMenuStates() {
+    @Override
+    public EasyItemManager getMenuData() {
         ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView1.getAdapter();
         EasyItemManager easyItemManager = listFilterAdapter.getEasyItemManager();
+        return easyItemManager;
+    }
+
+    public SingleSelectionMenuStates getMenuStates() {
+        EasyItemManager easyItemManager = getMenuData();
+        if(easyItemManager==null){
+            return null;
+        }
         return new SingleSelectionMenuStates.Builder()//
                 .setEasyItemManager(easyItemManager)
                 .setMenuTitle(getMenuTitle())

@@ -415,11 +415,20 @@ public class EasyFileterMenu_MoreSelection extends EasyFilterMenu {
         super.setMenuStates(menuStates);
 
     }
+    @Override
+    public EasyItemManager getMenuData() {
+        ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView1.getAdapter();
+        EasyItemManager easyItemManager = listFilterAdapter.getEasyItemManager();
+        return easyItemManager;
+    }
 
     public SingleSelectionMenuStates getMenuStates() {
 //        SparseArray<CharSequence> multiTitles
         ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView1.getAdapter();
         EasyItemManager easyItemManager = listFilterAdapter.getEasyItemManager();
+        if(easyItemManager==null){
+            return  null;
+        }
 
         return new SingleSelectionMenuStates.Builder()//
 //                .setTempMenuTitle(tempMenuTitle)//

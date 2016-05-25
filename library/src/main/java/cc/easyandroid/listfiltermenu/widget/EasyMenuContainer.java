@@ -53,12 +53,10 @@ public class EasyMenuContainer extends LinearLayout {
     }
 
     public SparseArray<SingleSelectionMenuStates> getMenusStates() {
-        SparseArray<SingleSelectionMenuStates> sparseArray=new SparseArray<>();
-//        sparseArray.put();
-//        ArrayMap<String, SingleSelectionMenuStates> arrayMap=new ArrayMap<>();
-//        Bundle bundle=null;
-//        bundle.putSparseParcelableArray();
-//        return  arrayMap;
-        return  null;
+        return easyMenuManager.getMenusStates();
+    }
+
+    public void setMenusStates(SparseArray<SingleSelectionMenuStates> sparseArray) {
+        easyMenuManager.setMenusStates(sparseArray);
     }
 }

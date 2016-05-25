@@ -3,6 +3,7 @@ package cc.easyandroid.listfiltermenu.simple;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.SparseArray;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -17,6 +18,7 @@ import cc.easyandroid.listfiltermenu.widget.EasyFileterMenu_MoreSelection;
 import cc.easyandroid.listfiltermenu.widget.EasyFilterMenu;
 import cc.easyandroid.listfiltermenu.widget.EasyFilterMenu_MultiSelection;
 import cc.easyandroid.listfiltermenu.widget.EasyFilterMenu_SingleSelection;
+import cc.easyandroid.listfiltermenu.widget.EasyMenuContainer;
 
 public class Main2Activity extends AppCompatActivity {
 //    EasyListFilterMenu easyListFilterMenu;
@@ -24,12 +26,15 @@ public class Main2Activity extends AppCompatActivity {
     cc.easyandroid.listfiltermenu.widget.EasyFilterMenu_SingleSelection EasyFilterMenu_SingleSelection;
     EasyFilterMenu_MultiSelection easyFilterMenu_multiSelection;
     EasyFileterMenu_MoreSelection easyFileterMenu_moreSelection;
+    EasyMenuContainer easyMenuContainer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        easyMenuContainer= (EasyMenuContainer) findViewById(R.id.easyMenuContainer);
 
         final ArrayList<Text1.ResultEntity> lists1 = dd();
 
@@ -64,18 +69,18 @@ public class Main2Activity extends AppCompatActivity {
                 easyFilterMenu_multiSelection.setMenuData(true, new EasyItemManager(lists4));
             }
         });
-        SingleSelectionMenuStates singleSelectionMenuStates=getIntent().getParcelableExtra("singleSelectionMenuStates");
+        SparseArray<SingleSelectionMenuStates> singleSelectionMenuStates=getIntent().getExtras().getSparseParcelableArray("sparseArray");
         if(singleSelectionMenuStates!=null){
-            EasyFilterMenu_SingleSelection.setMenuStates(singleSelectionMenuStates);
+            easyMenuContainer.setMenusStates(singleSelectionMenuStates);
         }
-        SingleSelectionMenuStates singleSelectionMenuStates1=getIntent().getParcelableExtra("singleSelectionMenuStates2");
-        if(singleSelectionMenuStates1!=null){
-            easyFilterMenu_multiSelection.setMenuStates(singleSelectionMenuStates1);
-        }
-        SingleSelectionMenuStates singleSelectionMenuStates3=getIntent().getParcelableExtra("singleSelectionMenuStates3");
-        if(singleSelectionMenuStates3!=null){
-            easyFileterMenu_moreSelection.setMenuStates(singleSelectionMenuStates3);
-        }
+//        SingleSelectionMenuStates singleSelectionMenuStates1=getIntent().getParcelableExtra("singleSelectionMenuStates2");
+//        if(singleSelectionMenuStates1!=null){
+//            easyFilterMenu_multiSelection.setMenuStates(singleSelectionMenuStates1);
+//        }
+//        SingleSelectionMenuStates singleSelectionMenuStates3=getIntent().getParcelableExtra("singleSelectionMenuStates3");
+//        if(singleSelectionMenuStates3!=null){
+//            easyFileterMenu_moreSelection.setMenuStates(singleSelectionMenuStates3);
+//        }
 
 
     }

@@ -46,11 +46,24 @@ public class EasyMenuManager implements EasyFilterMenu.OnMenuShowListener {
         if (menus != null && menus.size() > 0) {
             for (int i = 0; i < menus.size(); i++) {
                 EasyFilterMenu easyFilterMenu = menus.get(i);
-//                menus.gett
                 SingleSelectionMenuStates singleSelectionMenuStates = easyFilterMenu.getMenuStates();
-                sparseArray.put(i, singleSelectionMenuStates);
+                int menuSerialNumber = easyFilterMenu.getMenuSerialNumber();
+                sparseArray.put(menuSerialNumber, singleSelectionMenuStates);
             }
         }
         return sparseArray;
+    }
+
+    public void setMenusStates(SparseArray<SingleSelectionMenuStates> menusStates) {
+        if (menus != null && menus.size() > 0) {
+            for (int i = 0; i < menus.size(); i++) {
+                EasyFilterMenu easyFilterMenu = menus.get(i);
+                int menuSerialNumber = easyFilterMenu.getMenuSerialNumber();
+                SingleSelectionMenuStates sparseArray = menusStates.get(menuSerialNumber);
+                if (sparseArray != null) {
+                    easyFilterMenu.setMenuStates(sparseArray);
+                }
+            }
+        }
     }
 }

@@ -2,7 +2,7 @@
 <cc.easyandroid.listfiltermenu.widget.EasyMenuContainer xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-
+android:id="@+id/easyMenuContainer"
     android:layout_width="match_parent"
     android:layout_height="48dp"
     android:background="#000000"
@@ -17,7 +17,7 @@
         android:layout_weight="1"
         android:background="@color/q_ffffff"
         app:menuContentLayout="@layout/menu_content_layout1"
-        app:menuText="区域"
+        app:menuTitle="区域"
         app:showUnlimiteds="list1"
 
         app:unlimitedText="@string/app_name" />
@@ -36,7 +36,7 @@
         android:background="@color/q_ffffff"
         app:menuContentLayout="@layout/menu_content_layout"
         app:menuMode="multi"
-        app:menuText="售价"
+        app:menuTitle="售价"
         app:showUnlimiteds="list1"
         app:unlimitedText="@string/app_name" />
 
@@ -67,7 +67,7 @@
         android:layout_weight="1"
         android:background="@color/q_ffffff"
         app:menuContentLayout="@layout/menu_content_layoutsingle"
-        app:menuText="更多"
+        app:menuTitle="更多"
         app:showUnlimiteds="list2|list1"
         app:unlimitedText="不限" />
 

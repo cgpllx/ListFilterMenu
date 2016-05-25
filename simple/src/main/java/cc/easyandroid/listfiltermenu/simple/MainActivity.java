@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.SparseArray;
 import android.view.View;
 import android.widget.Toast;
 
@@ -19,6 +20,7 @@ import cc.easyandroid.listfiltermenu.widget.EasyFileterMenu_MoreSelection;
 import cc.easyandroid.listfiltermenu.widget.EasyFilterMenu;
 import cc.easyandroid.listfiltermenu.widget.EasyFilterMenu_MultiSelection;
 import cc.easyandroid.listfiltermenu.widget.EasyFilterMenu_SingleSelection;
+import cc.easyandroid.listfiltermenu.widget.EasyMenuContainer;
 
 public class MainActivity extends AppCompatActivity {
 //    EasyListFilterMenu easyListFilterMenu;
@@ -26,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     EasyFilterMenu_SingleSelection EasyFilterMenu_SingleSelection;
     EasyFilterMenu_MultiSelection easyFilterMenu_multiSelection;
     EasyFileterMenu_MoreSelection easyFileterMenu_moreSelection;
-
+    EasyMenuContainer easyMenuContainer;
     //    EasyPopMenu easyPopMenu;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         EasyFilterMenu_SingleSelection = (EasyFilterMenu_SingleSelection) findViewById(R.id.easyListFilterMenu3);
         easyFilterMenu_multiSelection = (EasyFilterMenu_MultiSelection) findViewById(R.id.easyListFilterMenu4);
         easyFileterMenu_moreSelection= (EasyFileterMenu_MoreSelection) findViewById(R.id.easyListFilterMenu5);
+        easyMenuContainer= (EasyMenuContainer) findViewById(R.id.easyMenuContainer);
 
         final ArrayList<Text1.ResultEntity> lists1 = dd();
 
@@ -133,9 +136,13 @@ public class MainActivity extends AppCompatActivity {
                 SingleSelectionMenuStates singleSelectionMenuStates = EasyFilterMenu_SingleSelection.getMenuStates();
                 SingleSelectionMenuStates singleSelectionMenuStates2 = easyFilterMenu_multiSelection.getMenuStates();
                 SingleSelectionMenuStates singleSelectionMenuStates3 = easyFileterMenu_moreSelection.getMenuStates();
-                intent.putExtra("singleSelectionMenuStates", singleSelectionMenuStates);
-                intent.putExtra("singleSelectionMenuStates2", singleSelectionMenuStates2);
-                intent.putExtra("singleSelectionMenuStates3", singleSelectionMenuStates3);
+                SparseArray<SingleSelectionMenuStates> sparseArray= easyMenuContainer.getMenusStates();
+                Bundle bundle=new Bundle();
+                bundle.putSparseParcelableArray("sparseArray",sparseArray);
+//                intent.putExtra("singleSelectionMenuStates2", singleSelectionMenuStates2);
+//                intent.puts
+//                intent.putExtra("singleSelectionMenuStates3", singleSelectionMenuStates3);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
