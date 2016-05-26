@@ -311,18 +311,6 @@ public class EasyFilterMenuSingle extends EasyFilterMenu {
 
     }
 
-//    /**
-//     * item click
-//     *
-//     * @param iEasyItem 被点击的item
-//     */
-//    protected void menuListItemClick(EasyFilterListener.OnMenuListItemClickListener menuListItemClickListener, IEasyItem iEasyItem) {
-//        if (menuListItemClickListener != null) {
-//            menuListItemClickListener.onClick(this,iEasyItem);
-//            dismiss();//item 被点击后dismiss pop 最后销毁，
-//        }
-//
-//    }
 
     /**
      * 如果是第一个列表点击不限，就现实默认的，然后是其他，就现实上一层的选中项

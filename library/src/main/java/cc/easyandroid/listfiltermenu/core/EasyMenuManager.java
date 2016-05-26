@@ -1,13 +1,17 @@
 package cc.easyandroid.listfiltermenu.core;
 
 
+import android.support.v4.util.ArrayMap;
+import android.support.v4.util.SimpleArrayMap;
 import android.util.SparseArray;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import cc.easyandroid.listfiltermenu.widget.EasyFilterMenu;
 
-public class EasyMenuManager implements EasyFilterListener.OnMenuShowListener {
+public class EasyMenuManager implements EasyFilterListener.OnMenuShowListener, EasyFilterListener.OnEasyMenuParasChangedListener {
+    private ArrayMap<String, String> easyMenuAllParas = new ArrayMap<>();
 
     public EasyMenuManager() {
         menus = new ArrayList<>();
@@ -18,6 +22,7 @@ public class EasyMenuManager implements EasyFilterListener.OnMenuShowListener {
     public void addMenu(EasyFilterMenu menu) {
         menus.add(menu);
         menu.setOnMenuShowListener(this);
+        menu.setOnEasyMenuParasChangedListener(this);
     }
 
     @Override
@@ -67,4 +72,15 @@ public class EasyMenuManager implements EasyFilterListener.OnMenuShowListener {
         }
     }
 
+    private EasyFilterListener.OnEasyMenuParasChangedListener onEasyMenuParasChangedListener;
+
+    public void setOnEasyMenuParasChangedListener(EasyFilterListener.OnEasyMenuParasChangedListener onEasyMenuParasChangedListener) {
+        this.onEasyMenuParasChangedListener = onEasyMenuParasChangedListener;
+    }
+
+    @Override
+    public void onChanged(SimpleArrayMap<String, String> easyMenuParas) {
+        this.easyMenuAllParas.putAll(easyMenuParas);
+        onEasyMenuParasChangedListener.onChanged(this.easyMenuAllParas);
+    }
 }

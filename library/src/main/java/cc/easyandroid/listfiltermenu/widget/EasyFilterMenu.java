@@ -42,6 +42,7 @@ public abstract class EasyFilterMenu extends LinearLayout implements Runnable {
     public EasyFilterMenu(Context context) {
         this(context, null);
 
+
     }
 
     public EasyFilterMenu(Context context, AttributeSet attrs) {
@@ -132,7 +133,6 @@ public abstract class EasyFilterMenu extends LinearLayout implements Runnable {
     }
 
 
-
     public void setMenuData(boolean show, EasyItemManager easyItemManager) {
         onMenuDataPrepared(easyItemManager);
         if (show && easyItemManager != null && easyItemManager.isHasEasyItems()) {
@@ -154,6 +154,10 @@ public abstract class EasyFilterMenu extends LinearLayout implements Runnable {
         } else {
             mTitleTextView.setEnabled(false);
         }
+    }
+
+    public CharSequence getDefultMenuText() {
+        return defultMenuText;
     }
 
     public String getMenuTitle() {
@@ -400,8 +404,17 @@ public abstract class EasyFilterMenu extends LinearLayout implements Runnable {
         putEasyMenuParas(iEasyItem.getEasyParameter());
     }
 
+    private EasyFilterListener.OnEasyMenuParasChangedListener onEasyMenuParasChangedListener;
+
+    public void setOnEasyMenuParasChangedListener(EasyFilterListener.OnEasyMenuParasChangedListener onEasyMenuParasChangedListener) {
+        this.onEasyMenuParasChangedListener = onEasyMenuParasChangedListener;
+    }
+
     public void putEasyMenuParas(HashMap<String, String> easyMenuParas) {
         this.easyMenuParas.putAll(easyMenuParas);
+        if (onEasyMenuParasChangedListener != null) {
+            onEasyMenuParasChangedListener.onChanged(this.easyMenuParas);
+        }
     }
 
     public ArrayMap<String, String> getEasyMenuParas() {
