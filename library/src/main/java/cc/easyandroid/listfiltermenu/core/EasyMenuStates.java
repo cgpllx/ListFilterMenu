@@ -8,11 +8,16 @@ import android.util.SparseBooleanArray;
 /**
  * menu 数据封装对象
  */
-public class MenuStates implements Parcelable {
+public class EasyMenuStates implements Parcelable {
     private EasyItemManager easyItemManager;//item的数据
     private String menuTitle;
     private SparseBooleanArray menuStatesArray;//保存被选中的状态的
-    ArrayMap<Integer, String> multiTitles;//多选时候存放被选择的标题的集合
+    private ArrayMap<Integer, String> multiTitles;//多选时候存放被选择的标题的集合
+    private ArrayMap<String, String> easyMenuParas;
+
+    public ArrayMap<String, String> getEasyMenuParas() {
+        return easyMenuParas;
+    }
 
     public ArrayMap<Integer, String> getMultiTitles() {
         return multiTitles;
@@ -30,11 +35,12 @@ public class MenuStates implements Parcelable {
         return menuTitle;
     }
 
-    private MenuStates(Builder builder) {
+    private EasyMenuStates(Builder builder) {
         easyItemManager = builder.easyItemManager;
         menuTitle = builder.menuTitle;
         menuStatesArray = builder.menuStatesArray;
         multiTitles = builder.multiTitles;
+        easyMenuParas = builder.easyMenuParas;
     }
 
 
@@ -43,6 +49,12 @@ public class MenuStates implements Parcelable {
         String menuTitle;
         SparseBooleanArray menuStatesArray;
         ArrayMap<Integer, String> multiTitles;//多选时候存放被选择的标题的集合
+        ArrayMap<String, String> easyMenuParas;//多选时候存放被选择的标题的集合
+
+        public Builder setEasyMenuParas(ArrayMap<String, String> easyMenuParas) {
+            this.easyMenuParas = easyMenuParas;
+            return this;
+        }
 
         public Builder setMenuStatesArray(SparseBooleanArray menuStatesArray) {
             this.menuStatesArray = menuStatesArray;
@@ -66,8 +78,8 @@ public class MenuStates implements Parcelable {
             return this;
         }
 
-        public MenuStates build() {
-            return new MenuStates(this);
+        public EasyMenuStates build() {
+            return new EasyMenuStates(this);
         }
     }
 
@@ -85,7 +97,7 @@ public class MenuStates implements Parcelable {
         dest.writeMap(this.multiTitles);
     }
 
-    protected MenuStates(Parcel in) {
+    protected EasyMenuStates(Parcel in) {
         this.easyItemManager = (EasyItemManager) in.readSerializable();
         this.menuTitle = in.readString();
         this.menuStatesArray = in.readSparseBooleanArray();
@@ -93,13 +105,13 @@ public class MenuStates implements Parcelable {
         in.readMap(this.multiTitles, multiTitles.getClass().getClassLoader());
     }
 
-    public static final Creator<MenuStates> CREATOR = new Creator<MenuStates>() {
-        public MenuStates createFromParcel(Parcel source) {
-            return new MenuStates(source);
+    public static final Creator<EasyMenuStates> CREATOR = new Creator<EasyMenuStates>() {
+        public EasyMenuStates createFromParcel(Parcel source) {
+            return new EasyMenuStates(source);
         }
 
-        public MenuStates[] newArray(int size) {
-            return new MenuStates[size];
+        public EasyMenuStates[] newArray(int size) {
+            return new EasyMenuStates[size];
         }
     };
 }

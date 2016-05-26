@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.v4.util.ArrayMap;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +14,14 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import java.util.HashMap;
+
 import cc.easyandroid.listfiltermenu.R;
 import cc.easyandroid.listfiltermenu.core.AnimatorPopup;
 import cc.easyandroid.listfiltermenu.core.EasyFilterListener;
 import cc.easyandroid.listfiltermenu.core.EasyItemManager;
-import cc.easyandroid.listfiltermenu.core.MenuStates;
+import cc.easyandroid.listfiltermenu.core.EasyMenuStates;
+import cc.easyandroid.listfiltermenu.core.IEasyItem;
 
 /**
  * 下拉筛选控件
@@ -32,9 +36,12 @@ public abstract class EasyFilterMenu extends LinearLayout implements Runnable {
     private int yoff = 0;//y的偏移量
     private TextView mTitleTextView;//现实标题的textview控件
 
+    protected ArrayMap<String, String> easyMenuParas = new ArrayMap<>();
+
 
     public EasyFilterMenu(Context context) {
         this(context, null);
+
     }
 
     public EasyFilterMenu(Context context, AttributeSet attrs) {
@@ -48,7 +55,7 @@ public abstract class EasyFilterMenu extends LinearLayout implements Runnable {
 
     private void init(Context context, AttributeSet attrs, int defStyle) {
         int menuTitleViewResourceId = R.layout.menu_title_layout;//title是公用模块，肯定都会有
-        int menuContentLayoutResourceId = R.layout.menu_content_layout;// menu contentView  id
+        int menuContentLayoutResourceId = R.layout.menu_content_single_layout;// menu contentView  id
 
         final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.EasyFilterMenu, defStyle, 0);
 
@@ -60,7 +67,7 @@ public abstract class EasyFilterMenu extends LinearLayout implements Runnable {
             } else if (attr == R.styleable.EasyFilterMenu_menuTitleLayout) {// menu title 的资源id
                 menuTitleViewResourceId = a.getResourceId(attr, R.layout.menu_title_layout);
             } else if (attr == R.styleable.EasyFilterMenu_menuContentLayout) {// menucontent 的资源id
-                menuContentLayoutResourceId = a.getResourceId(attr, R.layout.menu_content_layout);
+                menuContentLayoutResourceId = a.getResourceId(attr, R.layout.menu_content_single_layout);
             } else if (attr == R.styleable.EasyFilterMenu_menuPupupXoff) {//x的偏移量
                 xoff = a.getDimensionPixelSize(attr, 0);
             } else if (attr == R.styleable.EasyFilterMenu_menuPupupYoff) {// y的偏移量
@@ -105,7 +112,7 @@ public abstract class EasyFilterMenu extends LinearLayout implements Runnable {
      * @param easyFilterMenu      当前筛选menu
      * @param listView            确定按钮对于的listview
      */
-    void setupCustomView(final ViewGroup menuContentView, int customViewConfirmId, final EasyFilterMenu easyFilterMenu, final ListView listView) {
+    void setupCustomView(final ViewGroup menuContentView, final int customViewConfirmId, final EasyFilterMenu easyFilterMenu, final ListView listView) {
         final View easyListFilter_CustomViewConfirm_List = menuContentView.findViewById(customViewConfirmId);//多选择时候的确定按钮的id
         if (easyListFilter_CustomViewConfirm_List != null) {
             easyListFilter_CustomViewConfirm_List.setOnClickListener(new OnClickListener() {
@@ -113,12 +120,17 @@ public abstract class EasyFilterMenu extends LinearLayout implements Runnable {
                 public void onClick(View v) {
                     if (customViewConfirmClickListener != null) {
                         customViewConfirmClickListener.onClick(listView, menuContentView, easyFilterMenu);
+                        onCustomViewConfirmBuntonClicked(menuContentView, customViewConfirmId, listView);
                         //title 的设置请在回调中设置
                     }
                 }
             });
         }
     }
+
+    protected void onCustomViewConfirmBuntonClicked(ViewGroup menuContentView, int customViewConfirmId, final ListView listView) {
+    }
+
 
 
     public void setMenuData(boolean show, EasyItemManager easyItemManager) {
@@ -347,9 +359,9 @@ public abstract class EasyFilterMenu extends LinearLayout implements Runnable {
 
     protected EasyFilterListener.OnMenuListItemClickListener menuListItemClickListener;
 
-    public void setMenuStates(MenuStates menuStates) {
-        setMenuData(false, menuStates.getEasyItemManager());
-        setMenuTitle(menuStates.getMenuTitle());
+    public void setMenuStates(EasyMenuStates easyMenuStates) {
+        setMenuData(false, easyMenuStates.getEasyItemManager());
+        setMenuTitle(easyMenuStates.getMenuTitle());
     }
 
     /**
@@ -357,7 +369,7 @@ public abstract class EasyFilterMenu extends LinearLayout implements Runnable {
      *
      * @return
      */
-    public MenuStates getMenuStates() {
+    public EasyMenuStates getMenuStates() {
         EasyItemManager easyItemManager = getMenuData();
         if (easyItemManager == null) {
             return null;
@@ -366,7 +378,7 @@ public abstract class EasyFilterMenu extends LinearLayout implements Runnable {
         }
     }
 
-    protected abstract MenuStates onCreateMenuStates(EasyItemManager easyItemManager);
+    protected abstract EasyMenuStates onCreateMenuStates(EasyItemManager easyItemManager);
 
     ;
 
@@ -376,5 +388,31 @@ public abstract class EasyFilterMenu extends LinearLayout implements Runnable {
         this.menuShowListener = menuShowListener;
     }
 
+    public void menuListItemClick(IEasyItem iEasyItem) {
+        addParaFromIEasyItem(iEasyItem);//记录参数
+        if (this.menuListItemClickListener != null) {
+            this.menuListItemClickListener.onClick(this, iEasyItem);
+        }
+        this.dismiss();
+    }
 
+    private void addParaFromIEasyItem(IEasyItem iEasyItem) {
+        putEasyMenuParas(iEasyItem.getEasyParameter());
+    }
+
+    public void putEasyMenuParas(HashMap<String, String> easyMenuParas) {
+        this.easyMenuParas.putAll(easyMenuParas);
+    }
+
+    public ArrayMap<String, String> getEasyMenuParas() {
+        return this.easyMenuParas;
+    }
+
+    public void deleteEasyMenuPara(String key) {
+        this.easyMenuParas.remove(key);
+    }
+
+    public void clearEasyMenuParas() {
+        this.easyMenuParas.clear();
+    }
 }

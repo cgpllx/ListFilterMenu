@@ -14,7 +14,7 @@ public interface EasyFilterListener {
     }
 
     interface OnMenuListItemClickListener {
-        void onClick(IEasyItem iEasyItem);
+        void onClick(EasyFilterMenu easyFilterMenu,IEasyItem iEasyItem);
     }
 
     interface OnCustomViewConfirmClickListener {

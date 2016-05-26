@@ -1,5 +1,7 @@
 package cc.easyandroid.listfiltermenu.core;
 
+
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -19,10 +21,9 @@ public class SimpleEasyItem implements IEasyItem {
     }
 
     public EasyItemManager onCreatChildEasyItemManager() {
-        return new EasyItemManager(null);
+        ArrayList<IEasyItem> arrayList=new ArrayList<>();
+        return new EasyItemManager(arrayList);
     }
-
-    ;
 
     @Override
     public CharSequence getDisplayName() {
@@ -33,6 +34,7 @@ public class SimpleEasyItem implements IEasyItem {
     public HashMap<String, String> getEasyParameter() {
         return easyParameter;
     }
+
 
 
 }

@@ -58,7 +58,7 @@ public class Text1 {
         return result;
     }
 
-    public static class ResultEntity extends SimpleEasyItem {
+    public static class ResultEntity extends SimpleEasyItem     {
 
 
         private String fullPinyin;
@@ -151,8 +151,6 @@ public class Text1 {
 
 
 
-        public ResultEntity() {
-        }
 
 
     }

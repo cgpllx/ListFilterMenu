@@ -12,6 +12,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        android:background="@android:color/white"
         android:cacheColorHint="#00000000"
         android:choiceMode="singleChoice"
         android:divider="@null"
@@ -21,17 +22,17 @@
         android:scrollbars="none" />
 
     <LinearLayout
-        android:id="@id/easyListFilter_MenuContent_ChildLayout"
+        android:id="@id/easyListFilter_MenuContent_List_2Box"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="2"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:layout_weight="2">
 
         <ListView
             android:id="@id/easyListFilter_MenuContent_List_2"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@android:color/white"
             android:cacheColorHint="#00000000"
             android:choiceMode="singleChoice"
             android:divider="@null"
@@ -44,7 +45,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@android:color/transparent"
+            android:background="@android:color/white"
             android:cacheColorHint="#00000000"
             android:choiceMode="singleChoice"
             android:divider="@null"
@@ -52,5 +53,4 @@
             android:listSelector="#00000000"
             android:scrollbars="none" />
     </LinearLayout>
-
 </LinearLayout>

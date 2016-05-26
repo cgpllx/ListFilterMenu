@@ -16,7 +16,7 @@
         <attr name="menuPupupYoff" format="reference|dimension" />
     </declare-styleable>
 
-    <declare-styleable name="EasyFilterMenu_SingleSelection">
+    <declare-styleable name="EasyFilterMenuSingle">
         <!--//listview item的布局-->
         <attr name="menuList1ItemLayout" />
         <attr name="menuList2ItemLayout" />
@@ -29,7 +29,7 @@
 
     </declare-styleable>
     <!--但列表的多项选择&lt;!&ndash;&ndash;&gt;-->
-    <declare-styleable name="EasyFilterMenu_MultiSelection">
+    <declare-styleable name="EasyFilterMenuMulti">
         <!--//listview item的布局-->
         <attr name="menuList1ItemLayout" />
         <!--//显示不限制的名称-->
@@ -37,7 +37,7 @@
 
     </declare-styleable>
 
-    <declare-styleable name="EasyFileterMenu_MoreSelection">
+    <declare-styleable name="EasyFileterMenuMore">
         <!--//listview item的布局-->
         <attr name="menuList1ItemLayout" />
         <attr name="menuList2ItemLayout" />

@@ -1,5 +1,4 @@
 package cc.easyandroid.listfiltermenu.core;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
@@ -8,14 +7,9 @@ import java.util.Set;
  *
  */
 public class IEasyItemFactory {
-    public static IEasyItem buildIEasyItem(final ArrayList<? extends IEasyItem> iEasyItems) {
-        BaseIEasyItem iEasyItem = new BaseIEasyItem("topIEasyItem");
-//        iEasyItem.setChildItems(iEasyItems);
-        return iEasyItem;
-    }
 
     public static IEasyItem buildOneIEasyItem(CharSequence displayName, HashMap<String, String> mapPara) {
-        BaseIEasyItem iEasyItem = new BaseIEasyItem(displayName);
+        BaseIEasyItem iEasyItem = new BaseIEasyItem(displayName.toString());
         if (mapPara != null && !mapPara.isEmpty()) {
             Set<String> keys = mapPara.keySet();
             for (String key : keys) {
@@ -26,23 +20,18 @@ public class IEasyItemFactory {
         return iEasyItem;
     }
 
-    /**
-     *
-     */
     public static class BaseIEasyItem extends SimpleEasyItem {
+        private String displayName;
 
-
-        private CharSequence displayName;
-
-
-        public BaseIEasyItem(CharSequence displayName) {
+        public BaseIEasyItem(String displayName) {
             this.displayName = displayName;
 
         }
 
         @Override
         public EasyItemManager getEasyItemManager() {
-            EasyItemManager easyItemManager = new EasyItemManager (null);
+            ArrayList<IEasyItem> arrayList = new ArrayList<>();
+            EasyItemManager easyItemManager = new EasyItemManager(arrayList);
             easyItemManager.setNoLimitItem(true);
             return easyItemManager;
         }
@@ -51,7 +40,5 @@ public class IEasyItemFactory {
         public CharSequence getDisplayName() {
             return displayName;
         }
-
-
     }
 }

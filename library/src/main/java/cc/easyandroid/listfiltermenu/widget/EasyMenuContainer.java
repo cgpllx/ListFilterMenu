@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import cc.easyandroid.listfiltermenu.core.EasyMenuManager;
-import cc.easyandroid.listfiltermenu.core.MenuStates;
+import cc.easyandroid.listfiltermenu.core.EasyMenuStates;
 
 /**
  *
@@ -52,11 +52,11 @@ public class EasyMenuContainer extends LinearLayout {
         }
     }
 
-    public SparseArray<MenuStates> getMenusStates() {
+    public SparseArray<EasyMenuStates> getMenusStates() {
         return easyMenuManager.getMenusStates();
     }
 
-    public void setMenusStates(SparseArray<MenuStates> sparseArray) {
+    public void setMenusStates(SparseArray<EasyMenuStates> sparseArray) {
         easyMenuManager.setMenusStates(sparseArray);
     }
 }

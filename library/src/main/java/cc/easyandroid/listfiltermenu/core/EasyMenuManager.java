@@ -13,7 +13,7 @@ public class EasyMenuManager implements EasyFilterListener.OnMenuShowListener {
         menus = new ArrayList<>();
     }
 
-    ArrayList<EasyFilterMenu> menus;
+    private ArrayList<EasyFilterMenu> menus;
 
     public void addMenu(EasyFilterMenu menu) {
         menus.add(menu);
@@ -41,29 +41,30 @@ public class EasyMenuManager implements EasyFilterListener.OnMenuShowListener {
         }
     }
 
-    public SparseArray<MenuStates> getMenusStates() {
-        SparseArray<MenuStates> sparseArray = new SparseArray<>();
+    public SparseArray<EasyMenuStates> getMenusStates() {
+        SparseArray<EasyMenuStates> sparseArray = new SparseArray<>();
         if (menus != null && menus.size() > 0) {
             for (int i = 0; i < menus.size(); i++) {
                 EasyFilterMenu easyFilterMenu = menus.get(i);
-                MenuStates menuStates = easyFilterMenu.getMenuStates();
+                EasyMenuStates easyMenuStates = easyFilterMenu.getMenuStates();
                 int menuSerialNumber = easyFilterMenu.getMenuSerialNumber();
-                sparseArray.put(menuSerialNumber, menuStates);
+                sparseArray.put(menuSerialNumber, easyMenuStates);
             }
         }
         return sparseArray;
     }
 
-    public void setMenusStates(SparseArray<MenuStates> menusStates) {
+    public void setMenusStates(SparseArray<EasyMenuStates> menusStates) {
         if (menus != null && menus.size() > 0) {
             for (int i = 0; i < menus.size(); i++) {
                 EasyFilterMenu easyFilterMenu = menus.get(i);
                 int menuSerialNumber = easyFilterMenu.getMenuSerialNumber();
-                MenuStates sparseArray = menusStates.get(menuSerialNumber);
+                EasyMenuStates sparseArray = menusStates.get(menuSerialNumber);
                 if (sparseArray != null) {
                     easyFilterMenu.setMenuStates(sparseArray);
                 }
             }
         }
     }
+
 }

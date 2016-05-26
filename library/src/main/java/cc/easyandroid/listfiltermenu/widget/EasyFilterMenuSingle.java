@@ -16,18 +16,17 @@ import java.util.HashMap;
 import java.util.List;
 
 import cc.easyandroid.listfiltermenu.R;
-import cc.easyandroid.listfiltermenu.core.EasyFilterListener;
 import cc.easyandroid.listfiltermenu.core.EasyItemManager;
+import cc.easyandroid.listfiltermenu.core.EasyMenuStates;
 import cc.easyandroid.listfiltermenu.core.EasyUtils;
 import cc.easyandroid.listfiltermenu.core.IEasyItem;
 import cc.easyandroid.listfiltermenu.core.IEasyItemFactory;
 import cc.easyandroid.listfiltermenu.core.ListFilterAdapter;
-import cc.easyandroid.listfiltermenu.core.MenuStates;
 
 /**
  * 最多3个列表的单选
  */
-public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
+public class EasyFilterMenuSingle extends EasyFilterMenu {
 
     private String tempMenuTitle;//记录第二个列表点击不限时候要现实的title
     private ListView mListView1;
@@ -52,15 +51,15 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
     private View list2Box;//装list1的盒子
     private View list3Box;//装list1的盒子
 
-    public EasyFilterMenu_SingleSelection(Context context) {
+    public EasyFilterMenuSingle(Context context) {
         this(context, null);
     }
 
-    public EasyFilterMenu_SingleSelection(Context context, AttributeSet attrs) {
+    public EasyFilterMenuSingle(Context context, AttributeSet attrs) {
         this(context, attrs, R.attr.EasyFilterMenuStyle);
     }
 
-    public EasyFilterMenu_SingleSelection(Context context, AttributeSet attrs, int defStyle) {
+    public EasyFilterMenuSingle(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(context, attrs, defStyle);
     }
@@ -73,20 +72,20 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
         int list2ItemViewResourceId = LISTFILTERMENU_LISTITEM_LAYOUT;
         int list3ItemViewResourceId = LISTFILTERMENU_LISTITEM_LAYOUT;
 
-        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.EasyFilterMenu_SingleSelection, defStyle, 0);
+        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.EasyFilterMenuSingle, defStyle, 0);
 
         int n = a.getIndexCount();
         for (int i = 0; i < n; i++) {
             int attr = a.getIndex(i);
-            if (attr == R.styleable.EasyFilterMenu_SingleSelection_menuList1ItemLayout) {//第1个列表item  的资源id
+            if (attr == R.styleable.EasyFilterMenuSingle_menuList1ItemLayout) {//第1个列表item  的资源id
                 list1ItemViewResourceId = a.getResourceId(attr, LISTFILTERMENU_LISTITEM_LAYOUT);
-            } else if (attr == R.styleable.EasyFilterMenu_SingleSelection_menuList2ItemLayout) {//第2个列表item  的资源id
+            } else if (attr == R.styleable.EasyFilterMenuSingle_menuList2ItemLayout) {//第2个列表item  的资源id
                 list2ItemViewResourceId = a.getResourceId(attr, LISTFILTERMENU_LISTITEM_LAYOUT);
-            } else if (attr == R.styleable.EasyFilterMenu_SingleSelection_menuList3ItemLayout) {//第3个列表item  的资源id
+            } else if (attr == R.styleable.EasyFilterMenuSingle_menuList3ItemLayout) {//第3个列表item  的资源id
                 list3ItemViewResourceId = a.getResourceId(attr, LISTFILTERMENU_LISTITEM_LAYOUT);
-            } else if (attr == R.styleable.EasyFilterMenu_SingleSelection_unlimitedText) {
+            } else if (attr == R.styleable.EasyFilterMenuSingle_unlimitedText) {
                 unlimitedTermDisplayName = a.getText(attr);
-            } else if (attr == R.styleable.EasyFilterMenu_SingleSelection_showUnlimiteds) {
+            } else if (attr == R.styleable.EasyFilterMenuSingle_showUnlimiteds) {
                 mShowUnlimiteds = a.getInt(attr, SHOW_LIST_NONE);
             }
         }
@@ -146,7 +145,7 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
                 if (!clickPositionIsChanged(mListView1, position) && nextListIsVisible) {//下一个listview 是显示的，且当前点击的位置是上次记住的位置
                     return;
                 }
-                setMenuList1State(position, menuListItemClickListener, true);
+                setMenuList1State(position,  true);
                 mListView1.setTag(position);//tag记录的就是上一次被点击的位置
 
             }
@@ -159,7 +158,7 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
                     if (!clickPositionIsChanged(mListView2, position) && nextListIsVisible) {//下一个listview 是显示的，且当前点击的位置是上次记住的位置
                         return;
                     }
-                    setMenuList2State(position, menuListItemClickListener, true);
+                    setMenuList2State(position,  true);
                     mListView2.setTag(position);
                 }
             });
@@ -168,7 +167,7 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
             listview_3.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    setMenuList3State(position, menuListItemClickListener, true);
+                    setMenuList3State(position,  true);
                 }
             });
         }
@@ -203,7 +202,7 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
     protected void onShowMenuContent() {
         super.onShowMenuContent();
         ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView1.getAdapter();
-        setMenuList1State(listFilterAdapter.getEasyItemManager().getChildSelectPosion(), null, false);//pop显示的时候去检查看是要现实哪一个
+        setMenuList1State(listFilterAdapter.getEasyItemManager().getChildSelectPosion(),  false);//pop显示的时候去检查看是要现实哪一个
     }
 
     /**
@@ -211,7 +210,7 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
      *
      * @param position 位置
      */
-    public void setMenuList1State(int position, EasyFilterListener.OnMenuListItemClickListener menuListItemClickListener, boolean fromUserClick) {
+    public void setMenuList1State(int position,  boolean fromUserClick) {
 
         ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView1.getAdapter();
         IEasyItem iEasyItem = listFilterAdapter.getItem(position);
@@ -228,7 +227,7 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
 
                 EasyUtils.hideView(mListView3);
                 EasyUtils.hideView(list3Box);
-                setMenuList2State(easyItemManager.getChildSelectPosion(), menuListItemClickListener, false);
+                setMenuList2State(easyItemManager.getChildSelectPosion(),  false);
             } else {
                 ((ListFilterAdapter) mListView1.getAdapter()).clearAllChildPosion(); // 点击lise1中的不限制，清除list1中记录的childselected 记录，
                 EasyUtils.hideView(mListView2);
@@ -242,7 +241,7 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
                     changMenuText(iEasyItem);
                 }
                 if (fromUserClick) {
-                    menuListItemClick(menuListItemClickListener, iEasyItem);//点击后会关闭pop
+                    menuListItemClick( iEasyItem);//点击后会关闭pop
                 }
             }
 
@@ -253,9 +252,8 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
      * 设置第二个列表
      *
      * @param position                  要选择的位置
-     * @param menuListItemClickListener 点击回掉
      */
-    public void setMenuList2State(int position, EasyFilterListener.OnMenuListItemClickListener menuListItemClickListener, boolean fromUserClick) {
+    public void setMenuList2State(int position,  boolean fromUserClick) {
         ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView2.getAdapter();
         IEasyItem iEasyItem = listFilterAdapter.getItem(position);
         mListView2.setItemChecked(position, true);//标记选中项
@@ -271,7 +269,7 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
                 addList3Items(easyItemManager);
                 EasyUtils.showView(mListView3);
                 EasyUtils.showView(list3Box);
-                setMenuList3State(easyItemManager.getChildSelectPosion(), menuListItemClickListener, false);
+                setMenuList3State(easyItemManager.getChildSelectPosion(),  false);
             } else {
                 ((ListFilterAdapter) mListView2.getAdapter()).clearAllChildPosion(); // 点击lise1中的不限制，清除list1中记录的childselected 记录
                 EasyUtils.hideView(mListView3);
@@ -280,7 +278,7 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
                     changMenuText(iEasyItem);//这里和listview1有区别
                 }
                 if (fromUserClick) {
-                    menuListItemClick(menuListItemClickListener, iEasyItem);//点击后会关闭pop
+                    menuListItemClick( iEasyItem);//点击后会关闭pop
                 }
 
             }
@@ -293,10 +291,9 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
      * 设置第三个列表
      *
      * @param position                  要选择的位置
-     * @param menuListItemClickListener 点击回掉
      * @param fromUserClick             是否来自用户点击
      */
-    public void setMenuList3State(int position, EasyFilterListener.OnMenuListItemClickListener menuListItemClickListener, boolean fromUserClick) {
+    public void setMenuList3State(int position,  boolean fromUserClick) {
         ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView3.getAdapter();
         IEasyItem iEasyItem = listFilterAdapter.getItem(position);
         mListView3.setItemChecked(position, true);//标记选中项
@@ -308,24 +305,24 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
             changMenuText(iEasyItem);//这里和listview1有区别
         }
         if (fromUserClick) {
-            menuListItemClick(menuListItemClickListener, iEasyItem);//点击后会关闭pop
+            menuListItemClick( iEasyItem);//点击后会关闭pop
         }
 
 
     }
 
-    /**
-     * item click
-     *
-     * @param iEasyItem 被点击的item
-     */
-    public void menuListItemClick(EasyFilterListener.OnMenuListItemClickListener menuListItemClickListener, IEasyItem iEasyItem) {
-        if (menuListItemClickListener != null) {
-            menuListItemClickListener.onClick(iEasyItem);
-            dismiss();//item 被点击后dismiss pop 最后销毁，
-        }
-
-    }
+//    /**
+//     * item click
+//     *
+//     * @param iEasyItem 被点击的item
+//     */
+//    protected void menuListItemClick(EasyFilterListener.OnMenuListItemClickListener menuListItemClickListener, IEasyItem iEasyItem) {
+//        if (menuListItemClickListener != null) {
+//            menuListItemClickListener.onClick(this,iEasyItem);
+//            dismiss();//item 被点击后dismiss pop 最后销毁，
+//        }
+//
+//    }
 
     /**
      * 如果是第一个列表点击不限，就现实默认的，然后是其他，就现实上一层的选中项
@@ -452,9 +449,9 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
         }
     }
 
-    public void setMenuStates(MenuStates menuStates) {
-        setMenuData(false, menuStates.getEasyItemManager());
-        setMenuTitle(menuStates.getMenuTitle());
+    public void setMenuStates(EasyMenuStates easyMenuStates) {
+        setMenuData(false, easyMenuStates.getEasyItemManager());
+        setMenuTitle(easyMenuStates.getMenuTitle());
     }
 
     @Override
@@ -462,9 +459,10 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
         ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView1.getAdapter();
         return listFilterAdapter.getEasyItemManager();
     }
-    protected MenuStates onCreateMenuStates(EasyItemManager easyItemManager){
-        return new MenuStates.Builder()//
+    protected EasyMenuStates onCreateMenuStates(EasyItemManager easyItemManager){
+        return new EasyMenuStates.Builder()//
                 .setEasyItemManager(easyItemManager)
+                .setEasyMenuParas(getEasyMenuParas())
                 .setMenuTitle(getMenuTitle())
                 .build();
     };

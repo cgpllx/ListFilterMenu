@@ -13,16 +13,18 @@
         android:background="?attr/colorPrimary" />
 
     <include layout="@layout/content_main" />
-<Button
-    android:id="@+id/click"
-    android:textColor="@color/black_overlay"
-    android:text="点我"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/click"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="传值到下一界面点我"
+        android:textColor="@color/black_overlay" />
+
     <Button
         android:id="@+id/click2"
-        android:textColor="@color/black_overlay"
-        android:text="点我"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="不传值点我"
+        android:textColor="@color/black_overlay" />
 </LinearLayout>

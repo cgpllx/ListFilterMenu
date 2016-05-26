@@ -19,29 +19,29 @@ import java.util.List;
 
 import cc.easyandroid.listfiltermenu.R;
 import cc.easyandroid.listfiltermenu.core.EasyItemManager;
+import cc.easyandroid.listfiltermenu.core.EasyMenuStates;
 import cc.easyandroid.listfiltermenu.core.IEasyItem;
 import cc.easyandroid.listfiltermenu.core.IEasyItemFactory;
 import cc.easyandroid.listfiltermenu.core.ListFilterAdapter;
-import cc.easyandroid.listfiltermenu.core.MenuStates;
 
 /**
  * 单列表的多项选择
  */
-public class EasyFilterMenu_MultiSelection extends EasyFilterMenu {
+public class EasyFilterMenuMulti extends EasyFilterMenu {
     private ListView mListView1;
     private SparseBooleanArray mMenuStatesArray;//保存被选中的状态的
     private CharSequence unlimitedTermDisplayName;//不限制，默认名称  只要不为空就显示
 
 
-    public EasyFilterMenu_MultiSelection(Context context) {
+    public EasyFilterMenuMulti(Context context) {
         this(context, null);
     }
 
-    public EasyFilterMenu_MultiSelection(Context context, AttributeSet attrs) {
+    public EasyFilterMenuMulti(Context context, AttributeSet attrs) {
         this(context, attrs, R.attr.EasyFilterMenuStyle);
     }
 
-    public EasyFilterMenu_MultiSelection(Context context, AttributeSet attrs, int defStyle) {
+    public EasyFilterMenuMulti(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(context, attrs, defStyle);
     }
@@ -52,14 +52,14 @@ public class EasyFilterMenu_MultiSelection extends EasyFilterMenu {
 
         int list1ItemViewResourceId = LISTFILTERMENU_LISTITEM_LAYOUT;
 
-        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.EasyFilterMenu_MultiSelection, defStyle, 0);
+        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.EasyFilterMenuMulti, defStyle, 0);
 
         int n = a.getIndexCount();
         for (int i = 0; i < n; i++) {
             int attr = a.getIndex(i);
-            if (attr == R.styleable.EasyFilterMenu_MultiSelection_menuList1ItemLayout) {//第1个列表item  的资源id
+            if (attr == R.styleable.EasyFilterMenuMulti_menuList1ItemLayout) {//第1个列表item  的资源id
                 list1ItemViewResourceId = a.getResourceId(attr, LISTFILTERMENU_LISTITEM_LAYOUT);
-            } else if (attr == R.styleable.EasyFilterMenu_MultiSelection_unlimitedText) {
+            } else if (attr == R.styleable.EasyFilterMenuMulti_unlimitedText) {
                 unlimitedTermDisplayName = a.getText(attr);
             }
         }
@@ -111,7 +111,7 @@ public class EasyFilterMenu_MultiSelection extends EasyFilterMenu {
             listView.setItemChecked(0, true);
             BaseAdapter adapter = (BaseAdapter) listView.getAdapter();
             adapter.notifyDataSetChanged();
-            setMenuTitle(defultMenuText);
+
         } else {
             if (booleanArray.indexOfValue(true) != -1) {//检测是否有选中项，如果有就讲第一个的选中状态改变
                 listView.setItemChecked(0, false);
@@ -164,6 +164,7 @@ public class EasyFilterMenu_MultiSelection extends EasyFilterMenu {
         ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView1.getAdapter();
         listFilterAdapter.setEasyItemManager(easyItemManager);
     }
+
     @Override
     public EasyItemManager getMenuData() {
         ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView1.getAdapter();
@@ -199,21 +200,27 @@ public class EasyFilterMenu_MultiSelection extends EasyFilterMenu {
     @Override
     protected void onDismissMenuContent() {
         super.onDismissMenuContent();
-        saveStates();
+//        saveStates();
     }
 
-    public void setMenuStates(MenuStates menuStates) {
-//        tempMenuTitle = menuStates.getTempMenuTitle();
-        mMenuStatesArray=menuStates.getMenuStatesArray();
-        setMenuData(false, menuStates.getEasyItemManager());
-        setMenuTitle(menuStates.getMenuTitle());
+    public void setMenuStates(EasyMenuStates easyMenuStates) {
+//        tempMenuTitle = easyMenuStates.getTempMenuTitle();
+        mMenuStatesArray = easyMenuStates.getMenuStatesArray();
+        setMenuData(false, easyMenuStates.getEasyItemManager());
+        setMenuTitle(easyMenuStates.getMenuTitle());
     }
-    protected MenuStates onCreateMenuStates(EasyItemManager easyItemManager){
-        return  new MenuStates.Builder()//
+
+    protected EasyMenuStates onCreateMenuStates(EasyItemManager easyItemManager) {
+        return new EasyMenuStates.Builder()//
                 //.setTempMenuTitle(tempMenuTitle)//
                 .setMenuStatesArray(mMenuStatesArray)
                 .setEasyItemManager(easyItemManager)
+                .setEasyMenuParas(getEasyMenuParas())
                 .setMenuTitle(getMenuTitle())
                 .build();
-    };
+    }
+
+    protected void onCustomViewConfirmBuntonClicked(ViewGroup menuContentView, int customViewConfirmId, final ListView listView) {
+
+    }
 }
