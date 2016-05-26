@@ -16,13 +16,13 @@ import java.util.HashMap;
 import java.util.List;
 
 import cc.easyandroid.listfiltermenu.R;
+import cc.easyandroid.listfiltermenu.core.EasyFilterListener;
 import cc.easyandroid.listfiltermenu.core.EasyItemManager;
 import cc.easyandroid.listfiltermenu.core.EasyUtils;
 import cc.easyandroid.listfiltermenu.core.IEasyItem;
 import cc.easyandroid.listfiltermenu.core.IEasyItemFactory;
 import cc.easyandroid.listfiltermenu.core.ListFilterAdapter;
-import cc.easyandroid.listfiltermenu.core.OnMenuListItemClickListener;
-import cc.easyandroid.listfiltermenu.core.SingleSelectionMenuStates;
+import cc.easyandroid.listfiltermenu.core.MenuStates;
 
 /**
  * 最多3个列表的单选
@@ -175,7 +175,6 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
     }
 
 
-
     @Override
     protected boolean isEmpty() {
         return mListView1.getAdapter().isEmpty();
@@ -212,7 +211,7 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
      *
      * @param position 位置
      */
-    public void setMenuList1State(int position, OnMenuListItemClickListener menuListItemClickListener, boolean fromUserClick) {
+    public void setMenuList1State(int position, EasyFilterListener.OnMenuListItemClickListener menuListItemClickListener, boolean fromUserClick) {
 
         ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView1.getAdapter();
         IEasyItem iEasyItem = listFilterAdapter.getItem(position);
@@ -256,7 +255,7 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
      * @param position                  要选择的位置
      * @param menuListItemClickListener 点击回掉
      */
-    public void setMenuList2State(int position, OnMenuListItemClickListener menuListItemClickListener, boolean fromUserClick) {
+    public void setMenuList2State(int position, EasyFilterListener.OnMenuListItemClickListener menuListItemClickListener, boolean fromUserClick) {
         ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView2.getAdapter();
         IEasyItem iEasyItem = listFilterAdapter.getItem(position);
         mListView2.setItemChecked(position, true);//标记选中项
@@ -297,7 +296,7 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
      * @param menuListItemClickListener 点击回掉
      * @param fromUserClick             是否来自用户点击
      */
-    public void setMenuList3State(int position, OnMenuListItemClickListener menuListItemClickListener, boolean fromUserClick) {
+    public void setMenuList3State(int position, EasyFilterListener.OnMenuListItemClickListener menuListItemClickListener, boolean fromUserClick) {
         ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView3.getAdapter();
         IEasyItem iEasyItem = listFilterAdapter.getItem(position);
         mListView3.setItemChecked(position, true);//标记选中项
@@ -320,7 +319,7 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
      *
      * @param iEasyItem 被点击的item
      */
-    public void menuListItemClick(OnMenuListItemClickListener menuListItemClickListener, IEasyItem iEasyItem) {
+    public void menuListItemClick(EasyFilterListener.OnMenuListItemClickListener menuListItemClickListener, IEasyItem iEasyItem) {
         if (menuListItemClickListener != null) {
             menuListItemClickListener.onClick(iEasyItem);
             dismiss();//item 被点击后dismiss pop 最后销毁，
@@ -453,26 +452,22 @@ public class EasyFilterMenu_SingleSelection extends EasyFilterMenu {
         }
     }
 
-    public void setMenuStates(SingleSelectionMenuStates menuStates) {
+    public void setMenuStates(MenuStates menuStates) {
         setMenuData(false, menuStates.getEasyItemManager());
         setMenuTitle(menuStates.getMenuTitle());
     }
+
     @Override
     public EasyItemManager getMenuData() {
         ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView1.getAdapter();
-        EasyItemManager easyItemManager = listFilterAdapter.getEasyItemManager();
-        return easyItemManager;
+        return listFilterAdapter.getEasyItemManager();
     }
-
-    public SingleSelectionMenuStates getMenuStates() {
-        EasyItemManager easyItemManager = getMenuData();
-        if(easyItemManager==null){
-            return null;
-        }
-        return new SingleSelectionMenuStates.Builder()//
+    protected MenuStates onCreateMenuStates(EasyItemManager easyItemManager){
+        return new MenuStates.Builder()//
                 .setEasyItemManager(easyItemManager)
                 .setMenuTitle(getMenuTitle())
                 .build();
-    }
+    };
+
 
 }

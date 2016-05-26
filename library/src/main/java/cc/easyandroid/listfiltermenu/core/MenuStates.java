@@ -6,10 +6,10 @@ import android.support.v4.util.ArrayMap;
 import android.util.SparseBooleanArray;
 
 /**
- * menu 数据
+ * menu 数据封装对象
  */
-public class SingleSelectionMenuStates implements Parcelable {
-    private EasyItemManager easyItemManager;
+public class MenuStates implements Parcelable {
+    private EasyItemManager easyItemManager;//item的数据
     private String menuTitle;
     private SparseBooleanArray menuStatesArray;//保存被选中的状态的
     ArrayMap<Integer, String> multiTitles;//多选时候存放被选择的标题的集合
@@ -30,7 +30,7 @@ public class SingleSelectionMenuStates implements Parcelable {
         return menuTitle;
     }
 
-    private SingleSelectionMenuStates(Builder builder) {
+    private MenuStates(Builder builder) {
         easyItemManager = builder.easyItemManager;
         menuTitle = builder.menuTitle;
         menuStatesArray = builder.menuStatesArray;
@@ -55,7 +55,6 @@ public class SingleSelectionMenuStates implements Parcelable {
         }
 
 
-
         public Builder setMenuTitle(String title) {
             this.menuTitle = title;
             return this;
@@ -67,8 +66,8 @@ public class SingleSelectionMenuStates implements Parcelable {
             return this;
         }
 
-        public SingleSelectionMenuStates build() {
-            return new SingleSelectionMenuStates(this);
+        public MenuStates build() {
+            return new MenuStates(this);
         }
     }
 
@@ -86,7 +85,7 @@ public class SingleSelectionMenuStates implements Parcelable {
         dest.writeMap(this.multiTitles);
     }
 
-    protected SingleSelectionMenuStates(Parcel in) {
+    protected MenuStates(Parcel in) {
         this.easyItemManager = (EasyItemManager) in.readSerializable();
         this.menuTitle = in.readString();
         this.menuStatesArray = in.readSparseBooleanArray();
@@ -94,13 +93,13 @@ public class SingleSelectionMenuStates implements Parcelable {
         in.readMap(this.multiTitles, multiTitles.getClass().getClassLoader());
     }
 
-    public static final Creator<SingleSelectionMenuStates> CREATOR = new Creator<SingleSelectionMenuStates>() {
-        public SingleSelectionMenuStates createFromParcel(Parcel source) {
-            return new SingleSelectionMenuStates(source);
+    public static final Creator<MenuStates> CREATOR = new Creator<MenuStates>() {
+        public MenuStates createFromParcel(Parcel source) {
+            return new MenuStates(source);
         }
 
-        public SingleSelectionMenuStates[] newArray(int size) {
-            return new SingleSelectionMenuStates[size];
+        public MenuStates[] newArray(int size) {
+            return new MenuStates[size];
         }
     };
 }

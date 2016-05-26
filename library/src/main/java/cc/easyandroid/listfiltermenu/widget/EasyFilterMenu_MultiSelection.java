@@ -22,7 +22,7 @@ import cc.easyandroid.listfiltermenu.core.EasyItemManager;
 import cc.easyandroid.listfiltermenu.core.IEasyItem;
 import cc.easyandroid.listfiltermenu.core.IEasyItemFactory;
 import cc.easyandroid.listfiltermenu.core.ListFilterAdapter;
-import cc.easyandroid.listfiltermenu.core.SingleSelectionMenuStates;
+import cc.easyandroid.listfiltermenu.core.MenuStates;
 
 /**
  * 单列表的多项选择
@@ -167,8 +167,7 @@ public class EasyFilterMenu_MultiSelection extends EasyFilterMenu {
     @Override
     public EasyItemManager getMenuData() {
         ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView1.getAdapter();
-        EasyItemManager easyItemManager = listFilterAdapter.getEasyItemManager();
-        return easyItemManager;
+        return listFilterAdapter.getEasyItemManager();
     }
 
 
@@ -203,24 +202,18 @@ public class EasyFilterMenu_MultiSelection extends EasyFilterMenu {
         saveStates();
     }
 
-    public void setMenuStates(SingleSelectionMenuStates menuStates) {
+    public void setMenuStates(MenuStates menuStates) {
 //        tempMenuTitle = menuStates.getTempMenuTitle();
         mMenuStatesArray=menuStates.getMenuStatesArray();
         setMenuData(false, menuStates.getEasyItemManager());
         setMenuTitle(menuStates.getMenuTitle());
     }
-
-    public SingleSelectionMenuStates getMenuStates() {
-        ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView1.getAdapter();
-        EasyItemManager easyItemManager = listFilterAdapter.getEasyItemManager();
-        if(easyItemManager==null){
-            return  null;
-        }
-        return new SingleSelectionMenuStates.Builder()//
-//                .setTempMenuTitle(tempMenuTitle)//
+    protected MenuStates onCreateMenuStates(EasyItemManager easyItemManager){
+        return  new MenuStates.Builder()//
+                //.setTempMenuTitle(tempMenuTitle)//
                 .setMenuStatesArray(mMenuStatesArray)
                 .setEasyItemManager(easyItemManager)
                 .setMenuTitle(getMenuTitle())
                 .build();
-    }
+    };
 }

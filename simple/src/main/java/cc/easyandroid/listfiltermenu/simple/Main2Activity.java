@@ -12,8 +12,8 @@ import java.util.ArrayList;
 
 import cc.easyandroid.listfiltermenu.core.EasyItemManager;
 import cc.easyandroid.listfiltermenu.core.IEasyItem;
+import cc.easyandroid.listfiltermenu.core.MenuStates;
 import cc.easyandroid.listfiltermenu.core.OnMenuListItemClickListener;
-import cc.easyandroid.listfiltermenu.core.SingleSelectionMenuStates;
 import cc.easyandroid.listfiltermenu.widget.EasyFileterMenu_MoreSelection;
 import cc.easyandroid.listfiltermenu.widget.EasyFilterMenu;
 import cc.easyandroid.listfiltermenu.widget.EasyFilterMenu_MultiSelection;
@@ -69,15 +69,15 @@ public class Main2Activity extends AppCompatActivity {
                 easyFilterMenu_multiSelection.setMenuData(true, new EasyItemManager(lists4));
             }
         });
-        SparseArray<SingleSelectionMenuStates> singleSelectionMenuStates=getIntent().getExtras().getSparseParcelableArray("sparseArray");
+        SparseArray<MenuStates> singleSelectionMenuStates=getIntent().getExtras().getSparseParcelableArray("sparseArray");
         if(singleSelectionMenuStates!=null){
             easyMenuContainer.setMenusStates(singleSelectionMenuStates);
         }
-//        SingleSelectionMenuStates singleSelectionMenuStates1=getIntent().getParcelableExtra("singleSelectionMenuStates2");
+//        MenuStates singleSelectionMenuStates1=getIntent().getParcelableExtra("singleSelectionMenuStates2");
 //        if(singleSelectionMenuStates1!=null){
 //            easyFilterMenu_multiSelection.setMenuStates(singleSelectionMenuStates1);
 //        }
-//        SingleSelectionMenuStates singleSelectionMenuStates3=getIntent().getParcelableExtra("singleSelectionMenuStates3");
+//        MenuStates singleSelectionMenuStates3=getIntent().getParcelableExtra("singleSelectionMenuStates3");
 //        if(singleSelectionMenuStates3!=null){
 //            easyFileterMenu_moreSelection.setMenuStates(singleSelectionMenuStates3);
 //        }

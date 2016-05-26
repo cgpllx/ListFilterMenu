@@ -15,10 +15,9 @@ import android.widget.TextView;
 
 import cc.easyandroid.listfiltermenu.R;
 import cc.easyandroid.listfiltermenu.core.AnimatorPopup;
+import cc.easyandroid.listfiltermenu.core.EasyFilterListener;
 import cc.easyandroid.listfiltermenu.core.EasyItemManager;
-import cc.easyandroid.listfiltermenu.core.ListFilterAdapter;
-import cc.easyandroid.listfiltermenu.core.OnMenuListItemClickListener;
-import cc.easyandroid.listfiltermenu.core.SingleSelectionMenuStates;
+import cc.easyandroid.listfiltermenu.core.MenuStates;
 
 /**
  * 下拉筛选控件
@@ -197,8 +196,6 @@ public abstract class EasyFilterMenu extends LinearLayout implements Runnable {
      * Menu 被点击后，一般这里现实pop
      */
     protected void onMenuClick() {
-        System.out.println("onMenuClick");
-//        pupupWindow.showAsDropDown(this);
         toggle();
     }
 
@@ -296,7 +293,7 @@ public abstract class EasyFilterMenu extends LinearLayout implements Runnable {
     /**
      * serial number
      */
-    public int getMenuSerialNumber(){
+    public int getMenuSerialNumber() {
         return defultMenuText.toString().hashCode();
     }
 
@@ -337,36 +334,47 @@ public abstract class EasyFilterMenu extends LinearLayout implements Runnable {
         void withoutData(EasyFilterMenu menu);
     }
 
-    OnCustomViewConfirmClickListener customViewConfirmClickListener;
+    EasyFilterListener.OnCustomViewConfirmClickListener customViewConfirmClickListener;
 
-    public void setOnCustomViewConfirmClickListener(OnCustomViewConfirmClickListener customViewConfirmClickListener) {
+    public void setOnCustomViewConfirmClickListener(EasyFilterListener.OnCustomViewConfirmClickListener customViewConfirmClickListener) {
         this.customViewConfirmClickListener = customViewConfirmClickListener;
     }
 
-    public interface OnCustomViewConfirmClickListener {
-        void onClick(ListView listview, ViewGroup viewGroup, EasyFilterMenu easyFilterMenu);
-    }
 
-    public void setOnMenuListItemClickListener(OnMenuListItemClickListener menuListItemClickListener) {
+    public void setOnMenuListItemClickListener(EasyFilterListener.OnMenuListItemClickListener menuListItemClickListener) {
         this.menuListItemClickListener = menuListItemClickListener;
     }
 
-    protected OnMenuListItemClickListener menuListItemClickListener;
+    protected EasyFilterListener.OnMenuListItemClickListener menuListItemClickListener;
 
-    public void setMenuStates(SingleSelectionMenuStates menuStates) {
+    public void setMenuStates(MenuStates menuStates) {
         setMenuData(false, menuStates.getEasyItemManager());
         setMenuTitle(menuStates.getMenuTitle());
     }
 
-    public abstract SingleSelectionMenuStates getMenuStates();
+    /**
+     * 获取当前menu的数据状态，可以传给其他menu使用
+     *
+     * @return
+     */
+    public MenuStates getMenuStates() {
+        EasyItemManager easyItemManager = getMenuData();
+        if (easyItemManager == null) {
+            return null;
+        } else {
+            return onCreateMenuStates(easyItemManager);
+        }
+    }
 
-    OnMenuShowListener menuShowListener;
+    protected abstract MenuStates onCreateMenuStates(EasyItemManager easyItemManager);
 
-    public void setOnMenuShowListener(OnMenuShowListener menuShowListener) {
+    ;
+
+    EasyFilterListener.OnMenuShowListener menuShowListener;
+
+    public void setOnMenuShowListener(EasyFilterListener.OnMenuShowListener menuShowListener) {
         this.menuShowListener = menuShowListener;
     }
 
-    public interface OnMenuShowListener {
-        void onMenuShowBefore(EasyFilterMenu menu);
-    }
+
 }

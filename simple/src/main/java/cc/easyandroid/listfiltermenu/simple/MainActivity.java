@@ -14,8 +14,8 @@ import java.util.ArrayList;
 
 import cc.easyandroid.listfiltermenu.core.EasyItemManager;
 import cc.easyandroid.listfiltermenu.core.IEasyItem;
+import cc.easyandroid.listfiltermenu.core.MenuStates;
 import cc.easyandroid.listfiltermenu.core.OnMenuListItemClickListener;
-import cc.easyandroid.listfiltermenu.core.SingleSelectionMenuStates;
 import cc.easyandroid.listfiltermenu.widget.EasyFileterMenu_MoreSelection;
 import cc.easyandroid.listfiltermenu.widget.EasyFilterMenu;
 import cc.easyandroid.listfiltermenu.widget.EasyFilterMenu_MultiSelection;
@@ -133,15 +133,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), Main2Activity.class);
-                SingleSelectionMenuStates singleSelectionMenuStates = EasyFilterMenu_SingleSelection.getMenuStates();
-                SingleSelectionMenuStates singleSelectionMenuStates2 = easyFilterMenu_multiSelection.getMenuStates();
-                SingleSelectionMenuStates singleSelectionMenuStates3 = easyFileterMenu_moreSelection.getMenuStates();
-                SparseArray<SingleSelectionMenuStates> sparseArray= easyMenuContainer.getMenusStates();
+                MenuStates menuStates = EasyFilterMenu_SingleSelection.getMenuStates();
+                MenuStates menuStates2 = easyFilterMenu_multiSelection.getMenuStates();
+                MenuStates menuStates3 = easyFileterMenu_moreSelection.getMenuStates();
+                SparseArray<MenuStates> sparseArray= easyMenuContainer.getMenusStates();
                 Bundle bundle=new Bundle();
                 bundle.putSparseParcelableArray("sparseArray",sparseArray);
-//                intent.putExtra("singleSelectionMenuStates2", singleSelectionMenuStates2);
+//                intent.putExtra("menuStates2", menuStates2);
 //                intent.puts
-//                intent.putExtra("singleSelectionMenuStates3", singleSelectionMenuStates3);
+//                intent.putExtra("menuStates3", menuStates3);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
@@ -151,8 +151,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), Main2Activity.class);
 //                intent.put
-             SingleSelectionMenuStates singleSelectionMenuStates = EasyFilterMenu_SingleSelection.getMenuStates();
-//                intent.putExtra("singleSelectionMenuStates",singleSelectionMenuStates);
+             MenuStates menuStates = EasyFilterMenu_SingleSelection.getMenuStates();
+//                intent.putExtra("menuStates",menuStates);
                 startActivity(intent);
             }
         });

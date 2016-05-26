@@ -17,13 +17,13 @@ import java.util.HashMap;
 import java.util.List;
 
 import cc.easyandroid.listfiltermenu.R;
+import cc.easyandroid.listfiltermenu.core.EasyFilterListener;
 import cc.easyandroid.listfiltermenu.core.EasyItemManager;
 import cc.easyandroid.listfiltermenu.core.EasyUtils;
 import cc.easyandroid.listfiltermenu.core.IEasyItem;
 import cc.easyandroid.listfiltermenu.core.IEasyItemFactory;
 import cc.easyandroid.listfiltermenu.core.ListFilterAdapter;
-import cc.easyandroid.listfiltermenu.core.OnMenuListItemClickListener;
-import cc.easyandroid.listfiltermenu.core.SingleSelectionMenuStates;
+import cc.easyandroid.listfiltermenu.core.MenuStates;
 
 /**
  * 多个折叠的单选 list2 点击不限制，要清空list1中被选择的状态，这个是和EasyFilterMenu_SingleSelection的差别
@@ -33,8 +33,8 @@ public class EasyFileterMenu_MoreSelection extends EasyFilterMenu {
     private ListView mListView1;
     private ListView mListView2;
     private int mShowUnlimiteds;//哪几个list 显示
-//    SparseArray<CharSequence> multiTitles = new SparseArray<>();//多选择时候，记住标题的容器
-    ArrayMap<Integer ,String> multiTitles=new ArrayMap<>();
+    //    SparseArray<CharSequence> multiTitles = new SparseArray<>();//多选择时候，记住标题的容器
+    ArrayMap<Integer, String> multiTitles = new ArrayMap<>();
     //不限的显示位置 SHOW_LIST_1 第一个list
     public static final int SHOW_LIST_NONE = 0;
 
@@ -171,13 +171,12 @@ public class EasyFileterMenu_MoreSelection extends EasyFilterMenu {
     }
 
 
-
     /**
      * 设置第一个列表的选中项
      *
      * @param position 位置
      */
-    public void setMenuList1State(int position, OnMenuListItemClickListener menuListItemClickListener, boolean fromUserClick) {
+    public void setMenuList1State(int position, EasyFilterListener.OnMenuListItemClickListener menuListItemClickListener, boolean fromUserClick) {
 
         ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView1.getAdapter();
         IEasyItem iEasyItem = listFilterAdapter.getItem(position);
@@ -202,7 +201,7 @@ public class EasyFileterMenu_MoreSelection extends EasyFilterMenu {
                     ((ListFilterAdapter) mListView1.getAdapter()).clearAllChildPosion(); // 点击lise1中的不限制，清除list1中记录的childselected 记录，
                     multiTitles.clear();
                 } else {//一般不会到这里 TODO 如果这里是不限制
-//                    changMultiMenuText(iEasyItem, mListView1);
+                    //changMultiMenuText(iEasyItem, mListView1);
                 }
                 if (fromUserClick) {
                     menuListItemClick(menuListItemClickListener, iEasyItem);//点击后会关闭pop
@@ -218,7 +217,7 @@ public class EasyFileterMenu_MoreSelection extends EasyFilterMenu {
      * @param position                  要选择的位置
      * @param menuListItemClickListener 点击回掉
      */
-    public void setMenuList2State(int position, OnMenuListItemClickListener menuListItemClickListener, boolean fromUserClick) {
+    public void setMenuList2State(int position, EasyFilterListener.OnMenuListItemClickListener menuListItemClickListener, boolean fromUserClick) {
         ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView2.getAdapter();
         IEasyItem iEasyItem = listFilterAdapter.getItem(position);
         mListView2.setItemChecked(position, true);//标记选中项
@@ -246,7 +245,7 @@ public class EasyFileterMenu_MoreSelection extends EasyFilterMenu {
      *
      * @param iEasyItem 被点击的item
      */
-    public void menuListItemClick(OnMenuListItemClickListener menuListItemClickListener, IEasyItem iEasyItem) {
+    public void menuListItemClick(EasyFilterListener.OnMenuListItemClickListener menuListItemClickListener, IEasyItem iEasyItem) {
         if (menuListItemClickListener != null) {
             menuListItemClickListener.onClick(iEasyItem);
             dismiss();//item 被点击后dismiss pop 最后销毁，
@@ -355,12 +354,10 @@ public class EasyFileterMenu_MoreSelection extends EasyFilterMenu {
      * @param iEasyItem 被点击相应的对象
      */
     private void changMultiMenuText(IEasyItem iEasyItem) {
-        int index=  mListView1.getCheckedItemPosition();
+        int index = mListView1.getCheckedItemPosition();
         if (!iEasyItem.getEasyItemManager().isNoLimitItem()) {//TODO 这里有问题
             multiTitles.put(index, iEasyItem.getDisplayName().toString());// index 第一个列表被点击的位置  被选中的name 添加到里面
-//            multiTitles.put()
         } else {
-//            multiTitles.remove()
             multiTitles.remove(index);//和上面相反
         }
         if (onMultiMenuTitleFormat != null) {
@@ -371,7 +368,7 @@ public class EasyFileterMenu_MoreSelection extends EasyFilterMenu {
     private void buildDefaultMultiMenuTitleFormat() {
         onMultiMenuTitleFormat = new OnMultiMenuTitleFormat() {
             @Override
-            public void format(EasyFileterMenu_MoreSelection easyFileterMenu_moreSelection, ArrayMap<Integer,String> multiTitles) {
+            public void format(EasyFileterMenu_MoreSelection easyFileterMenu_moreSelection, ArrayMap<Integer, String> multiTitles) {
                 onMenuTitleChanged(easyFileterMenu_moreSelection, multiTitles);
             }
         };
@@ -382,7 +379,7 @@ public class EasyFileterMenu_MoreSelection extends EasyFilterMenu {
      *
      * @param multiTitles 装有所有被选择的title集合
      */
-    protected void onMenuTitleChanged(EasyFileterMenu_MoreSelection easyListFilterMenu, ArrayMap<Integer,String> multiTitles) {
+    protected void onMenuTitleChanged(EasyFileterMenu_MoreSelection easyListFilterMenu, ArrayMap<Integer, String> multiTitles) {
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < multiTitles.size(); i++) {
             stringBuilder.append(multiTitles.valueAt(i));
@@ -400,7 +397,7 @@ public class EasyFileterMenu_MoreSelection extends EasyFilterMenu {
     }
 
     public interface OnMultiMenuTitleFormat {
-        void format(EasyFileterMenu_MoreSelection easyFileterMenu_moreSelection, ArrayMap<Integer ,String>   multiTitles);
+        void format(EasyFileterMenu_MoreSelection easyFileterMenu_moreSelection, ArrayMap<Integer, String> multiTitles);
     }
 
     private OnMultiMenuTitleFormat onMultiMenuTitleFormat;
@@ -410,11 +407,12 @@ public class EasyFileterMenu_MoreSelection extends EasyFilterMenu {
     }
 
     @Override
-    public void setMenuStates(SingleSelectionMenuStates menuStates) {
-        multiTitles=menuStates.getMultiTitles();
+    public void setMenuStates(MenuStates menuStates) {
+        multiTitles = menuStates.getMultiTitles();
         super.setMenuStates(menuStates);
 
     }
+
     @Override
     public EasyItemManager getMenuData() {
         ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView1.getAdapter();
@@ -422,21 +420,12 @@ public class EasyFileterMenu_MoreSelection extends EasyFilterMenu {
         return easyItemManager;
     }
 
-    public SingleSelectionMenuStates getMenuStates() {
-//        SparseArray<CharSequence> multiTitles
-        ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView1.getAdapter();
-        EasyItemManager easyItemManager = listFilterAdapter.getEasyItemManager();
-        if(easyItemManager==null){
-            return  null;
-        }
-
-        return new SingleSelectionMenuStates.Builder()//
-//                .setTempMenuTitle(tempMenuTitle)//
+    protected MenuStates onCreateMenuStates(EasyItemManager easyItemManager) {
+        return new MenuStates.Builder()//
+                //.setTempMenuTitle(tempMenuTitle)//
                 .setMultiTitles(multiTitles)
                 .setEasyItemManager(easyItemManager)
                 .setMenuTitle(getMenuTitle())
                 .build();
     }
-
-
 }

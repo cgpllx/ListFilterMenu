@@ -1,42 +1,5 @@
 <resources>
-    <declare-styleable name="EasyListFilterMenu">
-        <attr name="menuText" format="reference|string" />
-
-        <attr name="menuBetweenListDivider" format="reference|color" />
-        <!--//listview item的布局-->
-        <attr name="menuList1ItemLayout" />
-        <attr name="menuList2ItemLayout" />
-        <attr name="menuList3ItemLayout" />
-
-        <attr name="list1Divider" format="reference" />
-        <attr name="list2Divider" format="reference" />
-        <attr name="list3Divider" format="reference" />
-
-        <attr name="menuContentLayout" />
-        <!--//显示不限制的名称-->
-        <attr name="unlimitedText" />
-        <!--//显示不限制的位置-->
-        <attr name="showUnlimiteds">
-
-        </attr>
-        <attr name="menuTitleView" format="reference" />
-
-        <attr name="menuMode"   />
-
-        <attr name="menuListItemTextSize" format="reference|dimension" />
-        <attr name="menuListItemTextColor" format="reference|color" />
-        <attr name="menuListItemDrawableRight" format="reference" />
-
-        <attr name="menuListPupupXoff" format="reference|dimension" />
-        <attr name="menuListPupupYoff" format="reference|dimension" />
-
-        <attr name="menuList1HeaderView" format="reference|dimension" />
-
-    </declare-styleable>
     <!--引用系统样式 -->
-    <declare-styleable name="EasyListFilterMenus">
-        <attr name="EasyListFilterMenuStyle" format="reference" />
-    </declare-styleable>
     <declare-styleable name="EasyFilterMenus">
         <attr name="EasyFilterMenuStyle" format="reference" />
     </declare-styleable>
@@ -85,6 +48,8 @@
         <attr name="showUnlimiteds" />
 
     </declare-styleable>
+
+
     <attr name="menuList1ItemLayout" format="reference" />
     <attr name="menuList2ItemLayout" format="reference" />
     <attr name="menuList3ItemLayout" format="reference" />
@@ -96,9 +61,5 @@
         <flag name="list1" value="1" />
         <flag name="list2" value="2" />
         <flag name="list3" value="4" />
-    </attr>
-    <attr name="menuMode">
-        <enum name="single" value="0" />
-        <enum name="multi" value="1" />
     </attr>
 </resources>
