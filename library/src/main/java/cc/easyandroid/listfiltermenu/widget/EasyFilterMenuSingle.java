@@ -438,8 +438,7 @@ public class EasyFilterMenuSingle extends EasyFilterMenu {
     }
 
     public void setMenuStates(EasyMenuStates easyMenuStates) {
-        setMenuData(false, easyMenuStates.getEasyItemManager());
-        setMenuTitle(easyMenuStates.getMenuTitle());
+        super.setMenuStates(easyMenuStates);
     }
 
     @Override

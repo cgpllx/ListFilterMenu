@@ -237,20 +237,6 @@ public class EasyFileterMenuMore extends EasyFilterMenu {
     }
 
 
-//    /**
-//     * item click
-//     *
-//     * @param iEasyItem 被点击的item
-//     */
-//    public void menuListItemClick(  IEasyItem iEasyItem) {
-//        if (menuListItemClickListener != null) {
-//            menuListItemClickListener.onClick(this,iEasyItem);
-//            dismiss();//item 被点击后dismiss pop 最后销毁，
-//        }
-//
-//    }
-
-
     /**
      * 数据准备好了  直接传送的是父item
      *
@@ -405,9 +391,8 @@ public class EasyFileterMenuMore extends EasyFilterMenu {
 
     @Override
     public void setMenuStates(EasyMenuStates easyMenuStates) {
-        multiTitles = easyMenuStates.getMultiTitles();
         super.setMenuStates(easyMenuStates);
-
+        multiTitles = easyMenuStates.getMultiTitles();
     }
 
     @Override
@@ -419,7 +404,6 @@ public class EasyFileterMenuMore extends EasyFilterMenu {
 
     protected EasyMenuStates onCreateMenuStates(EasyItemManager easyItemManager) {
         return new EasyMenuStates.Builder()//
-                //.setTempMenuTitle(tempMenuTitle)//
                 .setMultiTitles(multiTitles)
                 .setEasyItemManager(easyItemManager)
                 .setEasyMenuParas(getEasyMenuParas())

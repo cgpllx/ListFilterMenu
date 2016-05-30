@@ -3,7 +3,6 @@ package cc.easyandroid.listfiltermenu.simple;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.ListPopupWindow;
 import android.support.v7.widget.Toolbar;
 import android.util.SparseArray;
 import android.view.View;
@@ -119,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), Main2Activity.class);
         Bundle bundle = new Bundle();
         if (easyMenuContainer != null) {
-            SparseArray<EasyMenuStates> sparseArray = easyMenuContainer.getMenusStates();
+            SparseArray<EasyMenuStates> sparseArray = easyMenuContainer.getAllMenuStates();
             bundle.putSparseParcelableArray("sparseArray", sparseArray);
         }
         intent.putExtras(bundle);

@@ -11,8 +11,8 @@ import android.util.SparseBooleanArray;
 public class EasyMenuStates implements Parcelable {
     private EasyItemManager easyItemManager;//item的数据
     private String menuTitle;
-    private SparseBooleanArray menuStatesArray;//保存被选中的状态的
-    private ArrayMap<Integer, String> multiTitles;//多选时候存放被选择的标题的集合
+    private SparseBooleanArray menuStatesArray;//保存被选中的状态的EasyFilterMenuMulti专用
+    private ArrayMap<Integer, String> multiTitles;//多选时候存放被选择的标题的集合EasyFileterMenuMore专用
     private ArrayMap<String, String> easyMenuParas;
 
     public ArrayMap<String, String> getEasyMenuParas() {

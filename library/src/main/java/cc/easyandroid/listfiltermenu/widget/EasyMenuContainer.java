@@ -1,6 +1,7 @@
 package cc.easyandroid.listfiltermenu.widget;
 
 import android.content.Context;
+import android.support.v4.util.ArrayMap;
 import android.util.AttributeSet;
 import android.util.SparseArray;
 import android.view.View;
@@ -53,16 +54,21 @@ public class EasyMenuContainer extends LinearLayout {
         }
     }
 
-    public SparseArray<EasyMenuStates> getMenusStates() {
-        return easyMenuManager.getMenusStates();
+    public SparseArray<EasyMenuStates> getAllMenuStates() {
+        return easyMenuManager.getAllMenuStates();
     }
 
-    public void setMenusStates(SparseArray<EasyMenuStates> sparseArray) {
+    public ArrayMap<String, String> getAllMenuParas() {
+        return easyMenuManager.getAllMenuParas();
+    }
+
+    public void setAllMenuStates(SparseArray<EasyMenuStates> sparseArray) {
         easyMenuManager.setMenusStates(sparseArray);
     }
-
 
     public void setOnEasyMenuParasChangedListener(EasyFilterListener.OnEasyMenuParasChangedListener onEasyMenuParasChangedListener) {
         easyMenuManager.setOnEasyMenuParasChangedListener(onEasyMenuParasChangedListener);
     }
+
+
 }

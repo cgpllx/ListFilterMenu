@@ -14,7 +14,7 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import cc.easyandroid.listfiltermenu.R;
 import cc.easyandroid.listfiltermenu.core.AnimatorPopup;
@@ -366,6 +366,7 @@ public abstract class EasyFilterMenu extends LinearLayout implements Runnable {
     public void setMenuStates(EasyMenuStates easyMenuStates) {
         setMenuData(false, easyMenuStates.getEasyItemManager());
         setMenuTitle(easyMenuStates.getMenuTitle());
+        putEasyMenuParas(easyMenuStates.getEasyMenuParas());
     }
 
     /**
@@ -410,7 +411,7 @@ public abstract class EasyFilterMenu extends LinearLayout implements Runnable {
         this.onEasyMenuParasChangedListener = onEasyMenuParasChangedListener;
     }
 
-    public void putEasyMenuParas(HashMap<String, String> easyMenuParas) {
+    public void putEasyMenuParas(Map<String, String> easyMenuParas) {
         this.easyMenuParas.putAll(easyMenuParas);
         if (onEasyMenuParasChangedListener != null) {
             onEasyMenuParasChangedListener.onChanged(this.easyMenuParas);

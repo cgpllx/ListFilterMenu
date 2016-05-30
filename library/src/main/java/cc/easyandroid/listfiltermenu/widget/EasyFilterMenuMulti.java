@@ -200,19 +200,16 @@ public class EasyFilterMenuMulti extends EasyFilterMenu {
     @Override
     protected void onDismissMenuContent() {
         super.onDismissMenuContent();
-//        saveStates();
+        // saveStates();
     }
 
     public void setMenuStates(EasyMenuStates easyMenuStates) {
-//        tempMenuTitle = easyMenuStates.getTempMenuTitle();
+        super.setMenuStates(easyMenuStates);
         mMenuStatesArray = easyMenuStates.getMenuStatesArray();
-        setMenuData(false, easyMenuStates.getEasyItemManager());
-        setMenuTitle(easyMenuStates.getMenuTitle());
     }
 
     protected EasyMenuStates onCreateMenuStates(EasyItemManager easyItemManager) {
         return new EasyMenuStates.Builder()//
-                //.setTempMenuTitle(tempMenuTitle)//
                 .setMenuStatesArray(mMenuStatesArray)
                 .setEasyItemManager(easyItemManager)
                 .setEasyMenuParas(getEasyMenuParas())

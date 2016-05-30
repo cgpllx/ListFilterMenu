@@ -6,12 +6,11 @@ import android.support.v4.util.SimpleArrayMap;
 import android.util.SparseArray;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 import cc.easyandroid.listfiltermenu.widget.EasyFilterMenu;
 
 public class EasyMenuManager implements EasyFilterListener.OnMenuShowListener, EasyFilterListener.OnEasyMenuParasChangedListener {
-    private ArrayMap<String, String> easyMenuAllParas = new ArrayMap<>();
+    private ArrayMap<String, String> easyMenuAllParas = new ArrayMap<>();//保存全部参数
 
     public EasyMenuManager() {
         menus = new ArrayList<>();
@@ -46,7 +45,7 @@ public class EasyMenuManager implements EasyFilterListener.OnMenuShowListener, E
         }
     }
 
-    public SparseArray<EasyMenuStates> getMenusStates() {
+    public SparseArray<EasyMenuStates> getAllMenuStates() {
         SparseArray<EasyMenuStates> sparseArray = new SparseArray<>();
         if (menus != null && menus.size() > 0) {
             for (int i = 0; i < menus.size(); i++) {
@@ -76,11 +75,24 @@ public class EasyMenuManager implements EasyFilterListener.OnMenuShowListener, E
 
     public void setOnEasyMenuParasChangedListener(EasyFilterListener.OnEasyMenuParasChangedListener onEasyMenuParasChangedListener) {
         this.onEasyMenuParasChangedListener = onEasyMenuParasChangedListener;
+        if (this.easyMenuAllParas != null) {//第一次，回调给监听者
+            notifyChanged();
+        }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+
     }
 
     @Override
     public void onChanged(SimpleArrayMap<String, String> easyMenuParas) {
         this.easyMenuAllParas.putAll(easyMenuParas);
-        onEasyMenuParasChangedListener.onChanged(this.easyMenuAllParas);
+        notifyChanged();
+    }
+
+    private void notifyChanged(){
+        if (onEasyMenuParasChangedListener != null) {//如果menu中有数据传递。请将监听设置是接收数据的后面，防止多次调用
+            onEasyMenuParasChangedListener.onChanged(this.easyMenuAllParas);
+        }
+    }
+    public ArrayMap<String, String> getAllMenuParas() {
+        return this.easyMenuAllParas;
     }
 }

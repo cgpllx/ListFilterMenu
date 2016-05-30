@@ -84,7 +84,7 @@ public class Main2Activity extends AppCompatActivity {
 
         SparseArray<EasyMenuStates> singleSelectionMenuStates = getIntent().getExtras().getSparseParcelableArray("sparseArray");
         if (singleSelectionMenuStates != null) {
-            easyMenuContainer.setMenusStates(singleSelectionMenuStates);
+            easyMenuContainer.setAllMenuStates(singleSelectionMenuStates);
         }
 
     }
