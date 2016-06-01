@@ -369,6 +369,14 @@ public abstract class EasyFilterMenu extends LinearLayout implements Runnable {
         putEasyMenuParas(easyMenuStates.getEasyMenuParas());
     }
 
+    public void cleanMenuStates() {
+        clearEasyMenuParas();//清楚参数
+        setMenuTitle(defultMenuText);
+        onCleanMenuStatus();
+    }
+
+    protected abstract void onCleanMenuStatus();
+
     /**
      * 获取当前menu的数据状态，可以传给其他menu使用
      *

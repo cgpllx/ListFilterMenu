@@ -94,6 +94,13 @@ public class ListFilterAdapter extends BaseAdapter {
         return convertView;
     }
 
+    /**
+     * clean data
+     */
+    public void cleanData() {
+        easyItemManager = null;
+    }
+
     public EasyItemManager getEasyItemManager() {
         return easyItemManager;
     }
@@ -133,7 +140,7 @@ public class ListFilterAdapter extends BaseAdapter {
             easyItem.getEasyItemManager().setChildSelectPosion(0);
             easyItem.getEasyItemManager().setChildSelected(false);
         }
-        return  tags;
+        return tags;
     }
 
 }

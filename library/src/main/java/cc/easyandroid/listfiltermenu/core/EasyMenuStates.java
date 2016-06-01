@@ -95,6 +95,7 @@ public class EasyMenuStates implements Parcelable {
         dest.writeString(this.menuTitle);
         dest.writeSparseBooleanArray(this.menuStatesArray);
         dest.writeMap(this.multiTitles);
+        dest.writeMap(this.easyMenuParas);
     }
 
     protected EasyMenuStates(Parcel in) {
@@ -103,6 +104,8 @@ public class EasyMenuStates implements Parcelable {
         this.menuStatesArray = in.readSparseBooleanArray();
         this.multiTitles = new ArrayMap<Integer, String>();
         in.readMap(this.multiTitles, multiTitles.getClass().getClassLoader());
+        this.easyMenuParas = new ArrayMap<String, String>();
+        in.readMap(this.easyMenuParas, easyMenuParas.getClass().getClassLoader());
     }
 
     public static final Creator<EasyMenuStates> CREATOR = new Creator<EasyMenuStates>() {

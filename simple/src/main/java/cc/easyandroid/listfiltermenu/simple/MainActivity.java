@@ -94,6 +94,12 @@ public class MainActivity extends AppCompatActivity {
                 setupBuntonClickListener(null);
             }
         });
+        findViewById(R.id.click3).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                easyMenuContainer.clearAllMenuStates();
+            }
+        });
         menuFilter3.setOnCustomViewConfirmClickListener(new EasyFilterListener.OnCustomViewConfirmClickListener() {
             @Override
             public void onClick(ListView listview, ViewGroup viewGroup, EasyFilterMenu easyFilterMenu) {

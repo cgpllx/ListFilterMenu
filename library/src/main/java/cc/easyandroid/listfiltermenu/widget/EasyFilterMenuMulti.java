@@ -154,6 +154,13 @@ public class EasyFilterMenuMulti extends EasyFilterMenu {
     }
 
     /**
+     * 清除Menu状态
+     */
+    @Override
+    public void onCleanMenuStatus(){
+        mMenuStatesArray.clear();
+    }
+    /**
      * 添加数据到第一个列表
      *
      * @param easyItemManager 父IEasyItem
@@ -177,7 +184,7 @@ public class EasyFilterMenuMulti extends EasyFilterMenu {
      *
      * @param easyItemManager 是他的之类添加的
      */
-    void addUnlimitedToContaier(EasyItemManager easyItemManager) {//hasAddUnlimitedContainer 中存放的是parentIEasyItem的哈希，  hashCode被重写了，解决传递时候数据问题
+    void addUnlimitedToContaier(EasyItemManager easyItemManager) {
         if (!TextUtils.isEmpty(unlimitedTermDisplayName) && !easyItemManager.isHasAddUnlimited()) {//检查是否添加过不限，如果没有才添加
             easyItemManager.setHasAddUnlimited(true);
             List list = easyItemManager.getEasyItems();//从父容器中取出子容器的第一个，然后把不限制添加进去

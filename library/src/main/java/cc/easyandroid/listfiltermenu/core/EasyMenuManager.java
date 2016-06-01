@@ -95,4 +95,14 @@ public class EasyMenuManager implements EasyFilterListener.OnMenuShowListener, E
     public ArrayMap<String, String> getAllMenuParas() {
         return this.easyMenuAllParas;
     }
+
+    public void clearAllMenuStates() {
+        easyMenuAllParas.clear();
+        if (menus != null && menus.size() > 0) {
+            for (int i = 0; i < menus.size(); i++) {
+                EasyFilterMenu easyFilterMenu = menus.get(i);
+                easyFilterMenu.cleanMenuStates();
+            }
+        }
+    }
 }
