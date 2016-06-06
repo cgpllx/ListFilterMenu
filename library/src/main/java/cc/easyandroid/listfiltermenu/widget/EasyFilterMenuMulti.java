@@ -158,7 +158,9 @@ public class EasyFilterMenuMulti extends EasyFilterMenu {
      */
     @Override
     public void onCleanMenuStatus(){
-        mMenuStatesArray.clear();
+        if(mMenuStatesArray!=null){
+            mMenuStatesArray.clear();
+        }
     }
     /**
      * 添加数据到第一个列表
