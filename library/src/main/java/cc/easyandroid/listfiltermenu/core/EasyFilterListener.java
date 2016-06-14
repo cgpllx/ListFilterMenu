@@ -1,11 +1,9 @@
 package cc.easyandroid.listfiltermenu.core;
 
-import android.support.v4.util.ArrayMap;
 import android.support.v4.util.SimpleArrayMap;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-
-import java.util.Map;
 
 import cc.easyandroid.listfiltermenu.widget.EasyFilterMenu;
 
@@ -14,7 +12,12 @@ import cc.easyandroid.listfiltermenu.widget.EasyFilterMenu;
  */
 public interface EasyFilterListener {
     interface OnMenuShowListener {
-        void onMenuShowBefore(EasyFilterMenu menu);
+        /**
+         *显示之前的监听
+         * @param menu EasyFilterMenu
+         * @param view pop的view
+         */
+        void onMenuShowBefore(EasyFilterMenu menu,View view );
     }
 
     interface OnMenuListItemClickListener {

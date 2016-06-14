@@ -130,6 +130,7 @@ public abstract class EasyFilterMenu extends LinearLayout implements Runnable {
     }
 
     protected void onCustomViewConfirmBuntonClicked(ViewGroup menuContentView, int customViewConfirmId, final ListView listView) {
+
     }
 
 
@@ -245,7 +246,7 @@ public abstract class EasyFilterMenu extends LinearLayout implements Runnable {
             }
             onShowMenuContent();
             if (menuShowListener != null) {
-                menuShowListener.onMenuShowBefore(this);
+                menuShowListener.onMenuShowBefore(this,pupupWindow.getContentView());
             }
         }
 
@@ -288,6 +289,7 @@ public abstract class EasyFilterMenu extends LinearLayout implements Runnable {
      * @return show
      */
     public boolean isShowing() {
+
         return pupupWindow != null && pupupWindow.isShowing();
     }
 

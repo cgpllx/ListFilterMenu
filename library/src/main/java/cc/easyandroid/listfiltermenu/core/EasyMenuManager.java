@@ -4,6 +4,7 @@ package cc.easyandroid.listfiltermenu.core;
 import android.support.v4.util.ArrayMap;
 import android.support.v4.util.SimpleArrayMap;
 import android.util.SparseArray;
+import android.view.View;
 
 import java.util.ArrayList;
 
@@ -25,7 +26,7 @@ public class EasyMenuManager implements EasyFilterListener.OnMenuShowListener, E
     }
 
     @Override
-    public void onMenuShowBefore(EasyFilterMenu clickMenu) {
+    public void onMenuShowBefore(EasyFilterMenu clickMenu,View view) {
         if (clickMenu != null && clickMenu.isShowing()) {
             return;
         }

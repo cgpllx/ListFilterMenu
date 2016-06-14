@@ -212,6 +212,10 @@ public class EasyFilterMenuSingle extends EasyFilterMenu {
      */
     public void setMenuList1State(int position, boolean fromUserClick) {
 
+        if (position < 0) {
+            mListView1.clearChoices();
+            return;
+        }
         ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView1.getAdapter();
         IEasyItem iEasyItem = listFilterAdapter.getItem(position);
         mListView1.setItemChecked(position, true);//标记选中项
@@ -254,6 +258,10 @@ public class EasyFilterMenuSingle extends EasyFilterMenu {
      * @param position 要选择的位置
      */
     public void setMenuList2State(int position, boolean fromUserClick) {
+        if (position < 0) {
+            mListView1.clearChoices();
+            return;
+        }
         ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView2.getAdapter();
         IEasyItem iEasyItem = listFilterAdapter.getItem(position);
         mListView2.setItemChecked(position, true);//标记选中项
@@ -294,6 +302,10 @@ public class EasyFilterMenuSingle extends EasyFilterMenu {
      * @param fromUserClick 是否来自用户点击
      */
     public void setMenuList3State(int position, boolean fromUserClick) {
+        if (position < 0) {
+            mListView1.clearChoices();
+            return;
+        }
         ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView3.getAdapter();
         IEasyItem iEasyItem = listFilterAdapter.getItem(position);
         mListView3.setItemChecked(position, true);//标记选中项
@@ -358,6 +370,7 @@ public class EasyFilterMenuSingle extends EasyFilterMenu {
 
     /**
      * 添加数据到第二个列表
+     *
      * @param easyItemManager 父IEasyItem
      */
     private void addList2Items(EasyItemManager easyItemManager) {
@@ -429,7 +442,7 @@ public class EasyFilterMenuSingle extends EasyFilterMenu {
      * @param position 位置
      */
 
-    private void rememberPosion(ListFilterAdapter adapter, int position, boolean fromUserClick) {
+    public void rememberPosion(ListFilterAdapter adapter, int position, boolean fromUserClick) {
         EasyItemManager easyItemManager = adapter.getEasyItemManager();
         if (easyItemManager != null) {
             adapter.getEasyItemManager().setChildSelectPosion(position);
