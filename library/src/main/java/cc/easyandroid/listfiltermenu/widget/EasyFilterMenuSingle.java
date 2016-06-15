@@ -262,6 +262,9 @@ public class EasyFilterMenuSingle extends EasyFilterMenu {
             mListView1.clearChoices();
             return;
         }
+        if (mListView2 == null) {
+            return;
+        }
         ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView2.getAdapter();
         IEasyItem iEasyItem = listFilterAdapter.getItem(position);
         mListView2.setItemChecked(position, true);//标记选中项
@@ -304,6 +307,9 @@ public class EasyFilterMenuSingle extends EasyFilterMenu {
     public void setMenuList3State(int position, boolean fromUserClick) {
         if (position < 0) {
             mListView1.clearChoices();
+            return;
+        }
+        if (mListView3 == null) {
             return;
         }
         ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView3.getAdapter();
@@ -377,8 +383,10 @@ public class EasyFilterMenuSingle extends EasyFilterMenu {
         if ((mShowUnlimiteds & SHOW_LIST_2) != 0) {//是否要添加不限制
             addUnlimitedToContaier(easyItemManager);
         }
-        ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView2.getAdapter();
-        listFilterAdapter.setEasyItemManager(easyItemManager);
+        if (mListView2 != null) {
+            ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView2.getAdapter();
+            listFilterAdapter.setEasyItemManager(easyItemManager);
+        }
     }
 
     /**
@@ -390,8 +398,10 @@ public class EasyFilterMenuSingle extends EasyFilterMenu {
         if ((mShowUnlimiteds & SHOW_LIST_3) != 0) {//是否要添加不限制
             addUnlimitedToContaier(easyItemManager);
         }
-        ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView3.getAdapter();
-        listFilterAdapter.setEasyItemManager(easyItemManager);
+        if (mListView3 != null) {
+            ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView3.getAdapter();
+            listFilterAdapter.setEasyItemManager(easyItemManager);
+        }
     }
 
     /**
@@ -476,7 +486,13 @@ public class EasyFilterMenuSingle extends EasyFilterMenu {
                 .build();
     }
 
-    ;
-
-
+    @Override
+    public boolean hasSelectedValues() {
+        int checkedItemPosition = mListView1.getCheckedItemPosition();
+        if (ListView.INVALID_POSITION == checkedItemPosition) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }

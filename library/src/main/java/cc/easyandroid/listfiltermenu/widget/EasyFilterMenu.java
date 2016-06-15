@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import cc.easyandroid.listfiltermenu.R;
@@ -41,8 +42,6 @@ public abstract class EasyFilterMenu extends LinearLayout implements Runnable {
 
     public EasyFilterMenu(Context context) {
         this(context, null);
-
-
     }
 
     public EasyFilterMenu(Context context, AttributeSet attrs) {
@@ -92,7 +91,7 @@ public abstract class EasyFilterMenu extends LinearLayout implements Runnable {
      * @param menuContentLayoutResourceId pop中的view
      */
     public void setMenuContentViewResourceId(int menuContentLayoutResourceId) {
-        LinearLayout menuContentView = (LinearLayout) View.inflate(getContext(), menuContentLayoutResourceId, null);
+        ViewGroup menuContentView = (ViewGroup) View.inflate(getContext(), menuContentLayoutResourceId, null);
         if (pupupWindow == null) {
             pupupWindow = new AnimatorPopup(menuContentView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, false);
             setupPupupWindow(pupupWindow);
@@ -245,8 +244,10 @@ public abstract class EasyFilterMenu extends LinearLayout implements Runnable {
                 pupupWindow.showAsDropDown(this, xoff, yoff);
             }
             onShowMenuContent();
-            if (menuShowListener != null) {
-                menuShowListener.onMenuShowBefore(this,pupupWindow.getContentView());
+            if (menuShowListeners.size() > 0) {
+                for (EasyFilterListener.OnMenuShowListener menuShowListener : this.menuShowListeners) {
+                    menuShowListener.onMenuShowBefore(this, pupupWindow.getContentView());
+                }
             }
         }
 
@@ -354,7 +355,7 @@ public abstract class EasyFilterMenu extends LinearLayout implements Runnable {
 
     EasyFilterListener.OnCustomViewConfirmClickListener customViewConfirmClickListener;
 
-    public void setOnCustomViewConfirmClickListener(EasyFilterListener.OnCustomViewConfirmClickListener customViewConfirmClickListener) {
+    public <T extends EasyFilterMenu> void setOnCustomViewConfirmClickListener(EasyFilterListener.OnCustomViewConfirmClickListener<T> customViewConfirmClickListener) {
         this.customViewConfirmClickListener = customViewConfirmClickListener;
     }
 
@@ -372,7 +373,7 @@ public abstract class EasyFilterMenu extends LinearLayout implements Runnable {
     }
 
     public void cleanMenuStates() {
-        clearEasyMenuParas();//清楚参数
+        clearEasyMenuParas();//清除参数
         setMenuTitle(defultMenuText);
         onCleanMenuStatus();
     }
@@ -397,10 +398,14 @@ public abstract class EasyFilterMenu extends LinearLayout implements Runnable {
 
     ;
 
-    EasyFilterListener.OnMenuShowListener menuShowListener;
+    //    EasyFilterListener.OnMenuShowListener menuShowListener;
+    /**
+     * 可能有多个地方需要监听
+     */
+    ArrayList<EasyFilterListener.OnMenuShowListener> menuShowListeners = new ArrayList<>();
 
-    public void setOnMenuShowListener(EasyFilterListener.OnMenuShowListener menuShowListener) {
-        this.menuShowListener = menuShowListener;
+    public void addOnMenuShowListener(EasyFilterListener.OnMenuShowListener menuShowListener) {
+        this.menuShowListeners.add(menuShowListener);
     }
 
     public void menuListItemClick(IEasyItem iEasyItem) {
@@ -436,7 +441,14 @@ public abstract class EasyFilterMenu extends LinearLayout implements Runnable {
         this.easyMenuParas.remove(key);
     }
 
+    /**
+     * 清除参数
+     */
     public void clearEasyMenuParas() {
         this.easyMenuParas.clear();
+    }
+
+    public boolean hasSelectedValues() {
+        return true;
     }
 }

@@ -13,22 +13,23 @@ import cc.easyandroid.listfiltermenu.widget.EasyFilterMenu;
 public interface EasyFilterListener {
     interface OnMenuShowListener {
         /**
-         *显示之前的监听
+         * 显示之前的监听
+         *
          * @param menu EasyFilterMenu
          * @param view pop的view
          */
-        void onMenuShowBefore(EasyFilterMenu menu,View view );
+        void onMenuShowBefore(EasyFilterMenu menu, View view);
     }
 
     interface OnMenuListItemClickListener {
-        void onClick(EasyFilterMenu easyFilterMenu,IEasyItem iEasyItem);
+        void onClick(EasyFilterMenu easyFilterMenu, IEasyItem iEasyItem);
     }
 
-    interface OnCustomViewConfirmClickListener {
-        void onClick(ListView listview, ViewGroup viewGroup, EasyFilterMenu easyFilterMenu);
+    interface OnCustomViewConfirmClickListener<T extends EasyFilterMenu> {
+        void onClick(ListView listview, ViewGroup viewGroup, T easyFilterMenu);
     }
 
-    interface OnEasyMenuParasChangedListener{
+    interface OnEasyMenuParasChangedListener {
         void onChanged(SimpleArrayMap<String, String> easyMenuParas);
     }
 }

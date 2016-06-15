@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -18,6 +19,7 @@ import cc.easyandroid.listfiltermenu.core.EasyFilterListener;
 import cc.easyandroid.listfiltermenu.core.EasyItemManager;
 import cc.easyandroid.listfiltermenu.core.EasyMenuStates;
 import cc.easyandroid.listfiltermenu.core.IEasyItem;
+import cc.easyandroid.listfiltermenu.core.ListFilterAdapter;
 import cc.easyandroid.listfiltermenu.widget.EasyFileterMenuMore;
 import cc.easyandroid.listfiltermenu.widget.EasyFilterMenu;
 import cc.easyandroid.listfiltermenu.widget.EasyFilterMenuMulti;
@@ -107,6 +109,27 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "确定按钮被点击", Toast.LENGTH_SHORT).show();
                 menuFilter3.dismiss();
                 menuFilter3.setMenuTitle("多选");
+            }
+        });
+
+
+        menuFilter2.addOnMenuShowListener(new EasyFilterListener.OnMenuShowListener() {
+            @Override
+            public void onMenuShowBefore(EasyFilterMenu menu, View view) {
+                System.out.println("onMenuShowBefore  hasSelectedValues=" + menu.hasSelectedValues());
+                EditText editText = (EditText) view.findViewById(R.id.editText);
+                if( menu.hasSelectedValues()){
+//                    editText.clearComposingText();
+                    editText.setText("");
+                }
+//                menu.cleanMenuStates();
+            }
+        });
+
+        menuFilter2.setOnCustomViewConfirmClickListener(new EasyFilterListener.OnCustomViewConfirmClickListener<EasyFilterMenuSingle>() {
+            @Override
+            public void onClick(ListView listview, ViewGroup viewGroup, EasyFilterMenuSingle easyFilterMenu) {
+                easyFilterMenu.rememberPosion((ListFilterAdapter) listview.getAdapter(), ListView.INVALID_POSITION, false);
             }
         });
     }

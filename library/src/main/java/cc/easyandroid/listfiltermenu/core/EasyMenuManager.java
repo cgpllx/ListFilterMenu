@@ -21,7 +21,7 @@ public class EasyMenuManager implements EasyFilterListener.OnMenuShowListener, E
 
     public void addMenu(EasyFilterMenu menu) {
         menus.add(menu);
-        menu.setOnMenuShowListener(this);
+        menu.addOnMenuShowListener(this);
         menu.setOnEasyMenuParasChangedListener(this);
     }
 
