@@ -11,7 +11,14 @@
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:windowSoftInputMode="adjustUnspecified">
+
+            >
+            <!--android:windowSoftInputMode="adjustUnspecified"-->
+            <!--adjustPan-->
+            <!--android:windowSoftInputMode="adjustUnspecified"-->
+            <!--android:windowSoftInputMode="adjustResize"-->
+            <!--stateHidden|-->
+            <!--android:windowSoftInputMode="adjustUnspecified"-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

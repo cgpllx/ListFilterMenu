@@ -198,7 +198,7 @@ public abstract class EasyFilterMenu extends LinearLayout implements Runnable {
         pupupWindow.setOutsideTouchable(false);
         pupupWindow.setFocusable(true);
         pupupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
-        pupupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_IS_FORWARD_NAVIGATION);
+        pupupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         pupupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
