@@ -226,12 +226,23 @@ public class EasyFilterMenuSingle extends EasyFilterMenu {
                 tempMenuTitle = iEasyItem.getDisplayName().toString();//记住当前被点击的item的显示的名称
                 addList2Items(easyItemManager);//传的是父类的IEasyItem ，适配器自己去里面找
 
-                EasyUtils.showView(mListView2);
-                EasyUtils.showView(list2Box);
+                if (mListView2!=null) {
+                    EasyUtils.showView(mListView2);
+                    EasyUtils.showView(list2Box);
+                    EasyUtils.hideView(mListView3);
+                    EasyUtils.hideView(list3Box);
+                    setMenuList2State(easyItemManager.getChildSelectPosion(), false);
+                }else{
+                    if (iEasyItem.getEasyItemManager().isNoLimitItem()) {
+                        setMenuTitle(defultMenuText);
+                    } else {
+                        changMenuText(iEasyItem);
+                    }
+                    if (fromUserClick) {
+                        menuListItemClick(iEasyItem);//点击后会关闭pop
+                    }
+                }
 
-                EasyUtils.hideView(mListView3);
-                EasyUtils.hideView(list3Box);
-                setMenuList2State(easyItemManager.getChildSelectPosion(), false);
             } else {
                 ((ListFilterAdapter) mListView1.getAdapter()).clearAllChildPosion(); // 点击lise1中的不限制，清除list1中记录的childselected 记录，
                 EasyUtils.hideView(mListView2);
@@ -276,11 +287,23 @@ public class EasyFilterMenuSingle extends EasyFilterMenu {
         if (iEasyItem != null) {
             EasyItemManager easyItemManager = iEasyItem.getEasyItemManager();
             if (easyItemManager.isHasEasyItems()) {
-                tempMenuTitle = iEasyItem.getDisplayName().toString();
-                addList3Items(easyItemManager);
-                EasyUtils.showView(mListView3);
-                EasyUtils.showView(list3Box);
-                setMenuList3State(easyItemManager.getChildSelectPosion(), false);
+                if(mListView3!=null){
+                    tempMenuTitle = iEasyItem.getDisplayName().toString();
+                    addList3Items(easyItemManager);
+                    EasyUtils.showView(mListView3);
+                    EasyUtils.showView(list3Box);
+                    setMenuList3State(easyItemManager.getChildSelectPosion(), false);
+                }else{
+                    if (fromUserClick) {
+                        changMenuText(iEasyItem);//这里和listview1有区别
+                    }
+                    if (fromUserClick) {
+                        menuListItemClick(iEasyItem);//点击后会关闭pop
+                    }
+                }
+
+
+
             } else {
                 ((ListFilterAdapter) mListView2.getAdapter()).clearAllChildPosion(); // 点击lise1中的不限制，清除list1中记录的childselected 记录
                 EasyUtils.hideView(mListView3);
