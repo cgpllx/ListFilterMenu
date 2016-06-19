@@ -233,14 +233,7 @@ public class EasyFilterMenuSingle extends EasyFilterMenu {
                     EasyUtils.hideView(list3Box);
                     setMenuList2State(easyItemManager.getChildSelectPosion(), false);
                 }else{
-                    if (iEasyItem.getEasyItemManager().isNoLimitItem()) {
-                        setMenuTitle(defultMenuText);
-                    } else {
-                        changMenuText(iEasyItem);
-                    }
-                    if (fromUserClick) {
-                        menuListItemClick(iEasyItem);//点击后会关闭pop
-                    }
+                    handleSelectEnd (fromUserClick, iEasyItem);
                 }
 
             } else {
@@ -250,16 +243,20 @@ public class EasyFilterMenuSingle extends EasyFilterMenu {
 
                 EasyUtils.hideView(mListView3);
                 EasyUtils.hideView(list3Box);
-                if (iEasyItem.getEasyItemManager().isNoLimitItem()) {
-                    setMenuTitle(defultMenuText);
-                } else {
-                    changMenuText(iEasyItem);
-                }
-                if (fromUserClick) {
-                    menuListItemClick(iEasyItem);//点击后会关闭pop
-                }
+                handleSelectEnd(fromUserClick, iEasyItem);
             }
 
+        }
+    }
+
+    private void handleSelectEnd(boolean fromUserClick, IEasyItem iEasyItem) {
+        if (iEasyItem.getEasyItemManager().isNoLimitItem()) {
+            setMenuTitle(defultMenuText);
+        } else {
+            changMenuText(iEasyItem);
+        }
+        if (fromUserClick) {
+            menuListItemClick(iEasyItem);//点击后会关闭pop
         }
     }
 

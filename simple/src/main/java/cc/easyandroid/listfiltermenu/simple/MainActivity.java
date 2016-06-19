@@ -106,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(ListView listview, ViewGroup viewGroup, EasyFilterMenu easyFilterMenu) {
                 menuFilter3.saveStates();
+                listview.clearChoices();
                 Toast.makeText(getApplicationContext(), "确定按钮被点击", Toast.LENGTH_SHORT).show();
                 menuFilter3.dismiss();
                 menuFilter3.setMenuTitle("多选");
