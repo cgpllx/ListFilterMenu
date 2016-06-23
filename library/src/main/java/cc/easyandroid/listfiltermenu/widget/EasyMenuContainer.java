@@ -70,9 +70,12 @@ public class EasyMenuContainer extends LinearLayout {
         easyMenuManager.setOnEasyMenuParasChangedListener(onEasyMenuParasChangedListener);
     }
 
-    public void clearAllMenuStates(){
+    public void clearAllMenuStates() {
         easyMenuManager.clearAllMenuStates();
     }
 
+    public void dismissAllMenuContent() {
+        easyMenuManager.dismissAllMenuContent();
+    }
 
 }

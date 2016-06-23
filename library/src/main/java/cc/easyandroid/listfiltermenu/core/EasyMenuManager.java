@@ -106,4 +106,14 @@ public class EasyMenuManager implements EasyFilterListener.OnMenuShowListener, E
             }
         }
     }
+
+    public void dismissAllMenuContent() {
+        if (menus != null && !menus.isEmpty()) {
+            for (EasyFilterMenu menu : menus) {
+                if (menu.isShowing()) {
+                    menu.dismiss();
+                }
+            }
+        }
+    }
 }
