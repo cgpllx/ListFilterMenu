@@ -489,6 +489,8 @@ public class EasyFilterMenuSingle extends EasyFilterMenu {
 
     @Override
     protected void onCleanMenuStatus() {
+        ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView1.getAdapter();
+        listFilterAdapter.clearAllChildPosion();
         setMenuList1State(0, false);
     }
 

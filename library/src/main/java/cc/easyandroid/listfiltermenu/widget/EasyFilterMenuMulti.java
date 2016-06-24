@@ -142,7 +142,7 @@ public class EasyFilterMenuMulti extends EasyFilterMenu {
     protected void onShowMenuContent() {
         super.onShowMenuContent();
         mListView1.clearChoices();
-        if (mMenuStatesArray != null) {
+        if (mMenuStatesArray != null && mMenuStatesArray.size() > 0) {
             for (int i = 0; i < mMenuStatesArray.size(); i++) {
                 int posion = mMenuStatesArray.keyAt(i);
                 boolean value = mMenuStatesArray.valueAt(i);
@@ -157,11 +157,12 @@ public class EasyFilterMenuMulti extends EasyFilterMenu {
      * 清除Menu状态
      */
     @Override
-    public void onCleanMenuStatus(){
-        if(mMenuStatesArray!=null){
+    public void onCleanMenuStatus() {
+        if (mMenuStatesArray != null) {
             mMenuStatesArray.clear();
         }
     }
+
     /**
      * 添加数据到第一个列表
      *
