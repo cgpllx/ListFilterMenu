@@ -8,27 +8,37 @@ import java.util.ArrayList;
 
 public class EasyItemManager implements Serializable {
     protected ArrayList<? extends IEasyItem> mEasyItems;
-    protected int childSelectPosion;
-    protected boolean noLimitItem = false;
-    protected boolean childSelected;
-    protected boolean hasAddUnlimited;
-    protected String tag;
+    protected int mChildSelectPosion;
+    protected int mChildSelectTempPosion;
+    protected boolean mNoLimitItem = false;
+    protected boolean mChildSelected;
+    protected boolean mHasAddUnlimited;
+    protected String mTag;
 
     public boolean isHasEasyItems() {
         return mEasyItems != null && mEasyItems.size() > 0;
     }
 
     public boolean isHasAddUnlimited() {
-        return hasAddUnlimited;
+        return mHasAddUnlimited;
+    }
+
+    public void setChildSelectTempPosion(int mChildSelectTempPosion) {
+        this.mChildSelectTempPosion = mChildSelectTempPosion;
+    }
+
+    public int getChildSelectTempPosion() {
+        return mChildSelectTempPosion;
     }
 
     public void setHasAddUnlimited(boolean hasAddUnlimited) {
-        this.hasAddUnlimited = hasAddUnlimited;
+        this.mHasAddUnlimited = hasAddUnlimited;
     }
+
 
     public EasyItemManager(ArrayList<? extends IEasyItem> easyItems, String tag) {
         this.mEasyItems = easyItems;
-        this.tag = tag;
+        this.mTag = tag;
     }
 
     public EasyItemManager(ArrayList<? extends IEasyItem> easyItems) {
@@ -40,32 +50,32 @@ public class EasyItemManager implements Serializable {
     }
 
     public boolean isNoLimitItem() {
-        return noLimitItem;
+        return mNoLimitItem;
     }
 
     public boolean isChildSelected() {
-        return childSelected;
+        return mChildSelected;
     }
 
     public void setChildSelected(boolean childSelected) {
-        this.childSelected = childSelected;
+        this.mChildSelected = childSelected;
     }
 
     public int getChildSelectPosion() {
-        return childSelectPosion;
+        return mChildSelectPosion;
     }
 
     public void setChildSelectPosion(int posion) {
-        this.childSelectPosion = posion;
+        this.mChildSelectPosion = posion;
     }
 
-    public void setNoLimitItem(boolean noLimitItem) {
-        this.noLimitItem = noLimitItem;
+    public void setNoLimitItem(boolean mNoLimitItem) {
+        this.mNoLimitItem = mNoLimitItem;
     }
 
     @Override
     public int hashCode() {
-        if (!TextUtils.isEmpty(tag)) return tag.hashCode();
+        if (!TextUtils.isEmpty(mTag)) return mTag.hashCode();
         return super.hashCode();
     }
 }
