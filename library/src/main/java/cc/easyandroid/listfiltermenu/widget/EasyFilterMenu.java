@@ -148,8 +148,12 @@ public abstract class EasyFilterMenu extends LinearLayout implements Runnable {
     }
 
     public void setMenuTitle(CharSequence menuTitle) {
+        setMenuTitle(menuTitle, false);
+    }
+
+    public void setMenuTitle(CharSequence menuTitle, boolean forceHighlight) {
         mTitleTextView.setText(menuTitle);
-        if (!defultMenuText.equals(menuTitle)) {
+        if (!defultMenuText.equals(menuTitle) || forceHighlight) {
             mTitleTextView.setEnabled(true);//通过改变mScreeningText的Enabled属性去改变他的颜色
         } else {
             mTitleTextView.setEnabled(false);
