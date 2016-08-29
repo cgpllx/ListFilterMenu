@@ -372,8 +372,8 @@ public abstract class EasyFilterMenu extends LinearLayout implements Runnable {
 
     public void setMenuStates(EasyMenuStates easyMenuStates) {
         setMenuData(false, easyMenuStates.getEasyItemManager());
-        setMenuTitle(easyMenuStates.getMenuTitle());
         putEasyMenuParas(easyMenuStates.getEasyMenuParas());
+        setMenuTitle(easyMenuStates.getMenuTitle());
     }
 
     public void cleanMenuStates() {
