@@ -54,7 +54,7 @@ public class ListFilterAdapter extends BaseAdapter {
     public IEasyItem getItem(int position) {
         if (easyItemManager != null) {
             List<? extends IEasyItem> childItems = easyItemManager.getEasyItems();
-            if (childItems != null) {
+            if (childItems != null && position >= 0) {
                 return childItems.get(position);
             }
         }
@@ -123,10 +123,17 @@ public class ListFilterAdapter extends BaseAdapter {
      * 删除所以的child 位置记录信息
      */
     public void clearAllChildPosion() {
+        clearAllChildPosion(0);
+    }
+
+    /**
+     * 删除所以的child 位置记录信息
+     */
+    public void clearAllChildPosion(int defaultPosion) {
         int count = getCount();
         for (int i = 0; i < count; i++) {
             IEasyItem easyItem = getItem(i);
-            easyItem.getEasyItemManager().setChildSelectPosion(0);
+            easyItem.getEasyItemManager().setChildSelectPosion(defaultPosion);
             easyItem.getEasyItemManager().setChildSelected(false);
         }
     }

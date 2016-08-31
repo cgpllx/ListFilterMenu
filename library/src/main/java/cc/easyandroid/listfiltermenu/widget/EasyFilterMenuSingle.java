@@ -218,7 +218,11 @@ public class EasyFilterMenuSingle extends EasyFilterMenu {
         }
         ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView1.getAdapter();
         IEasyItem iEasyItem = listFilterAdapter.getItem(position);
-        mListView1.setItemChecked(position, true);//标记选中项
+        if(position>=0){
+            mListView1.setItemChecked(position, true);//标记选中项
+        }else{
+            mListView1.clearChoices();
+        }
         rememberPosion(listFilterAdapter, position, fromUserClick);//让父 记住被选中的子的位置
         if (iEasyItem != null) {
             EasyItemManager easyItemManager = iEasyItem.getEasyItemManager();//如果child不是null，就吧第二个现实出来
@@ -267,7 +271,7 @@ public class EasyFilterMenuSingle extends EasyFilterMenu {
      */
     public void setMenuList2State(int position, boolean fromUserClick) {
         if (position < 0) {
-            mListView1.clearChoices();
+            mListView2.clearChoices();
             return;
         }
         if (mListView2 == null) {
@@ -275,7 +279,11 @@ public class EasyFilterMenuSingle extends EasyFilterMenu {
         }
         ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView2.getAdapter();
         IEasyItem iEasyItem = listFilterAdapter.getItem(position);
-        mListView2.setItemChecked(position, true);//标记选中项
+        if(position>=0){
+            mListView2.setItemChecked(position, true);//标记选中项
+        }else{
+            mListView2.clearChoices();
+        }
         if (fromUserClick) {//防止第一次显示时候执行，主要是在list1的item被点击后
             ((ListFilterAdapter) mListView1.getAdapter()).clearAllChildPosion(); // 清除list1中记录的childposion，
         }
@@ -334,7 +342,11 @@ public class EasyFilterMenuSingle extends EasyFilterMenu {
         }
         ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView3.getAdapter();
         IEasyItem iEasyItem = listFilterAdapter.getItem(position);
-        mListView3.setItemChecked(position, true);//标记选中项
+        if(position>=0){
+            mListView3.setItemChecked(position, true);//标记选中项
+        }else{
+            mListView3.clearChoices();
+        }
         if (fromUserClick) {
             ((ListFilterAdapter) mListView2.getAdapter()).clearAllChildPosion(); // 清除list1中记录的chil dposion，
         }

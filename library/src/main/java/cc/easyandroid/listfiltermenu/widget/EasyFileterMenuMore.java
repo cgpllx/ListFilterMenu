@@ -179,7 +179,11 @@ public class EasyFileterMenuMore extends EasyFilterMenu {
 
         ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView1.getAdapter();
         IEasyItem iEasyItem = listFilterAdapter.getItem(position);
-        mListView1.setItemChecked(position, true);//标记选中项
+        if(position>=0){
+            mListView1.setItemChecked(position, true);//标记选中项
+        }else{
+            mListView1.clearChoices();
+        }
         mListView1.setTag(position);//tag记录的就是上一次被点击的位置
         rememberPosion(listFilterAdapter, position, fromUserClick);//让父 记住被选中的子的位置
         if (iEasyItem != null) {
@@ -218,8 +222,11 @@ public class EasyFileterMenuMore extends EasyFilterMenu {
     public void setMenuList2State(int position, boolean fromUserClick) {
         ListFilterAdapter listFilterAdapter = (ListFilterAdapter) mListView2.getAdapter();
         IEasyItem iEasyItem = listFilterAdapter.getItem(position);
-        mListView2.setItemChecked(position, true);//标记选中项
-
+        if(position>=0){
+            mListView2.setItemChecked(position, true);//标记选中项
+        }else{
+            mListView2.clearChoices();
+        }
         if (fromUserClick) {//fromUserClick 防止第一次显示时候执行，主要是在list1的item被点击后
             if (iEasyItem.getEasyItemManager().isNoLimitItem()) {
                 listFilterAdapter.getEasyItemManager().setChildSelected(false);
