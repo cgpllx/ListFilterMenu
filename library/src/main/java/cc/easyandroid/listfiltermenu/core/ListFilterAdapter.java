@@ -134,6 +134,7 @@ public class ListFilterAdapter extends BaseAdapter {
         for (int i = 0; i < count; i++) {
             IEasyItem easyItem = getItem(i);
             easyItem.getEasyItemManager().setChildSelectPosion(defaultPosion);
+            easyItem.getEasyItemManager().setChildSelectTempPosion(defaultPosion);
             easyItem.getEasyItemManager().setChildSelected(false);
         }
     }
